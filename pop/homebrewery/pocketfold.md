@@ -283,7 +283,52 @@ Bottom half of the front page — one large box combining the old boxes 13, 14, 
 
 <!-- START BOX 4 -->
 {{box
-{{left
+{{right
+
+### Immersion
+
+{{horizontal-compact
+{{vertical-compact
+
+| # | 1-3<br>See | 4-6<br>Hear | 7-8<br>Smell | 9-0<br>Feel |
+|:-:|:----------:|:-----------:|:------------:|:-----------:|
+| 1 | Broken     | Dripping    | Alcohol      | Cold        |
+| 2 | Colorful   | Fire        | Blood        | Damp        |
+| 3 | Discarded  | Footsteps   | Smoke        | Flexible    |
+| 4 | Edible     | Growling    | Cooking      | Furry       |
+| 5 | Liquid     | Laughter    | Decay        | Rough       |
+| 6 | Natural    | Music       | Dust         | Sharp       |
+| 7 | Odd        | Scratching  | Flowers      | Slippery    |
+| 8 | Round      | Silence     | Leather      | Smooth      |
+| 9 | Shiny      | Talking     | Oil          | Sticky      |
+| 0 | Written    | Wind        | Soil         | Warm        |
+
+::
+
+| # | Location         | Emotion       | Reason                   |
+|:-:|:----------------:|:-------------:|:------------------------:|
+| 1 | Above            | Anger         | help is on the way       |
+| 2 | Behind           | Clarity       | it is getting closer     |
+| 3 | In Front         | Confusion     | it may be valuable       |
+| 4 | In The Air       | Deja Vu       | of a childhood event     |
+| 5 | In The Distance  | Desire        | of a recent memory       |
+| 6 | In Next Room | Fear          | the source is unknown    |
+| 7 | In The Shadows   | Hope          | then it is suddenly gone |
+| 8 | Next To You      | Joy           | you recognize it         |
+| 9 | On The Ground    | Nostalgia     | you were warned about it |
+| 0 | Under            | Panic         | you weren't expecting it |
+}}
+}}
+
+}}
+}}
+<!-- END BOX 4 -->
+
+\column
+
+<!-- START BOX 2 -->
+{{box
+{{right
 
 ### Name
 
@@ -311,43 +356,6 @@ Bottom half of the front page — one large box combining the old boxes 13, 14, 
 | 18  |   Si | ched | ice  |
 | 19  |   Ta | sark | id   |
 | 20  |   To | kic  | osa  |
-
-}}
-}}
-<!-- END BOX 4 -->
-
-\column
-
-<!-- START BOX 2 -->
-{{box
-{{invert-
-
-### What is your Quest?
-
-{{template
-
-A [**Situation**] [**Person**], concerned about [**Motive**], asks you to  
-[**Objective**] the [**Description**] [**Focus**] in the [**Dungeon**] of [**Adjective**] [**Noun**],  
-[**Complication**].
-
-}}
-
-{{horizontal-compact
-
-| # | Objective            | Description | Focus             | Complication                  |
-|:-:|:--------------------:|:-----------:|:-----------------:|:-----------------------------:|
-| **1** | Attain power from    | Abandoned   | Anomaly           | before time expires           |
-| **2** | Destroy              | Astral      | Faction           | before the ritual completes   |
-| **3** | Escape from          | Decayed     | Information       | before they escape            |
-| **4** | Escort someone to    | Defended    | Monster           | while outmatched              |
-| **5** | Infiltrate           | Hidden      | Seal              | while being hunted            |
-| **6** | Investigate          | Elemental   | NPC               | against a rival faction       |
-| **7** | Negotiate with       | Connected   | Object / Treasure | amid betrayal                 |
-| **8** | Protect              | Mystical    | Remains           | though nothing is as it seems |
-| **9** | Rescue someone from  | Toxic       | Plant             | under false pretenses         |
-| **0** | Steal something from | Artificial  | Villain           | while enemies converge        |
-
-}}
 
 }}
 }}
@@ -561,59 +569,32 @@ Failure leads to a [**Consequence**].
 
 <!-- START BOX 3 -->
 {{box
-{{invert-
+{{right
 
-{{column-count:2
+### Inspiration
 
-### Person
-
-{{horizontal-compact
-
-
-
-| # | Situation | Person      | Motive / Topic |
-|:-:|:---------:|:-----------:|:--------------:|
-| 1 | Deceiving | Criminal    | Equipment      |
-| 2 | Guarding  | Entertainer | Experience     |
-| 3 | Guiding   | Expert      | Family         |
-| 4 | Hunting   | Mage        | Flaws          |
-| 5 | Lost      | Mercenary   | History        |
-| 6 | Spying    | Noble       | Quest          |
-| 7 | Tasked    | Priest      | Reputation     |
-| 8 | Trading   | Ranger      | Superiors      |
-| 9 | Trapped   | Soldier     | Treasure       |
-| 0 | Wounded   | Transporter | Wealth         |
-
-}}
-
-\column
-
-### Location
-
-{{horizontal-compact
-
-| # | Dungeon   | Adjective    | Noun     |
-|:-:|:---------:|:------------:|:--------:|
-| 1 | Catacombs | Bloodstained | Blades   |
-| 2 | Cavern    | Chaotic      | Blight   |
-| 3 | Crypt     | Endless      | Darkness |
-| 4 | Fortress  | Fallen       | Fury     |
-| 5 | Hideout   | Forbidden    | Lies     |
-| 6 | Lair      | Forgotten    | Madness  |
-| 7 | Mine      | Shattered    | Mist     |
-| 8 | Depths    | Shrouded     | Prophecy |
-| 9 | Sanctuary | Silent       | Runes    |
-| 0 | Temple    | Unknown      | Terror   |
-
-}}
-
-}}
-
-::
-
-{{center
-_Juice Pop! 10/19/2026 - https://github.com/jrruethe/juice_ 
-}}
+| d20 | Inspiration              ||
+|:---:|:------------:|:----------:|
+| 1   | Ancient      | Assist     |
+| 2   | Artificial   | Break      |
+| 3   | Betray       | Burden     |
+| 4   | Burning      | Command    |
+| 5   | Communicate  | Complexity |
+| 6   | Conceal      | Conflict   |
+| 7   | Dangerous    | Control    |
+| 8   | Deceive      | Delay      |
+| 9   | Dirty        | Direction  |
+| 10  | Disagreeable | Duration   |
+| 11  | Helpful      | Failure    |
+| 12  | Loud         | Fight      |
+| 13  | Oppose       | Happiness  |
+| 14  | Peaceful     | Leave      |
+| 15  | Powerful     | Memory     |
+| 16  | Reassuring   | Move       |
+| 17  | Reveal       | Sacrifice  |
+| 18  | Specialized  | Shadow     |
+| 19  | Transform    | Threshold  |
+| 20  | Unexpected   | Trust      |
 
 }}
 }}
