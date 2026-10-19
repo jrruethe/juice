@@ -117,7 +117,9 @@ h3 {
 
 /* ===== Rows ===== */
 
-/* four rows, each one quarter of the working area; each row is a 2-column grid */
+/* four rows, each one quarter of the working area; each row is a 2-column grid.
+   (Page 2 uses these rows; page 1 instead has two big half-page boxes — see
+   the #p1 rule below.) */
 .block.row1, .block.row2, .block.row3, .block.row4
 {
   /* a quarter of the working area's height */
@@ -125,24 +127,36 @@ h3 {
   /* make the row a grid with two equal-width columns for its two boxes */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* 0.2em of space between the two boxes of a row */
+  /* 0.6em of space between the two boxes of a row */
   column-gap: 0.6em;
   /* no theme margins around rows (the vertical gap comes from the boxes, below) */
   margin: 0;
 }
 
+/* Page 1 (the front side of the paper) does NOT use the four rows: it holds two
+   big boxes, 17 and 18, directly in the wide block — box 17 takes the top half
+   of the page and box 18 the bottom half. Make page 1's wide a two-row grid so
+   each big box gets exactly half of the page's height. */
+#p1 .block.wide
+{
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
 /* ===== Octet boxes ===== */
 
-/* all 8 boxes: identical size, green planning border, content clipped to the box */
+/* every box: green planning border, content clipped to the box.
+   The 8 octet boxes on page 2 all come out exactly the same size; the two
+   boxes on page 1 each take a full half of that page (see the #p1 rule). */
 .block.box
 {
   /* the theme makes every .block an inline-block at 100% width;
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* fill the row's height minus 0.6em: that 0.6em of slack at the bottom of every
-     row is what makes the 0.6em vertical gap between rows, and keeps all 8
-     boxes exactly the same size */
+  /* fill its row's height minus 0.6em: that 0.6em of slack at the bottom of
+     every row is what makes the 0.6em vertical gap between rows (and, on
+     page 1, between the two big boxes) */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
   border: 1px solid green;
@@ -235,107 +249,25 @@ h3 {
 {{wide
 
 
-<!-- START ROW 1 -->
-{{row1
-
-<!-- START BOX 9 -->
+<!-- START BOX 17 -->
 {{box
 
-### Box 9
-Upper left box on front page.
-There is a horizontal cut between box 12 and box 14, from the right edge to the center of the paper.
-Boxes 10 and 12 will be on the inside of flap that folds out to the right, revealing boxes 9 and 11. 
-This means that we could have boxes 9,10,11,12 all be one large table.
+### Box 17
+Top half of the front page — one large box combining the old boxes 9, 10, 11, 12.
+There is a horizontal cut between this box and box 18, from the right edge to the center of the paper.
+Opening this half to the right is what reveals it as one wide panel.
 
 }}
-<!-- END BOX 9 -->
+<!-- END BOX 17 -->
 
-\column
-
-<!-- START BOX 10 -->
+<!-- START BOX 18 -->
 {{box
 
-### Box 10
-Upper right on front page
+### Box 18
+Bottom half of the front page — one large box combining the old boxes 13, 14, 15, 16.
 
 }}
-<!-- END BOX 10 -->
-
-}}
-<!-- END ROW 1 -->
-
-<!-- START ROW 2 -->
-{{row2
-
-<!-- START BOX 11 -->
-{{box
-
-### Box 11
-
-}}
-<!-- END BOX 11 -->
-
-\column
-
-<!-- START BOX 12 -->
-{{box
-
-### Box 12
-
-}}
-<!-- END BOX 12 -->
-
-}}
-<!-- END ROW 2 -->
-
-<!-- START ROW 3 -->
-{{row3
-
-<!-- START BOX 13 -->
-{{box
-
-### Box 13
-
-}}
-<!-- END BOX 13 -->
-
-\column
-
-
-<!-- START BOX 14 -->
-{{box
-
-### Box 14
-
-}}
-<!-- END BOX 14 -->
-
-}}
-<!-- END ROW 3 -->
-
-<!-- START ROW 4 -->
-{{row4
-
-<!-- START BOX 15 -->
-{{box
-
-### Box 15
-
-}}
-<!-- END BOX 15 -->
-
-\column
-
-<!-- START BOX 16 -->
-{{box
-
-### Box 16
-
-}}
-<!-- END BOX 16 -->
-
-}}
-<!-- END ROW 4 -->
+<!-- END BOX 18 -->
 
 }}
 <!-- END FRONT PAGE -->
@@ -700,9 +632,10 @@ _Juice Pop! 10/19/2026 - https://github.com/jrruethe/juice_
      none of the boxes above mention them. To hide every number at once,
      delete this block (from the BEGIN comment to the END comment), or wrap
      the CSS rules inside the <style> tag in a single /* ... */ comment.
-     Each rule below finds one box by position: which page, which row, and
-     left or right side of the row. If you ever move boxes around, update
-     the numbers here to match. -->
+      Each rule below finds one box by position: on page 2, which row and
+      left or right side of the row; on page 1, the two big boxes straight in
+      the wide block. If you ever move boxes around, update the numbers here
+      to match. -->
 <style>
 
 /* the number itself: small, floating in the upper-right corner of the box
@@ -719,15 +652,10 @@ _Juice Pop! 10/19/2026 - https://github.com/jrruethe/juice_
   color: green;
 }
 
-/* ---- page 1 (front side of the paper) ---- */
-#p1 .block.row1 .box:first-child::after { content: "9"; }
-#p1 .block.row1 .box:last-child::after  { content: "10"; }
-#p1 .block.row2 .box:first-child::after { content: "11"; }
-#p1 .block.row2 .box:last-child::after  { content: "12"; }
-#p1 .block.row3 .box:first-child::after { content: "13"; }
-#p1 .block.row3 .box:last-child::after  { content: "14"; }
-#p1 .block.row4 .box:first-child::after { content: "15"; }
-#p1 .block.row4 .box:last-child::after  { content: "16"; }
+/* ---- page 1 (front side of the paper): two big boxes —
+   17 = top half, 18 = bottom half (they sit directly in the wide block) ---- */
+#p1 .block.wide > .box:nth-of-type(1)::after { content: "17"; }
+#p1 .block.wide > .box:nth-of-type(2)::after { content: "18"; }
 
 /* ---- page 2 (back side of the paper) ---- */
 #p2 .block.row1 .box:first-child::after { content: "4"; }
@@ -741,3 +669,4 @@ _Juice Pop! 10/19/2026 - https://github.com/jrruethe/juice_
 
 </style>
 <!-- END BOX NUMBERS -->
+
