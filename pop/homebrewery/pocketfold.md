@@ -140,8 +140,8 @@ h3 {
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* fill the row's height minus 0.2em: that 0.2em of slack at the bottom of every
-     row is what makes the 0.2em vertical gap between rows, and keeps all 8
+  /* fill the row's height minus 0.6em: that 0.6em of slack at the bottom of every
+     row is what makes the 0.6em vertical gap between rows, and keeps all 8
      boxes exactly the same size */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
@@ -195,9 +195,9 @@ h3 {
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
      Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.2em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.2em);
-  height: calc((8.5in - 1.8em - 0.2em) / 2);
+     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
+  width: calc((11in - 1.8em) / 4 - 0.6em);
+  height: calc((8.5in - 1.8em - 0.6em) / 2);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -215,9 +215,9 @@ h3 {
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
      Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.2em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.2em);
-  height: calc((8.5in - 1.8em - 0.2em) / 2);
+     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
+  width: calc((11in - 1.8em) / 4 - 0.6em);
+  height: calc((8.5in - 1.8em - 0.6em) / 2);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -515,7 +515,8 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 {{template
 
-Use [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].
+Use [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].  
+Failure leads to a [**Consequence**].
 
 }}
 
@@ -589,47 +590,35 @@ Use [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**]
 {{box
 {{right
 
-### Immersion
-
-{{template
-
-You [**Sense**] something [**Description**] [**Location**]  
-and it causes [**Emotion**] because [**Reason**].
-
-}}
+### Consequence
 
 {{horizontal-compact
-{{vertical-compact
-
-| # | 1-3<br>See | 4-6<br>Hear | 7-8<br>Smell | 9-0<br>Feel |
-|:-:|:----------:|:-----------:|:------------:|:-----------:|
-| 1 | Broken     | Dripping    | Alcohol      | Cold        |
-| 2 | Colorful   | Fire        | Blood        | Damp        |
-| 3 | Discarded  | Footsteps   | Smoke        | Flexible    |
-| 4 | Edible     | Growling    | Cooking      | Furry       |
-| 5 | Liquid     | Laughter    | Decay        | Rough       |
-| 6 | Natural    | Music       | Dust         | Sharp       |
-| 7 | Odd        | Scratching  | Flowers      | Slippery    |
-| 8 | Round      | Silence     | Leather      | Smooth      |
-| 9 | Shiny      | Talking     | Oil          | Sticky      |
-| 0 | Written    | Wind        | Soil         | Warm        |
 
 :
 
-| # | Location         | Emotion       | Reason                   |
-|:-:|:----------------:|:-------------:|:------------------------:|
-| 1 | Above            | Anger         | help is on the way       |
-| 2 | Behind           | Clarity       | it is getting closer     |
-| 3 | In Front         | Confusion     | it may be valuable       |
-| 4 | In The Air       | Deja Vu       | of a childhood event     |
-| 5 | In The Distance  | Desire        | of a recent memory       |
-| 6 | In The Next Room | Fear          | the source is unknown    |
-| 7 | In The Shadows   | Hope          | then it is suddenly gone |
-| 8 | Next To You      | Joy           | you recognize it         |
-| 9 | On The Ground    | Nostalgia     | you were warned about it |
-| 0 | Under            | Panic         | you weren't expecting it |
+| 1d20 | Consequence                                   |
+|:----:|:---------------------------------------------:|
+| 1    | A critical resource is depleted               |
+| 2    | The enemy gains new allies                    |
+| 3    | You are separated from a person or object     |
+| 4    | Your surroundings turn hostile                |
+| 5    | Escape routes narrow                          |
+| 6    | Your action has an unintended effect          |
+| 7    | Your approach draws unwanted attention        |
+| 8    | Your reputation shifts                        |
+| 9    | Something you relied upon proves unreliable   |
+| 10   | A new danger or foe is revealed               |
+| 11   | Your past catches up with you                 |
+| 12   | Two unrelated situations are connected        |
+| 13   | Your information proves incomplete            |
+| 14   | You can only save one                         |
+| 15   | You are forced to act against your intentions |
+| 16   | You must sacrifice something to proceed       |
+| 17   | You must break a promise to continue          |
+| 18   | You must accept help from an enemy            |
+| 19   | You must reveal yourself to act               |
+| 20   | Choose: Rush forward at risk, or lose time    |
 
-}}
 }}
 
 }}
@@ -703,3 +692,52 @@ _Juice Pop! 10/19/2026 - https://github.com/jrruethe/juice_
 
 }}
 <!-- END BACK PAGE -->
+
+<!-- BEGIN BOX NUMBERS -->
+<!-- Small floating number in the upper-right corner of each box, showing its
+     physical box number (a planning aid).
+     The numbers come ONLY from this one block at the end of the document —
+     none of the boxes above mention them. To hide every number at once,
+     delete this block (from the BEGIN comment to the END comment), or wrap
+     the CSS rules inside the <style> tag in a single /* ... */ comment.
+     Each rule below finds one box by position: which page, which row, and
+     left or right side of the row. If you ever move boxes around, update
+     the numbers here to match. -->
+<style>
+
+/* the number itself: small, floating in the upper-right corner of the box
+   (the box is position: relative, so the number parks itself in its corner) */
+.page .box::after
+{
+  position: absolute;
+  top: 0.05em;
+  right: 0.1em;
+  /* small so it never competes with the table content */
+  font-size: 8pt;
+  font-weight: bold;
+  /* green, to match the planning borders */
+  color: green;
+}
+
+/* ---- page 1 (front side of the paper) ---- */
+#p1 .block.row1 .box:first-child::after { content: "9"; }
+#p1 .block.row1 .box:last-child::after  { content: "10"; }
+#p1 .block.row2 .box:first-child::after { content: "11"; }
+#p1 .block.row2 .box:last-child::after  { content: "12"; }
+#p1 .block.row3 .box:first-child::after { content: "13"; }
+#p1 .block.row3 .box:last-child::after  { content: "14"; }
+#p1 .block.row4 .box:first-child::after { content: "15"; }
+#p1 .block.row4 .box:last-child::after  { content: "16"; }
+
+/* ---- page 2 (back side of the paper) ---- */
+#p2 .block.row1 .box:first-child::after { content: "4"; }
+#p2 .block.row1 .box:last-child::after  { content: "2"; }
+#p2 .block.row2 .box:first-child::after { content: "5"; }
+#p2 .block.row2 .box:last-child::after  { content: "1"; }
+#p2 .block.row3 .box:first-child::after { content: "6"; }
+#p2 .block.row3 .box:last-child::after  { content: "8"; }
+#p2 .block.row4 .box:first-child::after { content: "7"; }
+#p2 .block.row4 .box:last-child::after  { content: "3"; }
+
+</style>
+<!-- END BOX NUMBERS -->
