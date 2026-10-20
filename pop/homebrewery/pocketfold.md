@@ -90,6 +90,12 @@ h3 {
 {
   text-align: center;
 }
+
+.treasure table tbody tr td
+{
+  font-size: 8pt;
+  line-height: 100%;
+}
   
 /* ===== Wrapper ===== */
 
@@ -252,10 +258,114 @@ h3 {
 <!-- START BOX 17 -->
 {{box
 
-### Box 17
-Top half of the front page — one large box combining the old boxes 9, 10, 11, 12.
-There is a horizontal cut between this box and box 18, from the right edge to the center of the paper.
-Opening this half to the right is what reveals it as one wide panel.
+{{column-count:2
+
+### Quest
+
+{{template
+
+A [**Situation**] [**Person**], concerned about [**Motive**], asks you to  
+[**Objective**] the [**Description**] [**Focus**] in the [**Dungeon**] of [**Adjective**] [**Noun**],  
+[**Complication**].
+
+}}
+
+:
+
+{{horizontal-compact
+
+| # | Objective            | Description | Focus             | Complication                  |
+|:-:|:--------------------:|:-----------:|:-----------------:|:-----------------------------:|
+| 1 | Attain power from    | Abandoned   | Anomaly           | before time expires           |
+| 2 | Destroy              | Astral      | Faction           | before the ritual completes   |
+| 3 | Escape from          | Decayed     | Information       | before they escape            |
+| 4 | Escort someone to    | Defended    | Monster           | while outmatched              |
+| 5 | Infiltrate           | Hidden      | Seal              | while being hunted            |
+| 6 | Investigate          | Elemental   | NPC               | against a rival faction       |
+| 7 | Negotiate with       | Connected   | Object / Treasure | amid betrayal                 |
+| 8 | Protect              | Strange     | Remains           | though nothing is as it seems |
+| 9 | Rescue someone from  | Toxic       | Plant             | under false pretenses         |
+| 0 | Steal something from | Artificial  | Villain           | while enemies converge        |
+
+{{column-count:2
+
+### Person
+
+| # | Situation | Person      | Motive / Topic |
+|:-:|:---------:|:-----------:|:--------------:|
+| 1 | Deceiving | Criminal    | Equipment      |
+| 2 | Guarding  | Entertainer | Experience     |
+| 3 | Guiding   | Expert      | Family         |
+| 4 | Hunting   | Mage        | Flaws          |
+| 5 | Lost      | Mercenary   | History        |
+| 6 | Spying    | Noble       | Quest          |
+| 7 | Tasked    | Priest      | Reputation     |
+| 8 | Trading   | Ranger      | Superiors      |
+| 9 | Trapped   | Soldier     | Treasure       |
+| 0 | Wounded   | Transporter | Wealth         |
+
+\column
+
+### Location
+
+| # | Dungeon   | Adjective    | Noun     |
+|:-:|:---------:|:------------:|:--------:|
+| 1 | Catacombs | Bloodstained | Blades   |
+| 2 | Cavern    | Chaotic      | Blight   |
+| 3 | Crypt     | Endless      | Darkness |
+| 4 | Fortress  | Fallen       | Fury     |
+| 5 | Hideout   | Forbidden    | Lies     |
+| 6 | Lair      | Forgotten    | Madness  |
+| 7 | Mine      | Shattered    | Mist     |
+| 8 | Depths    | Shrouded     | Prophecy |
+| 9 | Sanctuary | Silent       | Runes    |
+| 0 | Temple    | Unknown      | Terror   |
+
+}}
+
+}}
+
+\column
+
+### Settlement
+
+
+
+{{horizontal-compact
+
+| # | Settlement Name || Establishment | Artisan    | Symbol         | News             |
+|:-:|:------:|:-------:|:-------------:|:----------:|:--------------:|:----------------:|
+| 1 | Frost  | Crest   | Stable        | Artist     | Arrow          | War              |
+| 2 | High   | Fall    | Tavern        | Baker      | Candle         | Sickness         |
+| 3 | Lost   | Glen    | Inn           | Tailor     | Cauldron       | Natural Disaster |
+| 4 | Moon   | Haven   | Entertainment | Tanner     | Chain          | Crime            |
+| 5 | Raven  | Hollow  | General Store | Archer     | Claw           | Succession       |
+| 6 | Shield | Ridge   | *Artisan*     | Blacksmith | Hook           | Remote Event     |
+| 7 | Storm  | Rock    | Courier       | Carpenter  | Hourglass      | Arrival          |
+| 8 | Sword  | Stead   | Temple        | Apothecary | Quill          | Mail             |
+| 9 | Thorn  | Vale    | Guild Hall    | Jeweler    | Rose           | Sale             |
+| 0 | Wolf   | Wood    | Magic Shop    | Scribe     | Skull          | Celebration      |
+
+:::::
+
+### Details
+
+| # | Color                                                                                                        || Monster                || Trap                 ||
+|:-:|:------------------------------------------------------------------------------------------:|:----------------:|:------------:|:--------:|:--------:|:----------:|
+| 1 | <span style="background-color:Black;       color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shade Black      | Agile        | Climb    | Ambush   | Alarm      |
+| 2 | <span style="background-color:Saddlebrown; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Leather Brown    | Beast        | Detect   | Collapse | Barrier    |
+| 3 | <span style="background-color:Yellow;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Yellow | Clothed      | Drain    | Divert   | Decay      |
+| 4 | <span style="background-color:Forestgreen; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green     | Composite    | Entangle | Imitate  | Denizen    |
+| 5 | <span style="background-color:Dodgerblue;  color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Cobalt Blue      | Decayed      | Illusion | Lure     | Fall       |
+| 6 | <span style="background-color:Crimson;     color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Red      | Elemental    | Immune   | Obscure  | Fire       |
+| 7 | <span style="background-color:Purple;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet     | Inscribed    | Magic    | Summon   | Light      |
+| 8 | <span style="background-color:Silver;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver  | Intimidating | Paralyze | Surprise | Path       |
+| 9 | <span style="background-color:Goldenrod;   color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold       | Levitating   | Pierce   | Surround | Poison     |
+| 0 | <span style="background-color:White;       color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Holy White       | Nightmarish  | Ranged   | Trigger  | Projectile |
+
+}}
+
+}}
 
 }}
 <!-- END BOX 17 -->
@@ -263,8 +373,110 @@ Opening this half to the right is what reveals it as one wide panel.
 <!-- START BOX 18 -->
 {{box
 
-### Box 18
-Bottom half of the front page — one large box combining the old boxes 13, 14, 15, 16.
+{{column-count:2
+
+### Wilderness Exploration
+
+:
+
+{{horizontal-compact
+
+| # | Description | Current Env         | Next Env         | Encounter             | Feature   |
+|:-:|:-----------:|:-------------------:|:----------------:|:---------------------:|:---------:|
+| 1 | Exotic      | Arctic              | Move Up 2        | Natural Hazard        | Bones     |
+| 2 | Haunted     | Mountains           | Move Up 1        | Weather               | Bridge    |
+| 3 | Luminous    | Cavern              | Move Up 1        | *Immersion*           | Cairn     |
+| 4 | Pristine    | Hills               | Same Env         | Road / River          | Circle    |
+| 5 | Sacred      | Grassland           | Same Env         | Monster               | Monument  |
+| 6 | Shadowed    | Forest              | Same Env         | *Challenge*           | Ruins     |
+| 7 | Vast        | Swamp               | Same Env         | *Feature*             | Smoke     |
+| 8 | Verdant     | Water Feature       | Move Down 1      | *Settlement* / Camp     | Spring    |
+| 9 | Dying       | Coast               | Move Down 1      | Destination / *Dungeon* | Tracks    |
+| 0 | Weathered   | Desert              | Move Down 2      | Advance Plot          | Well      |
+
+}}
+
+:
+
+### Dungeon Exploration
+
+{{horizontal-compact
+
+| # | Next Area                   | Passage            | Encounter         | Feature   |
+|:-:|:---------------------------:|:------------------:|:-----------------:|:---------:|
+| 1 | *Passage*                   | 4-way Intersection | Natural Hazard    | Armory    |
+| 2 | Small Chamber w/ 3 Doors    | T Intersection     | Safety            | Fountain  |
+| 3 | Large Chamber w/ 3 Doors    | Side Passage       | *Immersion*       | Glyphs    |
+| 4 | Small Chamber w/ 2 Doors    | Right Angle Turn   | Monster           | Known     |
+| 5 | Circular Chamber w/ 2 Doors | Side Alcove        | Key*              | Library   |
+| 6 | Locked Door                 | Long / Winding     | Trap              | Mural     |
+| 7 | Small Chamber w/ 1 Door     | Narrow             | *Challenge*       | Prison    |
+| 8 | Secret Exit / Stairs        | Sloped             | *Feature*         | Shrine    |
+| 9 | Connection to Previous Area | Small Crawlspace   | *Treasure*        | Throne    |
+| 0 | *Passage*                   | Bridge             | Objective* / Clue | Vault     |
+
+}}
+
+::
+
+{{center
+_Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
+}}
+
+\column
+
+### Treasure
+
+{{treasure
+
+|       |               |             |               |               |
+|:-----:|:-------------:|:-----------:|:-------------:|:-------------:|
+| **1** | **Trinket**   | **Quality** | **Material**  | **Type**      |
+|      ^| 1             | Broken      | Wood          | Toy/Game      |
+|      ^| 2             | Damaged     | Bone          | Bottle        |
+|      ^| 3             | Worn        | Leather       | Instrument    |
+|      ^| 4             | Simple      | Silver        | Charm         |
+|      ^| 5             | Exceptional | Gold          | Tool          |
+|      ^| 6             | Magic       | Gem           | Key           |
+| **2** | **Treasure**  | **Quality** | **Container** | **Contents**  |
+|      ^| 1             | Dusty       | None          | Food          |
+|      ^| 2             | Worn        | Pouch         | Art           |
+|      ^| 3             | Sturdy      | Box           | Deed          |
+|      ^| 4             | Fine        | Satchel       | Silver Coins  |
+|      ^| 5             | New         | Crate         | Gold Coins    |
+|      ^| 6             | Ornate      | Chest         | Gems          |
+| **3** | **Document**  | **Type**    | **Content**   | **Subject**   |
+|      ^| 1             | Song        | Lewd          | Religion      |
+|      ^| 2             | Picture     | Common        | Art           |
+|      ^| 3             | Letter/Note | Map           | Science       |
+|      ^| 4             | Scroll      | Prophecy      | Creatures     |
+|      ^| 5             | Journal     | Arcane        | History       |
+|      ^| 6             | Book        | Forbidden     | Magic         |
+| **4** | **Accessory** | **Quality** | **Material**  | **Type**      |
+|      ^| 1             | Ruined      | Wood          | Headpiece     |
+|      ^| 2             | Crude       | Bone          | Emblem        |
+|      ^| 3             | Simple      | Leather       | Earring       |
+|      ^| 4             | Fine        | Silver        | Bracelet      |
+|      ^| 5             | Crafted     | Gold          | Necklace      |
+|      ^| 6             | Magic       | Gem           | Ring          |
+| **5** | **Weapon**    | **Quality** | **Material**  | **Type**      |
+|      ^| 1             | Broken      | Wood          | Axe/Hammer    |
+|      ^| 2             | Improvised  | Bone          | Halberd/Spear |
+|      ^| 3             | Rough       | Steel         | Sword/Dagger  |
+|      ^| 4             | Simple      | Silver        | Staff/Wand    |
+|      ^| 5             | Martial     | Mithral       | Bow           |
+|      ^| 6             | Masterwork  | Adamantine    | Exotic        |
+| **6** | **Armor**     | **Quality** | **Material**  | **Type**      |
+|      ^| 1             | Broken      | Cloth         | Headpiece     |
+|      ^| 2             | Improvised  | Leather       | Bottom        |
+|      ^| 3             | Tattered    | Bone/Fur      | Gloves        |
+|      ^| 4             | Simple      | Steel         | Boots         |
+|      ^| 5             | Fine        | Mithral       | Top           |
+|      ^| 6             | Masterwork  | Adamantine    | Shield        |
+
+}}
+
+}}
 
 }}
 <!-- END BOX 18 -->
@@ -334,28 +546,28 @@ Bottom half of the front page — one large box combining the old boxes 13, 14, 
 
 :
 
-| d20 | 1    | 2    | 3    |
-|:---:|:----:|:----:|:----:|
-| 1   |    A | hal  | an   |
-| 2   |    E | ris  | ar   |
-| 3   |    I | del  | er   |
-| 4   |    O | mor  | ian  |
-| 5   |    U | bar  | ic   |
-| 6   |   De | net  | in   |
-| 7   |   Ka | kel  | o    |
-| 8   |   Li | lim  | on   |
-| 9   |   Ma | tur  | or   |
-| 10  |   Ro | pen  | us   |
-| 11  |   Be | rond | a    |
-| 12  |   Da | kay  | aea  |
-| 13  |   Ki | jam  | aya  |
-| 14  |   Le | vash | elle |
-| 15  |   Mi | zab  | ene  |
-| 16  |   Ne | yos  | ess  |
-| 17  |   Ru | gran | ette |
-| 18  |   Si | ched | ice  |
-| 19  |   Ta | sark | id   |
-| 20  |   To | kic  | osa  |
+| d20 | Template| 1    | 2    | 3    |
+|:---:|:-------:|:----:|:----:|:----:|
+| 1   | `12o  ` | (f)a | hal  | an   |
+| 2   | `12   ` | (p)e | ris  | ar   |
+| 3   | `12   ` | (v)i | del  | er   |
+| 4   | `23-o ` | (n)o | mor  | ian  |
+| 5   | `23-  ` | (s)u | bar  | ic   |
+| 6   | `23-  ` |   de | net  | in   |
+| 7   | `123-o` |   ka | kel  | o    |
+| 8   | `123- ` |   li | lim  | on   |
+| 9   | `123- ` |   ma | tur  | or   |
+| 10  | `111  ` |   ro | pen  | us   |
+| 11  | `111  ` |   be | rond | a    |
+| 12  | `123  ` |   da | kay  | aea  |
+| 13  | `12a  ` |   ki | jam  | aya  |
+| 14  | `12i  ` |   le | vash | elle |
+| 15  | `23-a ` |   mi | zab  | ene  |
+| 16  | `23-i ` |   ne | yos  | ess  |
+| 17  | `23+  ` |   ru | gran | ette |
+| 18  | `123-a` |   si | ched | ice  |
+| 19  | `123-i` |   ta | sark | id   |
+| 20  | `123+ ` |   to | kic  | osa  |
 
 }}
 }}
@@ -575,26 +787,26 @@ Failure leads to a [**Consequence**].
 
 | d20 | Inspiration              ||
 |:---:|:------------:|:----------:|
-| 1   | Ancient      | Assist     |
-| 2   | Artificial   | Break      |
-| 3   | Betray       | Burden     |
-| 4   | Burning      | Command    |
-| 5   | Communicate  | Complexity |
-| 6   | Conceal      | Conflict   |
-| 7   | Dangerous    | Control    |
-| 8   | Deceive      | Delay      |
-| 9   | Dirty        | Direction  |
-| 10  | Disagreeable | Duration   |
-| 11  | Helpful      | Failure    |
-| 12  | Loud         | Fight      |
-| 13  | Oppose       | Happiness  |
-| 14  | Peaceful     | Leave      |
-| 15  | Powerful     | Memory     |
-| 16  | Reassuring   | Move       |
-| 17  | Reveal       | Sacrifice  |
-| 18  | Specialized  | Shadow     |
-| 19  | Transform    | Threshold  |
-| 20  | Unexpected   | Trust      |
+| 1   | Ancient     | Assistance        |
+| 2   | Artificial  | Attention        |
+| 3   | Communicate | Blood        |
+| 4   | Conceal     | Comfort        |
+| 5   | Dangerous   | Command        |
+| 6   | Extreme     | Complexity        |
+| 7   | Familiar    | Connection        |
+| 8   | Helpful     | Control        |
+| 9   | Looming     | Delay        |
+| 10  | Missing     | Direction        |
+| 11  | Mundane     | Element        |
+| 12  | Mysterious  | Home        |
+| 13  | Oppose      | Memory        |
+| 14  | Peaceful    | Resource        |
+| 15  | Persistent  | Rumor        |
+| 16  | Powerful    | Secret        |
+| 17  | Reveal      | Shadow        |
+| 18  | Specialized | Threshold        |
+| 19  | Transform   | Trust        |
+| 20  | Weakened    | Vow        |
 
 }}
 }}
