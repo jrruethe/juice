@@ -387,18 +387,18 @@ A [**Situation**] [**Person**], concerned about [**Motive**], asks you to
 
 {{horizontal-compact
 
-| # | Description | Current Env         | Next Env         | Encounter             | Feature   |
-|:-:|:-----------:|:-------------------:|:----------------:|:---------------------:|:---------:|
-| 1 | Exotic      | Arctic              | Move Up 2        | Natural Hazard        | Bones     |
-| 2 | Haunted     | Mountains           | Move Up 1        | Weather               | Bridge    |
-| 3 | Luminous    | Cavern              | Move Up 1        | *Immersion*           | Cairn     |
-| 4 | Pristine    | Hills               | Same Env         | Road / River          | Circle    |
-| 5 | Sacred      | Grassland           | Same Env         | Monster               | Monument  |
-| 6 | Shadowed    | Forest              | Same Env         | *Challenge*           | Ruins     |
-| 7 | Vast        | Swamp               | Same Env         | *Feature*             | Smoke     |
-| 8 | Verdant     | Water Feature       | Move Down 1      | *Settlement* / Camp     | Spring    |
-| 9 | Dying       | Coast               | Move Down 1      | Destination / *Dungeon* | Tracks    |
-| 0 | Weathered   | Desert              | Move Down 2      | Advance Plot          | Well      |
+| # | Description | Environment         | Encounter               | Feature   |
+|:-:|:-----------:|:-------------------:|:-----------------------:|:---------:|
+| 1 | Exotic      | Arctic              | Natural Hazard          | Bones     |
+| 2 | Haunted     | Mountains           | Weather                 | Bridge    |
+| 3 | Luminous    | Cavern              | *Immersion*             | Cairn     |
+| 4 | Pristine    | Hills               | Road / River            | Circle    |
+| 5 | Sacred      | Grassland           | Monster                 | Monument  |
+| 6 | Shadowed    | Forest              | *Challenge*             | Ruins     |
+| 7 | Vast        | Swamp               | *Feature*               | Smoke     |
+| 8 | Verdant     | Water Feature       | *Settlement* / Camp     | Spring    |
+| 9 | Dying       | Coast               | Destination / *Dungeon* | Tracks    |
+| 0 | Weathered   | Desert              | Advance Plot            | Well      |
 
 }}
 
@@ -517,28 +517,28 @@ _Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
 
 :
 
-| d20 | Template| 1    | 2    | 3    |
-|:---:|:-------:|:----:|:----:|:----:|
-| 1   | `12o  ` | (f)a | hal  | an   |
-| 2   | `12   ` | (p)e | ris  | ar   |
-| 3   | `12   ` | (v)i | del  | er   |
-| 4   | `23-o ` | (n)o | mor  | ian  |
-| 5   | `23-  ` | (s)u | bar  | ic   |
-| 6   | `23-  ` |   de | net  | in   |
-| 7   | `123-o` |   ka | kel  | o    |
-| 8   | `123- ` |   li | lim  | on   |
-| 9   | `123- ` |   ma | tur  | or   |
-| 10  | `111  ` |   ro | pen  | us   |
-| 11  | `111  ` |   be | rond | a    |
-| 12  | `123  ` |   da | kay  | aea  |
-| 13  | `12a  ` |   ki | jam  | aya  |
-| 14  | `12i  ` |   le | vash | elle |
-| 15  | `23-a ` |   mi | zab  | ene  |
-| 16  | `23-i ` |   ne | yos  | ess  |
-| 17  | `23+  ` |   ru | gran | ette |
-| 18  | `123-a` |   si | ched | ice  |
-| 19  | `123-i` |   ta | sark | id   |
-| 20  | `123+ ` |   to | kic  | osa  |
+| d20 | 1    | 2    | 3    |
+|:---:|:----:|:----:|:----:|
+| 1   |    A | hal  | an   |
+| 2   |    E | ris  | ar   |
+| 3   |    I | del  | er   |
+| 4   |    O | mor  | ian  |
+| 5   |    U | bar  | ic   |
+| 6   |   De | net  | in   |
+| 7   |   Ka | kel  | o    |
+| 8   |   Li | lim  | on   |
+| 9   |   Ma | tur  | or   |
+| 10  |   Ro | pen  | us   |
+| 11  |   Be | rond | a    |
+| 12  |   Da | kay  | aea  |
+| 13  |   Ki | jam  | aya  |
+| 14  |   Le | vash | elle |
+| 15  |   Mi | zab  | ene  |
+| 16  |   Ne | yos  | ess  |
+| 17  |   Ru | gran | ette |
+| 18  |   Si | ched | ice  |
+| 19  |   Ta | sark | id   |
+| 20  |   To | kic  | osa  |
 
 }}
 }}
@@ -655,9 +655,34 @@ change the world in a meaningful way.
 
 <!-- START BOX 8 -->
 {{box
-{{left-
+{{left
 
-### Box 8
+### Inspiration
+
+:
+
+| d20 | Inspiration                     |
+|:---:|:-------------------------------:|
+| 1   | Despair washes over you         |
+| 2   | It fills you with fear          |
+| 3   | This is only the beginning      |
+| 4   | An enemy would want this        |
+| 5   | You've been warned about this   |
+| 6   | It feels out of place here      |
+| 7   | It's not what it appears to be  |
+| 8   | The timing seems deliberate     |
+| 9   | That was too easy               |
+| 10  | There's something hidden here   |
+| 11  | It wasn't always this way       |
+| 12  | This predates you               |
+| 13  | Its size surprises you          |
+| 14  | Deep down, you already know     |
+| 15  | You've encountered this before  |
+| 16  | It will matter later            |
+| 17  | It's impossibly rare            |
+| 18  | Someone trusted is connected    |
+| 19  | It connects to your goal        |
+| 20  | Your sidekick would know more   |
 
 }}
 }}
@@ -671,9 +696,32 @@ change the world in a meaningful way.
 
 <!-- START BOX 7 -->
 {{box
-{{right-
+{{right
 
-### Box 7
+### Situation
+
+| # | Situation                              |
+|:-:|:--------------------------------------:|
+| 1 |A chase begins.                         |
+| 2 |A shorcut is offered, will you take it? |
+| 3 |An assumption proves false.             |
+| 4 |Are you being followed?                 |
+| 5 |Backup will arrive soon.                |
+| 6 |Can you pass without being noticed?     |
+| 7 |Can you use this to your advantage?     |
+| 8 |For the moment, it is safe to rest.     |
+| 9 |Is this the way forward?                |
+|10 |It's quiet. Too quiet...                |
+|11 |Someone is exposed to danger.           |
+|12 |Something calls to you, do you answer?  |
+|13 |The enemy gains new allies.             |
+|14 |The silence is suddenly broken.         |
+|15 |The way forward becomes clear.          |
+|16 |What are you willing to sacrifice?      |
+|17 |Will you reveal yourself?               |
+|18 |Your approach draws unwanted attention. |
+|19 |Your fear is realized.                  |
+|20 |Your past catches up to you.            |
 
 }}
 }}
@@ -683,10 +731,32 @@ change the world in a meaningful way.
 
 <!-- START BOX 3 -->
 {{box
-{{right-
+{{right
 
 ### Box 3
 
+| # |                                                                                        | Color             |
+|:-:|:--------------------------------------------------------------------------------------:|:-----------------:|
+| 1 | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  |
+| 2 | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   |
+| 3 | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     |
+| 4 | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     |
+| 5 | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam |
+| 6 | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     |
+| 7 | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      |
+| 8 | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  |
+| 9 | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     |
+|10 | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       |
+|11 | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
+|12 | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
+|13 | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
+|14 | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
+|15 | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
+|16 | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
+|17 | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
+|18 | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
+|19 | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
+|20 | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
 }}
 }}
 <!-- END BOX 3 -->
