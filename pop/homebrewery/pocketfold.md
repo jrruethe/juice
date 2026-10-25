@@ -49,6 +49,12 @@ h3 {
   font-style: italic;
 }
 
+.credits {
+  font-size: 6pt;
+  text-align: center;
+  font-style: italic;
+}
+
 .page table thead tr th
 {
   vertical-align: middle;
@@ -274,52 +280,52 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 
 {{horizontal-compact
 
-| # | Objective            | Description | Focus             | Complication                  |
-|:-:|:--------------------:|:-----------:|:-----------------:|:-----------------------------:|
-| 1 | Attain power from    | Abandoned   | Anomaly           | before time expires           |
-| 2 | Destroy              | Artificial  | Faction           | before the ritual completes   |
-| 3 | Escape from          | Astral      | Information       | before they escape            |
-| 4 | Escort someone to    | Connected   | Monster           | while outmatched              |
-| 5 | Infiltrate           | Decayed     | Seal              | while being hunted            |
-| 6 | Investigate          | Defended    | NPC               | against a rival faction       |
-| 7 | Negotiate with       | Elemental   | Object / Treasure | amid betrayal                 |
-| 8 | Protect              | Hidden      | Remains           | though nothing is as it seems |
-| 9 | Rescue someone from  | Strange     | Plant             | under false pretenses         |
-| 0 | Steal something from | Toxic       | Villain           | while enemies converge        |
+| #     | Objective            | Description | Focus             | Complication                  |
+|:-----:|:--------------------:|:-----------:|:-----------------:|:-----------------------------:|
+| **1** | Attain power from    | Abandoned   | Anomaly           | before time expires           |
+| **2** | Destroy              | Artificial  | Faction           | before the ritual completes   |
+| **3** | Escape from          | Astral      | Information       | before they escape            |
+| **4** | Escort someone to    | Connected   | Monster           | while outmatched              |
+| **5** | Infiltrate           | Decayed     | Seal              | while being hunted            |
+| **6** | Investigate          | Defended    | NPC               | against a rival faction       |
+| **7** | Negotiate with       | Elemental   | Object / Treasure | amid betrayal                 |
+| **8** | Protect              | Hidden      | Remains           | though nothing is as it seems |
+| **9** | Rescue someone from  | Strange     | Plant             | under false pretenses         |
+| **0** | Steal something from | Toxic       | Villain           | while enemies converge        |
 
 {{column-count:2
 
 ### Person
 
-| # | Trait     | Person      | Motive / Topic |
-|:-:|:---------:|:-----------:|:--------------:|
-| 1 | Deceiving | Criminal    | Equipment      |
-| 2 | Guarding  | Entertainer | Experience     |
-| 3 | Guiding   | Expert      | Family         |
-| 4 | Hunting   | Mage        | Flaws          |
-| 5 | Lost      | Mercenary   | History        |
-| 6 | Spying    | Noble       | Quest          |
-| 7 | Tasked    | Priest      | Reputation     |
-| 8 | Trading   | Ranger      | Superiors      |
-| 9 | Trapped   | Soldier     | Treasure       |
-| 0 | Wounded   | Transporter | Wealth         |
+| #     | Trait     | Person      | Motive / Topic |
+|:-----:|:---------:|:-----------:|:--------------:|
+| **1** | Deceiving | Criminal    | Equipment      |
+| **2** | Guarding  | Entertainer | Experience     |
+| **3** | Guiding   | Expert      | Family         |
+| **4** | Hunting   | Mage        | Flaws          |
+| **5** | Lost      | Mercenary   | History        |
+| **6** | Spying    | Noble       | Quest          |
+| **7** | Tasked    | Priest      | Reputation     |
+| **8** | Trading   | Ranger      | Superiors      |
+| **9** | Trapped   | Soldier     | Treasure       |
+| **0** | Wounded   | Transporter | Wealth         |
 
 \column
 
 ### Location
 
-| # | Dungeon   | Adjective    | Noun     |
-|:-:|:---------:|:------------:|:--------:|
-| 1 | Catacombs | Bloodstained | Blades   |
-| 2 | Cavern    | Chaotic      | Blight   |
-| 3 | Crypt     | Endless      | Darkness |
-| 4 | Fortress  | Fallen       | Fury     |
-| 5 | Hideout   | Forbidden    | Lies     |
-| 6 | Lair      | Forgotten    | Madness  |
-| 7 | Mine      | Shattered    | Mist     |
-| 8 | Depths    | Shrouded     | Prophecy |
-| 9 | Sanctuary | Silent       | Runes    |
-| 0 | Temple    | Unknown      | Terror   |
+| #     | Dungeon   | Adjective    | Noun     |
+|:-----:|:---------:|:------------:|:--------:|
+| **1** | Catacombs | Bloodstained | Blades   |
+| **2** | Cavern    | Chaotic      | Blight   |
+| **3** | Crypt     | Endless      | Darkness |
+| **4** | Fortress  | Fallen       | Fury     |
+| **5** | Hideout   | Forbidden    | Lies     |
+| **6** | Lair      | Forgotten    | Madness  |
+| **7** | Mine      | Shattered    | Mist     |
+| **8** | Depths    | Shrouded     | Prophecy |
+| **9** | Sanctuary | Silent       | Runes    |
+| **0** | Temple    | Unknown      | Terror   |
 
 }}
 
@@ -329,37 +335,45 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 
 ### Settlement
 
+{{template
+Settlements have 1d6 **Establishments**.  
+Use **Color** + **Symbol** to name an **Establishment**.  
+Roll for **News** when entering a Settlement.
+}}
+
+:
+
 {{horizontal-compact
 
-| # | Settlement Name || Establishment | Artisan    | Symbol         | News             |
-|:-:|:------:|:-------:|:-------------:|:----------:|:--------------:|:----------------:|
-| 1 | Frost  | Crest   | Stable        | Artist     | Arrow          | War              |
-| 2 | High   | Fall    | Tavern        | Baker      | Candle         | Sickness         |
-| 3 | Lost   | Glen    | Inn           | Tailor     | Cauldron       | Natural Disaster |
-| 4 | Moon   | Haven   | Entertainment | Tanner     | Chain          | Crime            |
-| 5 | Raven  | Hollow  | General Store | Archer     | Claw           | Succession       |
-| 6 | Shield | Ridge   | *Artisan*     | Blacksmith | Hook           | Remote Event     |
-| 7 | Storm  | Rock    | Courier       | Carpenter  | Hourglass      | Arrival          |
-| 8 | Sword  | Stead   | Temple        | Apothecary | Quill          | Mail             |
-| 9 | Thorn  | Vale    | Guild Hall    | Jeweler    | Rose           | Sale             |
-| 0 | Wolf   | Wood    | Magic Shop    | Scribe     | Skull          | Celebration      |
+| #     | Settlement Name || Establishment | Artisan    | News             |
+|:-----:|:------:|:-------:|:-------------:|:----------:|:----------------:|
+| **1** | Frost  | Crest   | Stable        | Artist     | War              |
+| **2** | High   | Fall    | Tavern        | Baker      | Sickness         |
+| **3** | Lost   | Glen    | Inn           | Tailor     | Natural Disaster |
+| **4** | Moon   | Haven   | Entertainment | Tanner     | Crime            |
+| **5** | Raven  | Hollow  | General Store | Archer     | Succession       |
+| **6** | Shield | Ridge   | *Artisan*     | Blacksmith | Remote Event     |
+| **7** | Storm  | Rock    | Courier       | Carpenter  | Arrival          |
+| **8** | Sword  | Stead   | Temple        | Apothecary | Mail             |
+| **9** | Thorn  | Vale    | Guild Hall    | Jeweler    | Sale             |
+| **0** | Wolf   | Wood    | Magic Shop    | Scribe     | Celebration      |
 
-:::::
+
 
 ### Color
 
-| # |                                                                                       | Color              | # |   | Color |
-|:-:|:--------------------------------------------------------------------------------------:|:-----------------:|:-:|:-:|:-:|
-| 1 | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  | 11 | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
-| 2 | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   | 12 | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
-| 3 | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     | 13 | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
-| 4 | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     | 14 | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
-| 5 | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam | 15 | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
-| 6 | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     | 16 | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
-| 7 | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      | 17 | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
-| 8 | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  | 18 | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
-| 9 | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     | 19 | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
-|10 | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       | 20 | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
+| #      |                                                                                        | Color             | #      |                                                                                        | Color             |
+|:------:|:--------------------------------------------------------------------------------------:|:-----------------:|:------:|:--------------------------------------------------------------------------------------:|:-----------------:|
+|  **1** | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  | **11** | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
+|  **2** | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   | **12** | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
+|  **3** | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     | **13** | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
+|  **4** | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     | **14** | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
+|  **5** | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam | **15** | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
+|  **6** | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     | **16** | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
+|  **7** | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      | **17** | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
+|  **8** | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  | **18** | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
+|  **9** | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     | **19** | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
+| **10** | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       | **20** | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
 
 }}
 
@@ -375,51 +389,57 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 
 ### Wilderness Exploration
 
-:
+{{template
+Move Up/Down **Environment** Ladder when Transitioning Areas.  
+Roll **Encounter** at Disadvantage until Doubles, then Advantage.
+}}
 
 {{horizontal-compact
 
-| # | Description | Environment         | Encounter               | Feature   |
-|:-:|:-----------:|:-------------------:|:-----------------------:|:---------:|
-| 1 | Dying       | Arctic              | Natural Hazard          | Bones     |
-| 2 | Exotic      | Mountains           | Weather                 | Bridge    |
-| 3 | Haunted     | Cavern              | *Immersion*             | Cairn     |
-| 4 | Luminous    | Hills               | Road / River            | Circle    |
-| 5 | Pristine    | Grassland           | Monster                 | Monument  |
-| 6 | Sacred      | Forest              | *Challenge*             | Ruins     |
-| 7 | Shadowed    | Swamp               | *Feature*               | Smoke     |
-| 8 | Vast        | Water Feature       | *Settlement* / Camp     | Spring    |
-| 9 | Verdant     | Coast               | Destination / *Dungeon* | Tracks    |
-| 0 | Weathered   | Desert              | Advance Plot            | Well      |
+| #     | Description | Environment   | Encounter               | Feature   | *Ladder*      |
+|:-----:|:-----------:|:-------------:|:-----------------------:|:---------:|:-------------:|
+| **1** | Exotic      | Arctic        | Natural Hazard          | Bones     | *Move Up 2*   |
+| **2** | Haunted     | Mountains     | Weather                 | Bridge    | *Move Up 1*   |
+| **3** | Luminous    | Cavern        | *Immersion*             | Cairn     | *Move Up 1*   |
+| **4** | Pristine    | Hills         | Road / River            | Circle    | *Move Up 1*   |
+| **5** | Sacred      | Grassland     | Monster                 | Monument  | *Same Env*    |
+| **6** | Shadowed    | Forest        | *Challenge*             | Ruins     | *Same Env*    |
+| **7** | Vast        | Swamp         | *Feature*               | Smoke     | *Move Down 1* |
+| **8** | Verdant     | Water Feature | *Settlement* / Camp     | Spring    | *Move Down 1* |
+| **9** | Dying       | Coast         | Destination / *Dungeon* | Tracks    | *Move Down 1* |
+| **0** | Weathered   | Desert        | Advance Plot            | Well      | *Move Down 2* |
 
 }}
 
-:
+
 
 ### Dungeon Exploration
 
+{{template
+**Early Phase**: Roll **Next Area** and **Encounter** with Disadvantage  
+**Late Phase**: Roll **Next Area** and **Encounter** with Advantage  
+Doubles on **Next Area**: Transition from **Early Phase** to **Late Phase**  
+Doubles on **Encounter**: **Random Event**
+}}
+
 {{horizontal-compact
 
-| # | Next Area                   | Passage            | Encounter         | Feature   |
-|:-:|:---------------------------:|:------------------:|:-----------------:|:---------:|
-| 1 | *Passage*                   | 4-way Intersection | Natural Hazard    | Armory    |
-| 2 | Small Chamber w/ 3 Exits    | T Intersection     | Safety            | Fountain  |
-| 3 | Large Chamber w/ 3 Exits    | Side Passage       | *Immersion*       | Glyphs    |
-| 4 | Small Chamber w/ 2 Exits    | Right Angle Turn   | Monster           | Known     |
-| 5 | Circular Chamber w/ 2 Exits | Side Alcove        | Key*              | Library   |
-| 6 | Locked Door                 | Long / Winding     | Trap              | Mural     |
-| 7 | Small Chamber w/ 1 Exit     | Narrow             | *Challenge*       | Prison    |
-| 8 | Secret Exit / Stairs        | Sloped             | *Feature*         | Shrine    |
-| 9 | Connection to Previous Area | Small Crawlspace   | *Treasure*        | Throne    |
-| 0 | *Passage*                   | Bridge             | Objective* / Clue | Vault     |
+| #     | Next Area                   | Passage            | Encounter         | Feature   |
+|:-----:|:---------------------------:|:------------------:|:-----------------:|:---------:|
+| **1** | *Passage*                   | 4-way Intersection | Natural Hazard    | Armory    |
+| **2** | Small Chamber w/ 3 Exits    | T Intersection     | Safety            | Fountain  |
+| **3** | Large Chamber w/ 3 Exits    | Side Passage       | *Immersion*       | Glyphs    |
+| **4** | Small Chamber w/ 2 Exits    | Right Angle Turn   | Monster           | Known     |
+| **5** | Circular Chamber w/ 2 Exits | Side Alcove        | Key*              | Library   |
+| **6** | Locked Door                 | Long / Winding     | Trap              | Mural     |
+| **7** | Small Chamber w/ 1 Exit     | Narrow             | *Challenge*       | Prison    |
+| **8** | Secret Exit / Stairs        | Sloped             | *Feature*         | Shrine    |
+| **9** | Connection to Previous Area | Small Crawlspace   | *Treasure*        | Throne    |
+| **0** | *Passage*                   | Bridge             | Objective* / Clue | Vault     |
 
 }}
 
-::
 
-{{center
-_Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
-}}
 
 \column
 
@@ -430,47 +450,47 @@ _Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
 |       |               |             |               |               |
 |:-----:|:-------------:|:-----------:|:-------------:|:-------------:|
 | **1** | **Trinket**   | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Wood          | Toy/Game      |
-|      ^| 2             | Damaged     | Bone          | Bottle        |
-|      ^| 3             | Worn        | Leather       | Instrument    |
-|      ^| 4             | Simple      | Silver        | Charm         |
-|      ^| 5             | Exceptional | Gold          | Tool          |
-|      ^| 6             | Magic       | Gem           | Key           |
+|      ^| **1**         | Broken      | Wood          | Toy/Game      |
+|      ^| **2**         | Damaged     | Bone          | Bottle        |
+|      ^| **3**         | Worn        | Leather       | Instrument    |
+|      ^| **4**         | Simple      | Silver        | Charm         |
+|      ^| **5**         | Exceptional | Gold          | Tool          |
+|      ^| **6**         | Magic       | Gem           | Key           |
 | **2** | **Treasure**  | **Quality** | **Container** | **Contents**  |
-|      ^| 1             | Dusty       | None          | Food          |
-|      ^| 2             | Worn        | Pouch         | Art           |
-|      ^| 3             | Sturdy      | Box           | Deed          |
-|      ^| 4             | Fine        | Satchel       | Silver Coins  |
-|      ^| 5             | New         | Crate         | Gold Coins    |
-|      ^| 6             | Ornate      | Chest         | Gems          |
+|      ^| **1**         | Dusty       | None          | Food          |
+|      ^| **2**         | Worn        | Pouch         | Art           |
+|      ^| **3**         | Sturdy      | Box           | Deed          |
+|      ^| **4**         | Fine        | Satchel       | Silver Coins  |
+|      ^| **5**         | New         | Crate         | Gold Coins    |
+|      ^| **6**         | Ornate      | Chest         | Gems          |
 | **3** | **Document**  | **Type**    | **Content**   | **Subject**   |
-|      ^| 1             | Song        | Lewd          | Religion      |
-|      ^| 2             | Picture     | Common        | Art           |
-|      ^| 3             | Letter/Note | Map           | Science       |
-|      ^| 4             | Scroll      | Prophecy      | Creatures     |
-|      ^| 5             | Journal     | Arcane        | History       |
-|      ^| 6             | Book        | Forbidden     | Magic         |
+|      ^| **1**         | Song        | Lewd          | Religion      |
+|      ^| **2**         | Picture     | Common        | Art           |
+|      ^| **3**         | Letter/Note | Map           | Science       |
+|      ^| **4**         | Scroll      | Prophecy      | Creatures     |
+|      ^| **5**         | Journal     | Arcane        | History       |
+|      ^| **6**         | Book        | Forbidden     | Magic         |
 | **4** | **Accessory** | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Ruined      | Wood          | Headpiece     |
-|      ^| 2             | Crude       | Bone          | Emblem        |
-|      ^| 3             | Simple      | Leather       | Earring       |
-|      ^| 4             | Fine        | Silver        | Bracelet      |
-|      ^| 5             | Crafted     | Gold          | Necklace      |
-|      ^| 6             | Magic       | Gem           | Ring          |
+|      ^| **1**         | Ruined      | Wood          | Headpiece     |
+|      ^| **2**         | Crude       | Bone          | Emblem        |
+|      ^| **3**         | Simple      | Leather       | Earring       |
+|      ^| **4**         | Fine        | Silver        | Bracelet      |
+|      ^| **5**         | Crafted     | Gold          | Necklace      |
+|      ^| **6**         | Magic       | Gem           | Ring          |
 | **5** | **Weapon**    | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Wood          | Axe/Hammer    |
-|      ^| 2             | Improvised  | Bone          | Halberd/Spear |
-|      ^| 3             | Rough       | Steel         | Sword/Dagger  |
-|      ^| 4             | Simple      | Silver        | Staff/Wand    |
-|      ^| 5             | Martial     | Mithral       | Bow           |
-|      ^| 6             | Masterwork  | Adamantine    | Exotic        |
+|      ^| **1**         | Broken      | Wood          | Axe/Hammer    |
+|      ^| **2**         | Improvised  | Bone          | Halberd/Spear |
+|      ^| **3**         | Rough       | Steel         | Sword/Dagger  |
+|      ^| **4**         | Simple      | Silver        | Staff/Wand    |
+|      ^| **5**         | Martial     | Mithral       | Bow           |
+|      ^| **6**         | Masterwork  | Adamantine    | Exotic        |
 | **6** | **Armor**     | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Cloth         | Headpiece     |
-|      ^| 2             | Improvised  | Leather       | Bottom        |
-|      ^| 3             | Tattered    | Bone/Fur      | Gloves        |
-|      ^| 4             | Simple      | Steel         | Boots         |
-|      ^| 5             | Fine        | Mithral       | Top           |
-|      ^| 6             | Masterwork  | Adamantine    | Shield        |
+|      ^| **1**         | Broken      | Cloth         | Headpiece     |
+|      ^| **2**         | Improvised  | Leather       | Bottom        |
+|      ^| **3**         | Tattered    | Bone/Fur      | Gloves        |
+|      ^| **4**         | Simple      | Steel         | Boots         |
+|      ^| **5**         | Fine        | Mithral       | Top           |
+|      ^| **6**         | Masterwork  | Adamantine    | Shield        |
 
 }}
 
@@ -497,36 +517,41 @@ _Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
 
 ### Immersion
 
+{{template
+You [**Sense**] something [**Description**] [**Location**]  
+and it causes [**Emotion**] because [**Reason**].
+}}
+
 {{horizontal-compact
 {{vertical-compact
 
-| # | 1-3<br>See | 4-6<br>Hear | 7-8<br>Smell | 9-0<br>Feel |
-|:-:|:----------:|:-----------:|:------------:|:-----------:|
-| 1 | Broken     | Dripping    | Alcohol      | Cold        |
-| 2 | Colorful   | Fire        | Blood        | Damp        |
-| 3 | Discarded  | Footsteps   | Smoke        | Flexible    |
-| 4 | Edible     | Growling    | Cooking      | Furry       |
-| 5 | Liquid     | Laughter    | Decay        | Rough       |
-| 6 | Natural    | Music       | Dust         | Sharp       |
-| 7 | Odd        | Scratching  | Flowers      | Slippery    |
-| 8 | Round      | Silence     | Leather      | Smooth      |
-| 9 | Shiny      | Talking     | Oil          | Sticky      |
-| 0 | Written    | Wind        | Soil         | Warm        |
+| #     | 1-3<br>See | 4-6<br>Hear | 7-8<br>Smell | 9-0<br>Feel |
+|:-----:|:----------:|:-----------:|:------------:|:-----------:|
+| **1** | Broken     | Dripping    | Alcohol      | Cold        |
+| **2** | Colorful   | Fire        | Blood        | Damp        |
+| **3** | Discarded  | Footsteps   | Smoke        | Flexible    |
+| **4** | Edible     | Growling    | Cooking      | Furry       |
+| **5** | Liquid     | Laughter    | Decay        | Rough       |
+| **6** | Natural    | Music       | Dust         | Sharp       |
+| **7** | Odd        | Scratching  | Flowers      | Slippery    |
+| **8** | Round      | Silence     | Leather      | Smooth      |
+| **9** | Shiny      | Talking     | Oil          | Sticky      |
+| **0** | Written    | Wind        | Soil         | Warm        |
 
-::
+:
 
-| # | Location         | Emotion       | Reason                   |
-|:-:|:----------------:|:-------------:|:------------------------:|
-| 1 | Above            | Anger         | help is on the way       |
-| 2 | Behind           | Clarity       | it is getting closer     |
-| 3 | In Front         | Confusion     | it may be valuable       |
-| 4 | In The Air       | Deja Vu       | of a childhood event     |
-| 5 | In The Distance  | Desire        | of a recent memory       |
-| 6 | In Next Room     | Fear          | the source is unknown    |
-| 7 | In The Shadows   | Hope          | then it is suddenly gone |
-| 8 | Next To You      | Joy           | you recognize it         |
-| 9 | On The Ground    | Nostalgia     | you were warned about it |
-| 0 | Under            | Panic         | you weren't expecting it |
+| #     | Location         | Emotion       | Reason                   |
+|:-----:|:----------------:|:-------------:|:------------------------:|
+| **1** | Above            | Anger         | help is on the way       |
+| **2** | Behind           | Clarity       | it is getting closer     |
+| **3** | In Front         | Confusion     | it may be valuable       |
+| **4** | In The Air       | Deja Vu       | of a childhood event     |
+| **5** | In The Distance  | Desire        | of a recent memory       |
+| **6** | In Next Room     | Fear          | the source is unknown    |
+| **7** | In The Shadows   | Hope          | then it is suddenly gone |
+| **8** | Next To You      | Joy           | you recognize it         |
+| **9** | On The Ground    | Nostalgia     | you were warned about it |
+| **0** | Under            | Panic         | you weren't expecting it |
 
 }}
 }}
@@ -545,28 +570,28 @@ _Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
 
 :
 
-| d20 | Template| 1    | 2    | 3    |
-|:---:|:-------:|:----:|:----:|:----:|
-| 1   | `12o  ` | (f)a | hal  | an   |
-| 2   | `12   ` | (p)e | ris  | ar   |
-| 3   | `12   ` | (v)i | del  | er   |
-| 4   | `23-o ` | (n)o | mor  | ian  |
-| 5   | `23-  ` | (s)u | bar  | ic   |
-| 6   | `23-  ` |   de | net  | in   |
-| 7   | `123-o` |   ka | kel  | o    |
-| 8   | `123- ` |   li | lim  | on   |
-| 9   | `123- ` |   ma | tur  | or   |
-| 10  | `111  ` |   ro | pen  | us   |
-| 11  | `111  ` |   be | rond | a    |
-| 12  | `123  ` |   da | kay  | aea  |
-| 13  | `12a  ` |   ki | jam  | aya  |
-| 14  | `12i  ` |   le | vash | elle |
-| 15  | `23-a ` |   mi | zab  | ene  |
-| 16  | `23-i ` |   ne | yos  | ess  |
-| 17  | `23+  ` |   ru | gran | ette |
-| 18  | `123-a` |   si | ched | ice  |
-| 19  | `123-i` |   ta | sark | id   |
-| 20  | `123+ ` |   to | kic  | osa  |
+| #      | Template| 1    | 2    | 3    |
+|:------:|:-------:|:----:|:----:|:----:|
+| **1**  | `12o  ` | (f)a | hal  | an   |
+| **2**  | `12   ` | (p)e | ris  | ar   |
+| **3**  | `12   ` | (v)i | del  | er   |
+| **4**  | `23-o ` | (n)o | mor  | ian  |
+| **5**  | `23-  ` | (s)u | bar  | ic   |
+| **6**  | `23-  ` |   de | net  | in   |
+| **7**  | `123-o` |   ka | kel  | o    |
+| **8**  | `123- ` |   li | lim  | on   |
+| **9**  | `123- ` |   ma | tur  | or   |
+| **10** | `111  ` |   ro | pen  | us   |
+| **11** | `111  ` |   be | rond | a    |
+| **12** | `123  ` |   da | kay  | aea  |
+| **13** | `12a  ` |   ki | jam  | aya  |
+| **14** | `12i  ` |   le | vash | elle |
+| **15** | `23-a ` |   mi | zab  | ene  |
+| **16** | `23-i ` |   ne | yos  | ess  |
+| **17** | `23+  ` |   ru | gran | ette |
+| **18** | `123-a` |   si | ched | ice  |
+| **19** | `123-i` |   ta | sark | id   |
+| **20** | `123+ ` |   to | kic  | osa  |
 
 }}
 }}
@@ -591,18 +616,18 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 :
 
-| # | Tone       | Response   | Subject          | Subtext       |
-|:-:|:----------:|:----------:|:----------------:|:-------------:|
-| 1 | Hostile    | Threat     | Your weakness    | Malice        |
-| 2 | Suspicious | Refusal    | A danger         | Distrust      |
-| 3 | Guarded    | Deflection | The past         | Secrecy       |
-| 4 | Distant    | Question   | An obstacle      | Uncertainty   |
-| 5 | Calm       | Statement  | The situation    | Neutrality    |
-| 6 | Curious    | Inquiry    | Themselves       | Interest      |
-| 7 | Open       | Discussion | Your actions     | Consideration |
-| 8 | Warm       | Offer      | The relationship | Goodwill      |
-| 9 | Eager      | Agreement  | An opportunity   | Enthusiasm    |
-| 0 | Trusting   | Revelation | Your goal        | Alliance      |
+| #     | Tone       | Response   | Subject          | Subtext       |
+|:-----:|:----------:|:----------:|:----------------:|:-------------:|
+| **1** | Hostile    | Threat     | Your weakness    | Malice        |
+| **2** | Suspicious | Refusal    | A danger         | Distrust      |
+| **3** | Guarded    | Deflection | The past         | Secrecy       |
+| **4** | Distant    | Question   | An obstacle      | Uncertainty   |
+| **5** | Calm       | Statement  | The situation    | Neutrality    |
+| **6** | Curious    | Inquiry    | Themselves       | Interest      |
+| **7** | Open       | Discussion | Your actions     | Consideration |
+| **8** | Warm       | Offer      | The relationship | Goodwill      |
+| **9** | Eager      | Agreement  | An opportunity   | Enthusiasm    |
+| **0** | Trusting   | Revelation | Your goal        | Alliance      |
 
 }}
 <!-- END BOX 5 -->
@@ -617,14 +642,14 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 {{column-count:2
 
-| Roll | Answer           |
-|:----:|:----------------:|
-| 6    | Yes, and ...     |
-| 5    | Yes, because ... |
-| 4    | Yes, but ...     |
-| 3    | No, but ...      |
-| 2    | No, because ...  |
-| 1    | No, and ...      |
+| Roll  | Answer           |
+|:-----:|:----------------:|
+| **6** | Yes, and ...     |
+| **5** | Yes, because ... |
+| **4** | Yes, but ...     |
+| **3** | No, but ...      |
+| **2** | No, because ...  |
+| **1** | No, and ...      |
 
 \column
 
@@ -670,19 +695,18 @@ Failure leads to a [**Consequence**].
 
 :
 
-| # | Skill       | Obstacle       | Action     | Target        |
-|:-:|:-----------:|:--------------:|:----------:|:-------------:|
-| 1 | Arcana      | a barrier      | alter      | an advantage  |
-| 2 | Examination | a cipher       | bypass     | the area      |
-| 3 | Finesse     | a device       | destroy    | the artifact  |
-| 4 | Influence   | a foe          | protect    | the captive   |
-| 5 | Insight     | a guard        | redirect   | a resource    |
-| 6 | Lore        | a hazard       | reveal     | a retreat     |
-| 7 | Might       | a lever        | sabotage   | the ritual    |
-| 8 | Naturecraft | the terrain    | secure     | a secret      |
-| 9 | Perception  | a trap         | seize      | the source    |
-| 0 | Stealth     | a vital link   | weaken     | the threat    |
-
+| #     | Physical Skill  | #      | Mental Skill | Obstacle       | Action     | Target        |
+|:-----:|:---------------:|:------:|:------------:|:--------------:|:----------:|:-------------:|
+| **1** | Medicine        | **11** | Tool         | a barrier      | alter      | an advantage  |
+| **2** | Survival        | **12** | Nature       | a cipher       | bypass     | the area      |
+| **3** | Animal Handling | **13** | Investigate  | a device       | destroy    | the artifact  |
+| **4** | Performance     | **14** | Persuasion   | a foe          | protect    | the captive   |
+| **5** | Intimidation    | **15** | Deception    | a guard        | redirect   | a resource    |
+| **6** | Perception      | **16** | Language     | a hazard       | reveal     | a retreat     |
+| **7** | Sleight of Hand | **17** | Religion     | a lever        | sabotage   | the ritual    |
+| **8** | Stealth         | **18** | Arcana       | the terrain    | secure     | a secret      |
+| **9** | Acrobatics      | **19** | History      | a trap         | seize      | the source    |
+| **0** | Athletics       | **20** | Insight      | a vital link   | weaken     | the threat    |
 }}
 <!-- END BOX 6 -->
 
@@ -694,33 +718,35 @@ Failure leads to a [**Consequence**].
 
 ### Random Event
 
-:
-
 {{horizontal-compact
 
-| 1d20 | Random Event                                     |
-|:----:|:------------------------------------------------:|
-| 1    | You see a monster.                               |
-| 2    | You spot a trap.                                 |
-| 3    | You are too late.                                |
-| 4    | An assumption you made is proven false.          |
-| 5    | Time advances. Check torches, rations, etc.      |
-| 6    | A periodic event occurs or advances.             |
-| 7    | A remote event occurrs that will impact you.     |
-| 8    | You sense something...                           |
-| 9    | A new character appears.                         |
-| 10   | Whatever difficulty you face is overcome.        |
-| 11   | Your companion makes a mistake.                  |
-| 12   | Your companion acts in their own self-interest.  |
-| 13   | Your companion gestures subtly.                  |
-| 14   | Companion: "There are other things to do first." |
-| 15   | Companion: "How do you plan on ...?"             |
-| 16   | Your companion talks about their past.           |
-| 17   | Your companion asks a question about you.        |
-| 18   | Your companion acts in your interest.            |
-| 19   | Your companion gives you something.              |
-| 20   | Companion: "What's that?"                        |
+| #      | Random Event                                     |
+|:------:|:------------------------------------------------:|
+| **1**  | You see a monster.                               |
+| **2**  | You spot a trap.                                 |
+| **3**  | You are too late.                                |
+| **4**  | An assumption you made is proven false.          |
+| **5**  | Time advances. Check torches, rations, etc.      |
+| **6**  | A periodic event occurs or advances.             |
+| **7**  | A remote event occurrs that will impact you.     |
+| **8**  | You sense something...                           |
+| **9**  | A new character appears.                         |
+| **10** | Whatever difficulty you face is overcome.        |
+| **11** | Your companion makes a mistake.                  |
+| **12** | Your companion acts in their own self-interest.  |
+| **13** | Your companion gestures subtly.                  |
+| **14** | Companion: "There are other things to do first." |
+| **15** | Companion: "How do you plan on ...?"             |
+| **16** | Your companion talks about their past.           |
+| **17** | Your companion asks a question about you.        |
+| **18** | Your companion acts in your interest.            |
+| **19** | Your companion gives you something.              |
+| **20** | Companion: "What's that?"                        |
 
+}}
+
+{{credits
+Juice Pop! 10/26/26 github.com/jrruethe/juice CC-BY-NC-SA
 }}
 
 }}
@@ -743,28 +769,28 @@ Failure leads to a [**Consequence**].
 
 :
 
-| 1d20 | Consequence                                   |
-|:----:|:---------------------------------------------:|
-| 1    | A critical resource is depleted               |
-| 2    | The enemy gains new allies                    |
-| 3    | You are separated from a person or object     |
-| 4    | Your surroundings turn hostile                |
-| 5    | Escape routes narrow                          |
-| 6    | Your action has an unintended effect          |
-| 7    | Your approach draws unwanted attention        |
-| 8    | Your reputation shifts                        |
-| 9    | Something you relied upon proves unreliable   |
-| 10   | A new danger or foe is revealed               |
-| 11   | Your past catches up with you                 |
-| 12   | Two unrelated situations are connected        |
-| 13   | Your information proves incomplete            |
-| 14   | You can only save one                         |
-| 15   | You are forced to act against your intentions |
-| 16   | You must sacrifice something to proceed       |
-| 17   | You must break a promise to continue          |
-| 18   | You must accept help from an enemy            |
-| 19   | You must reveal yourself to act               |
-| 20   | Choose: Rush forward at risk, or lose time    |
+| #      | Consequence                                   |
+|:------:|:---------------------------------------------:|
+| **1**  | A critical resource is depleted               |
+| **2**  | A new danger or foe is revealed               |
+| **3**  | Choose: Rush forward at risk, or lose time    |
+| **4**  | Escape routes narrow                          |
+| **5**  | Something you relied upon proves unreliable   |
+| **6**  | The enemy gains new allies                    |
+| **7**  | Two unrelated situations are connected        |
+| **8**  | You are forced to act against your intentions |
+| **9**  | You are separated from a person or object     |
+| **10** | You can only save one                         |
+| **11** | You must accept help from an enemy            |
+| **12** | You must break a promise to continue          |
+| **13** | You must reveal yourself to act               |
+| **14** | You must sacrifice something to proceed       |
+| **15** | Your action has an unintended effect          |
+| **16** | Your approach draws unwanted attention        |
+| **17** | Your information proves incomplete            |
+| **18** | Your past catches up with you                 |
+| **19** | Your reputation shifts                        |
+| **20** | Your surroundings turn hostile                |
 
 }}
 
@@ -780,28 +806,28 @@ Failure leads to a [**Consequence**].
 
 ### Inspiration
 
-| d20 | Inspiration              ||
-|:---:|:------------:|:----------:|
-| 1   | Ancient     | Assistance |
-| 2   | Artificial  | Attention  |
-| 3   | Communicate | Blood      |
-| 4   | Conceal     | Comfort    |
-| 5   | Dangerous   | Command    |
-| 6   | Extreme     | Complexity |
-| 7   | Familiar    | Connection |
-| 8   | Helpful     | Control    |
-| 9   | Looming     | Delay      |
-| 10  | Missing     | Direction  |
-| 11  | Mundane     | Element    |
-| 12  | Mysterious  | Home       |
-| 13  | Oppose      | Memory     |
-| 14  | Peaceful    | Resource   |
-| 15  | Persistent  | Rumor      |
-| 16  | Powerful    | Secret     |
-| 17  | Reveal      | Shadow     |
-| 18  | Specialized | Threshold  |
-| 19  | Transform   | Trust      |
-| 20  | Weakened    | Vow        |
+| #      | Inspiration             || Symbol    |
+|:------:|:-----------:|:----------:|:---------:|
+| **1**  | Ancient     | Assistance | Arrow     |
+| **2**  | Artificial  | Attention  | Beetle    |
+| **3**  | Communicate | Blood      | Blade     |
+| **4**  | Conceal     | Comfort    | Bottle    |
+| **5**  | Dangerous   | Command    | Candle    |
+| **6**  | Extreme     | Complexity | Cauldron  |
+| **7**  | Familiar    | Connection | Chain     |
+| **8**  | Helpful     | Control    | Dragon    |
+| **9**  | Looming     | Delay      | Eye       |
+| **10** | Missing     | Direction  | Fang      |
+| **11** | Mundane     | Element    | Hammer    |
+| **12** | Mysterious  | Home       | Hook      |
+| **13** | Oppose      | Memory     | Hourglass |
+| **14** | Peaceful    | Resource   | Key       |
+| **15** | Persistent  | Rumor      | Lizard    |
+| **16** | Powerful    | Secret     | Quill     |
+| **17** | Reveal      | Shadow     | Rose      |
+| **18** | Specialized | Threshold  | Skull     |
+| **19** | Transform   | Trust      | Snake     |
+| **20** | Weakened    | Vow        | Spider    |
 
 }}
 }}
@@ -857,4 +883,3 @@ Failure leads to a [**Consequence**].
 
 </style>
 <!-- END BOX NUMBERS -->
-
