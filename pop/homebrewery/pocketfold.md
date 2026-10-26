@@ -353,8 +353,6 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 
 }}
 
-:
-
 {{horizontal-compact
 
 | #     | Objective            | Description | Focus             | Complication                  |
@@ -372,6 +370,8 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 
 {{column-count:2
 
+:
+
 ### Person
 
 | #     | Trait     | Person      | Motive / Topic |
@@ -388,6 +388,8 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 | **0** | Wounded   | Transporter | Wealth         |
 
 \column
+
+:
 
 ### Location
 
@@ -418,7 +420,7 @@ Use **Color** + **Symbol** to name an **Establishment**.
 Roll for **News** when entering a Settlement.
 }}
 
-:
+
 
 {{horizontal-compact
 
@@ -435,7 +437,7 @@ Roll for **News** when entering a Settlement.
 | **9** | Thorn  | Vale    | Guild Hall    | Jeweler    | Sale             |
 | **0** | Wolf   | Wood    | Magic Shop    | Scribe     | Celebration      |
 
-
+::
 
 ### Color
 
@@ -467,8 +469,8 @@ Roll for **News** when entering a Settlement.
 ### Wilderness Exploration
 
 {{template
-Move Up/Down **Environment** Ladder when Transitioning Areas.  
-Roll **Encounter** at Disadvantage until Doubles, then Advantage.
+Move Up/Down **Environment** Ladder when transitioning areas.  
+Roll **Encounter** @ Disadvantage until Doubles, then @ Advantage.
 }}
 
 {{horizontal-compact
@@ -488,15 +490,15 @@ Roll **Encounter** at Disadvantage until Doubles, then Advantage.
 
 }}
 
-
+::
 
 ### Dungeon Exploration
 
 {{template
-**Early Phase**: Roll **Next Area** and **Encounter** with Disadvantage  
-**Late Phase**: Roll **Next Area** and **Encounter** with Advantage  
-Doubles on **Next Area**: Transition from **Early Phase** to **Late Phase**  
-Doubles on **Encounter**: **Random Event**
+
+**Early**: Roll **NA** & **Encounter** @ Disadv. | **Late**: Roll **NA** & **Encounter** @ Adv.  
+Doubles on **NA**: **Early** ➜ **Late** | Doubles on **Encounter**: **Random Event**
+
 }}
 
 {{horizontal-compact
@@ -917,3 +919,58 @@ Juice Pop! 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 }}
 <!-- END BACK PAGE -->
+
+<!-- BEGIN FOLD LINES -->
+<style>
+
+/* Eyeball aid (delete this whole block when you are done): thin red lines
+   drawn exactly on the paper's FOLD LINES, measured from the paper's EDGES —
+   no margins: 25% / 50% / 75% down the full page height (the long side of
+   this portrait sheet) plus a single 50% line across the full page width.
+   The ::after pseudo-element covers the entire page (the top style block
+   switched it off to remove the theme's footer bar — this re-uses it) and
+   paints on top of the boxes, so the lines are visible across the whole
+   paper. Each gradient layer paints one 1px red line centered on its
+   percentage of the FULL page. */
+#p1::after, #p2::after
+{
+  content: "";
+  /* cover the entire page, including the 0.9em margins */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* never intercepts the page underneath */
+  pointer-events: none;
+  background:
+    /* horizontal line at 25% down the paper */
+    linear-gradient(to bottom,
+      transparent calc(25% - 1px), red calc(25% - 1px),
+      red calc(25% + 1px), transparent calc(25% + 1px)),
+    /* horizontal line at 50% down the paper */
+    linear-gradient(to bottom,
+      transparent calc(50% - 1px), red calc(50% - 1px),
+      red calc(50% + 1px), transparent calc(50% + 1px)),
+    /* horizontal line at 75% down the paper */
+    linear-gradient(to bottom,
+      transparent calc(75% - 1px), red calc(75% - 1px),
+      red calc(75% + 1px), transparent calc(75% + 1px)),
+    /* vertical line at 50% across the paper */
+    linear-gradient(to right,
+      transparent calc(50% - 1px), red calc(50% - 1px),
+      red calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+/* the lines are for screen-checking only — never let them reach the PDF */
+@media print
+{
+  #p1::after, #p2::after
+  {
+    content: none !important;
+    background: none !important;
+  }
+}
+
+</style>
+<!-- END FOLD LINES -->
