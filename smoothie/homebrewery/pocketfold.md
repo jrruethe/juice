@@ -708,3 +708,58 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 <!-- END BOX 4/5/6/7 -->
 
 <!-- END BACK PAGE -->
+
+<!-- BEGIN FOLD LINES -->
+<style>
+
+/* Eyeball aid (delete this whole block when you are done): thin red lines
+   drawn exactly on the paper's FOLD LINES, measured from the paper's EDGES —
+   no margins: 25% / 50% / 75% across the full page width (the long side of
+   this landscape sheet) plus a single 50% line down the full page height.
+   The ::after pseudo-element covers the entire page (the top style block
+   switched it off to remove the theme's footer bar — this re-uses it) and
+   paints on top of the boxes, so the lines are visible across the whole
+   paper. Each gradient layer paints one 1px red line centered on its
+   percentage of the FULL page. */
+#p1::after, #p2::after
+{
+  content: "";
+  /* cover the entire page, including the 0.9em margins */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* never intercepts the page underneath */
+  pointer-events: none;
+  background:
+    /* vertical line at 25% across the paper */
+    linear-gradient(to right,
+      transparent calc(25% - 1px), red calc(25% - 1px),
+      red calc(25% + 1px), transparent calc(25% + 1px)),
+    /* vertical line at 50% across the paper */
+    linear-gradient(to right,
+      transparent calc(50% - 1px), red calc(50% - 1px),
+      red calc(50% + 1px), transparent calc(50% + 1px)),
+    /* vertical line at 75% across the paper */
+    linear-gradient(to right,
+      transparent calc(75% - 1px), red calc(75% - 1px),
+      red calc(75% + 1px), transparent calc(75% + 1px)),
+    /* horizontal line at 50% down the paper */
+    linear-gradient(to bottom,
+      transparent calc(50% - 1px), red calc(50% - 1px),
+      red calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+/* the lines are for screen-checking only — never let them reach the PDF */
+@media print
+{
+  #p1::after, #p2::after
+  {
+    content: none !important;
+    background: none !important;
+  }
+}
+
+</style>
+<!-- END FOLD LINES -->
