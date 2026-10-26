@@ -129,20 +129,60 @@ h3 {
 
 /* ===== Rows ===== */
 
-/* four rows, each one quarter of the working area; each row is a 2-column grid.
-   (Page 2 uses these rows; page 1 instead has two big half-page boxes — see
-   the #p1 rule below.) */
+/* four rows; each row is a 2-column grid. (Page 2 uses these rows; page 1
+   instead has two big half-page boxes — see the #p1 rule below.) The rows'
+   heights are set just below, measured against the PAPER so that the gaps
+   between the rows center on the fold lines (see the box rules under them). */
 .block.row1, .block.row2, .block.row3, .block.row4
 {
-  /* a quarter of the working area's height */
-  height: 25%;
   /* make the row a grid with two equal-width columns for its two boxes */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* 0.6em of space between the two boxes of a row */
+  /* 0.6em of space between the two boxes of a row; its center lands exactly
+     on the paper's middle vertical fold line (the page is symmetric), so it
+     needs no adjustment */
   column-gap: 0.6em;
   /* no theme margins around rows (the vertical gap comes from the boxes, below) */
   margin: 0;
+}
+
+/* The horizontal fold lines run at 1/4, 1/2 and 3/4 of the paper's FULL
+   height — they do not know about the 0.9em margins — so the rows'
+   boundaries are measured from the paper, not from the working area: row 1
+   runs from the top margin to the 1/4 fold, rows 2 and 3 each run
+   fold-to-fold, and row 4 runs from the 3/4 fold to the bottom margin. */
+.block.row1, .block.row4
+{
+  /* a quarter of the paper's height, minus the 0.9em margin at the outer edge */
+  height: calc(11in/4 - 0.9em);
+}
+.block.row2, .block.row3
+{
+  /* a full quarter of the paper's height (they run between two fold lines) */
+  height: calc(11in/4);
+}
+
+/* The 0.6em gap between two rows must be centered on the fold line between
+   them: 0.3em of the gap on each side of the line. So a box that borders a
+   fold line gives up 0.3em on that side — the row 1 and row 4 boxes on one
+   side only, and the row 2 and row 3 boxes on BOTH sides. */
+.block.row1 .block.box
+{
+  /* keeps the whole row except 0.3em at its bottom (the near half of the 1/4 gap) */
+  height: calc(100% - 0.3em);
+}
+.block.row2 .block.box,
+.block.row3 .block.box
+{
+  /* 0.3em of gap above the box; the box ends 0.3em short of the row's bottom */
+  margin-top: 0.3em;
+  height: calc(100% - 0.6em);
+}
+.block.row4 .block.box
+{
+  /* 0.3em of gap above the box; the box keeps the rest of the row */
+  margin-top: 0.3em;
+  height: calc(100% - 0.3em);
 }
 
 /* Page 1 (the front side of the paper) does NOT use the four rows: it holds two
@@ -155,20 +195,36 @@ h3 {
   grid-template-rows: repeat(2, 1fr);
 }
 
+/* The single fold line on this side of the paper is the MIDDLE of the page;
+   the two half-page boxes each give up 0.3em on that side, so the 0.6em gap
+   between them is centered exactly on the fold line. */
+#p1 .block.wide > .box:first-child
+{
+  /* the top box ends 0.3em above the middle fold line */
+  height: calc(100% - 0.3em);
+}
+#p1 .block.wide > .box:last-child
+{
+  /* the bottom box starts 0.3em below the middle fold line */
+  margin-top: 0.3em;
+  height: calc(100% - 0.3em);
+}
+
 /* ===== Octet boxes ===== */
 
 /* every box: green planning border, content clipped to the box.
-   The 8 octet boxes on page 2 all come out exactly the same size; the two
-   boxes on page 1 each take a full half of that page (see the #p1 rule). */
+   (The boxes on page 2 are no longer all the same size — the fold-line
+   rules below make the outer rows' boxes a little shorter; the two boxes
+   on page 1 each take a full half of that page, see the #p1 rule.) */
 .block.box
 {
   /* the theme makes every .block an inline-block at 100% width;
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* fill its row's height minus 0.6em: that 0.6em of slack at the bottom of
-     every row is what makes the 0.6em vertical gap between rows (and, on
-     page 1, between the two big boxes) */
+  /* default: fill its cell's height minus 0.6em. The fold-line-aware rules
+     above and below override this per row / per page so that every gap is
+     centered exactly on the fold line it sits on */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
   border: 0px solid green;
@@ -208,7 +264,10 @@ h3 {
       the box. (A block that is not swapped keeps the box's own width and height, and
       rotated its shape no longer fits the box — most of it ends up clipped away.)
    2. CENTER the block in the box before rotating — a transform spins an element around
-      its own center, so first move the element's center onto the box's center. */
+       its own center, so first move the element's center onto the box's center.
+   The swapped dimensions depend on which box the block sits in (the page 2 boxes
+   come in two sizes after the fold-line rules above), so the width/height are set
+   by the per-row size rules right below. */
 .block.left
 {
   /* park the element's center on the box's center (the box needs position: relative) */
@@ -218,12 +277,9 @@ h3 {
   /* then shift the element so its center sits on that point, and rotate 270 degrees
      clockwise around its center */
   transform: translate(-50%, -50%) rotate(270deg);
-  /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
-     the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.6em);
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+  /* the width/height come from the per-row rules below (they swap the box's
+     dimensions: before rotation the block is as wide as the box is tall and as
+     tall as the box is wide, so that after the rotation it fills the box) */
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -235,17 +291,38 @@ h3 {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* then shift the element so its center sits on that point, and rotate 270 degrees
+  /* then shift the element so its center sits on that point, and rotate 90 degrees
      clockwise around its center */
   transform: translate(-50%, -50%) rotate(90deg);
-  /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
-     the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.6em);
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+  /* the width/height come from the per-row rules below (they swap the box's
+     dimensions: before rotation the block is as wide as the box is tall and as
+     tall as the box is wide, so that after the rotation it fills the box) */
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
+}
+
+/* the swapped dimensions, per row. Rows 1 and 4 hold the SHORTER boxes (a
+   paper quarter minus the 0.9em outer margin and the 0.3em fold-side slack:
+   11in/4 - 1.2em tall); rows 2 and 3 hold the full boxes (a paper quarter
+   minus 0.3em on each side: 11in/4 - 0.6em tall). Before rotation the block
+   is as wide as its box is TALL and as tall as its box is WIDE, so that after
+   the 90-degree rotation it fills the box exactly. All the boxes are the
+   same width (a half of the page's content area minus half the 0.6em gap). */
+.block.row1 .block.left, .block.row1 .block.right,
+.block.row4 .block.left, .block.row4 .block.right
+{
+  /* as wide as the short box is tall */
+  width: calc(11in/4 - 1.2em);
+  /* as tall as the box is wide */
+  height: calc((8.5in - 1.8em - 0.6em) / 2);
+}
+.block.row2 .block.left, .block.row2 .block.right,
+.block.row3 .block.left, .block.row3 .block.right
+{
+  /* as wide as the full box is tall */
+  width: calc(11in/4 - 0.6em);
+  /* as tall as the box is wide */
+  height: calc((8.5in - 1.8em - 0.6em) / 2);
 }
 
 /* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */

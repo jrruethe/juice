@@ -148,6 +148,21 @@ div.block.center
   grid-template-rows: repeat(2, 1fr);
 }
 
+/* The single fold line on this side of the paper is the MIDDLE of the page;
+   the two half-page boxes each give up 0.3em on that side, so the 0.6em gap
+   between them is centered exactly on the fold line. */
+#p1 .block.wide > .box:first-child
+{
+  /* the top box ends 0.3em above the middle fold line */
+  height: calc(100% - 0.3em);
+}
+#p1 .block.wide > .box:last-child
+{
+  /* the bottom box starts 0.3em below the middle fold line */
+  margin-top: 0.3em;
+  height: calc(100% - 0.3em);
+}
+
 /* Page 2 also does NOT use the four rows: all of its boxes sit directly in the
    wide block. The top row is split into four small boxes (3, 4, 5, 6); the
    bottom row is one single wide box (7) spanning all four columns. */
@@ -156,39 +171,77 @@ div.block.center
   /* make the wide block a grid so the boxes below are placed by grid
      (the theme leaves it a plain block) */
   display: grid;
-  /* four equal columns for the four small boxes of the top row */
-  grid-template-columns: repeat(4, 1fr);
-  /* two rows: the small boxes (top) and box 7 (bottom), each a half-page */
+  /* the column BOUNDARIES sit on the paper's VERTICAL fold lines (1/4, 1/2
+     and 3/4 of the full 11in width — the fold lines do not know about the
+     0.9em margins), so the two outer columns are a quarter of the paper
+     minus the 0.9em margin at the outer edge, and the two inner columns a
+     full quarter of the paper. The 0.6em gutters between the columns are
+     made by the box rules below, centered on the fold lines. */
+  grid-template-columns: calc(11in/4 - 0.9em) calc(11in/4) calc(11in/4) calc(11in/4 - 0.9em);
+  /* two rows: the small boxes (top) and the wide box (bottom), each a half-page */
   grid-template-rows: repeat(2, 1fr);
-  /* 0.6em between the four columns */
-  column-gap: 0.6em;
+  /* no gap here — the gutters are made by the boxes, below */
+  column-gap: 0;
 }
 
-/* box 7 is the LAST box in page 2's wide block: let it span all four columns
-   of the bottom row. The four small boxes before it are auto-placed into the
-   top row, one per column, left to right. */
+/* the wide box (4/5/6/7) is the LAST box in page 2's wide block: let it span
+   all four columns of the bottom row. The four small boxes before it are
+   auto-placed into the top row, one per column, left to right. It also
+   starts 0.3em below the middle fold line: the far half of the 0.6em gap
+   between the top row and the wide box. */
 #p2 .block.wide > .box:last-child
 {
   grid-column: 1 / -1;
+  margin-top: 0.3em;
+  height: calc(100% - 0.3em);
+}
+
+/* the four small boxes of the top row. The vertical fold lines run at 1/4,
+   1/2 and 3/4 of the paper's width, so each gutter between two small boxes
+   is 0.3em on each side of its fold line: the outer small boxes give up
+   0.3em on their inner side only, the two inner small boxes give up 0.3em
+   on BOTH sides. (The hidden \column divs between the boxes are counted by
+   nth-of-type: the small boxes are the 1st, 3rd, 5th and 7th children of
+   the wide block, the wide box is the 8th.) Every small box also ends
+   0.3em above the middle fold line — the near half of the top/bottom gap. */
+#p2 .block.wide > .box:nth-of-type(1)
+{
+  /* leftmost small box: ends 0.3em short of the 1/4 fold line */
+  width: calc(100% - 0.3em);
+  /* ends 0.3em above the middle fold line */
+  height: calc(100% - 0.3em);
+}
+#p2 .block.wide > .box:nth-of-type(3),
+#p2 .block.wide > .box:nth-of-type(5)
+{
+  /* the two inner small boxes: 0.3em of gutter on each side */
+  margin-left: 0.3em;
+  width: calc(100% - 0.6em);
+  height: calc(100% - 0.3em);
+}
+#p2 .block.wide > .box:nth-of-type(7)
+{
+  /* rightmost small box: 0.3em of gutter on its left only */
+  margin-left: 0.3em;
+  width: calc(100% - 0.3em);
+  height: calc(100% - 0.3em);
 }
 
 /* ===== Octet boxes ===== */
 
 /* every box: green planning border, content clipped to the box.
-   Each box fills the grid cell it sits in, minus 0.6em: on page 1 that cell is
-   a half of the page (see the #p1 rule); on page 2 the four small boxes get a
-   quarter-width cell each and box 7 gets a full-width cell — so boxes 1, 2 and
-   7 all come out exactly the same size: full page width, half page height
-   (see the #p2 rule). */
+   (The fold-line-aware #p1 / #p2 rules above and below override the height
+   here, so that every gap is centered exactly on the fold line it sits on:
+   the wide boxes come out full page width × half page height minus the
+   fold-side slack.) */
 .block.box
 {
   /* the theme makes every .block an inline-block at 100% width;
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* fill its cell's height minus 0.6em: that 0.6em of slack at the bottom of
-     every cell is what makes the 0.6em vertical gaps (between the small boxes
-     on page 2, between the two big boxes on page 1, and below the tall box) */
+  /* default: fill its cell's height minus 0.6em; the #p1 / #p2 rules above
+     override this per box so the gaps center on the fold lines */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
   border: 0px solid green;
@@ -240,10 +293,13 @@ div.block.center
   transform: translate(-50%, -50%) rotate(270deg);
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the small boxes above are built from
-     (11in x 8.5in landscape page, 0.9em padding, 2 rows, 0.6em gap, 1px border) */
-  width: calc((8.5in - 1.8em) / 2 - 0.6em);
-  height: calc((11in - 3.6em) / 4);
+     These numbers are sized for the two INNER small boxes of page 2's top row
+     (8.5in/2 - 1.2em tall, 11in/4 - 0.6em wide — the fold-line numbers). If a
+     left/right block goes into a differently-sized box (the outer small boxes
+     or one of the wide boxes), copy this rule, scope it to that box, and
+     re-derive the two calcs from that box's own size. */
+  width: calc(8.5in/2 - 1.2em);
+  height: calc(11in/4 - 0.6em);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -260,10 +316,13 @@ div.block.center
   transform: translate(-50%, -50%) rotate(90deg);
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the small boxes above are built from
-     (11in x 8.5in landscape page, 0.9em padding, 2 rows, 0.6em gap, 1px border) */
-  width: calc((8.5in - 1.8em) / 2 - 0.6em);
-  height: calc((11in - 3.6em) / 4);
+     These numbers are sized for the two INNER small boxes of page 2's top row
+     (8.5in/2 - 1.2em tall, 11in/4 - 0.6em wide — the fold-line numbers). If a
+     left/right block goes into a differently-sized box (the outer small boxes
+     or one of the wide boxes), copy this rule, scope it to that box, and
+     re-derive the two calcs from that box's own size. */
+  width: calc(8.5in/2 - 1.2em);
+  height: calc(11in/4 - 0.6em);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
