@@ -171,7 +171,7 @@ h3 {
      page 1, between the two big boxes) */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
-  border: 1px solid green;
+  border: 0px solid green;
   /* content that overflows the box is clipped instead of spilling into its neighbor */
   overflow: hidden;
   /* anchor for the {{left block (positioned absolutely inside the box);
@@ -444,6 +444,8 @@ Doubles on **Encounter**: **Random Event**
 \column
 
 ### Treasure
+
+:
 
 {{treasure
 
@@ -838,48 +840,3 @@ Juice Pop! 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 }}
 <!-- END BACK PAGE -->
-
-<!-- BEGIN BOX NUMBERS -->
-<!-- Small floating number in the upper-right corner of each box, showing its
-     physical box number (a planning aid).
-     The numbers come ONLY from this one block at the end of the document —
-     none of the boxes above mention them. To hide every number at once,
-     delete this block (from the BEGIN comment to the END comment), or wrap
-     the CSS rules inside the <style> tag in a single /* ... */ comment.
-      Each rule below finds one box by position: on page 2, which row and
-      left or right side of the row; on page 1, the two big boxes straight in
-      the wide block. If you ever move boxes around, update the numbers here
-      to match. -->
-<style>
-
-/* the number itself: small, floating in the upper-right corner of the box
-   (the box is position: relative, so the number parks itself in its corner) */
-.page .box::after
-{
-  position: absolute;
-  top: 0.05em;
-  right: 0.1em;
-  /* small so it never competes with the table content */
-  font-size: 8pt;
-  font-weight: bold;
-  /* green, to match the planning borders */
-  color: green;
-}
-
-/* ---- page 1 (front side of the paper): two big boxes —
-   17 = top half, 18 = bottom half (they sit directly in the wide block) ---- */
-#p1 .block.wide > .box:nth-of-type(1)::after { content: "17"; }
-#p1 .block.wide > .box:nth-of-type(2)::after { content: "18"; }
-
-/* ---- page 2 (back side of the paper) ---- */
-#p2 .block.row1 .box:first-child::after { content: "4"; }
-#p2 .block.row1 .box:last-child::after  { content: "2"; }
-#p2 .block.row2 .box:first-child::after { content: "5"; }
-#p2 .block.row2 .box:last-child::after  { content: "1"; }
-#p2 .block.row3 .box:first-child::after { content: "6"; }
-#p2 .block.row3 .box:last-child::after  { content: "8"; }
-#p2 .block.row4 .box:first-child::after { content: "7"; }
-#p2 .block.row4 .box:last-child::after  { content: "3"; }
-
-</style>
-<!-- END BOX NUMBERS -->

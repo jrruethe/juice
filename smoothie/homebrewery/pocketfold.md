@@ -72,12 +72,12 @@ h3 {
   font-size: 11pt;
 }
 
-.invert- table thead tr th
+.invert table thead tr th
 {
   line-height: 110%
 }
   
-.invert- table tbody tr td
+.invert table tbody tr td
 {
   line-height: 110%
 }
@@ -191,7 +191,7 @@ div.block.center
      on page 2, between the two big boxes on page 1, and below the tall box) */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
-  border: 1px solid green;
+  border: 0px solid green;
   /* content that overflows the box is clipped instead of spilling into its neighbor */
   overflow: hidden;
   /* anchor for the {{left block (positioned absolutely inside the box);
@@ -442,7 +442,7 @@ They are talking about [**Information**] [**Subject**].
 
 <!-- START BOX 2 -->
 {{box
-{{invert-
+{{invert
 
 ### Name
 
@@ -479,7 +479,7 @@ They are talking about [**Information**] [**Subject**].
 
 <!-- START BOX 1 -->
 {{box
-{{invert-
+{{invert
 
 ### Yes/No Oracle
 
@@ -541,7 +541,7 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 <!-- START BOX 8 -->
 {{box
-{{invert-
+{{invert
 
 ### Inspiration
 
@@ -578,7 +578,7 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 <!-- START BOX 3 -->
 {{box
-{{invert-
+{{invert
 
 ### Color
 
@@ -649,48 +649,3 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 <!-- END BOX 4/5/6/7 -->
 
 <!-- END BACK PAGE -->
-
-<!-- BEGIN BOX NUMBERS -->
-<!-- Small floating number in the upper-right corner of each box, showing its
-     physical box number (a planning aid).
-     The numbers come ONLY from this one block at the end of the document —
-     none of the boxes above mention them. To hide every number at once,
-     delete this block (from the BEGIN comment to the END comment), or wrap
-     the CSS rules inside the <style> tag in a single /* ... */ comment.
-      Each rule below finds one box by its position in its wide block: page 1
-      holds boxes 1, 2; page 2 holds boxes 3, 4, 5, 6 (top row) and 7 (bottom
-      row). If you ever move boxes around, update the numbers here to match. -->
-<style>
-
-/* the number itself: small, floating in the upper-right corner of the box
-   (the box is position: relative, so the number parks itself in its corner) */
-.page .box::after
-{
-  position: absolute;
-  top: 0.05em;
-  right: 0.1em;
-  /* small so it never competes with the table content */
-  font-size: 8pt;
-  font-weight: bold;
-  /* green, to match the planning borders */
-  color: green;
-}
-
-/* ---- page 1: box 1 (top half) and box 2 (bottom half), straight in the
-   wide block ---- */
-#p1 .block.wide > .box:nth-of-type(1)::after { content: "9/10"; }
-#p1 .block.wide > .box:nth-of-type(2)::after { content: "11/12"; }
-
-/* ---- page 2: boxes 3, 4, 5, 6 across the top row, box 7 across the bottom
-   row. Hidden \column markers (divs too) sit between boxes 3-6, so those are
-   the 1st, 3rd, 5th, 7th div children; box 7 (no marker before it) is the
-   8th. ---- */
-#p2 .block.wide > .box:nth-of-type(1)::after { content: "2"; }
-#p2 .block.wide > .box:nth-of-type(3)::after { content: "1"; }
-#p2 .block.wide > .box:nth-of-type(5)::after { content: "8"; }
-#p2 .block.wide > .box:nth-of-type(7)::after { content: "3"; }
-#p2 .block.wide > .box:nth-of-type(8)::after { content: "4/5/6/7"; }
-
-</style>
-<!-- END BOX NUMBERS -->
-
