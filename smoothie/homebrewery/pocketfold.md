@@ -6,10 +6,10 @@
 /* The page: US Letter portrait, blank, laid out by us (not by the theme) */
 .page
 {
-  /* US Letter width */
-  width: 8.5in;
-  /* US Letter height (portrait: taller than wide, so boxes are wider than tall) */
-  height: 11in;
+  /* US Letter width (landscape: wider than tall) */
+  width: 11in;
+  /* US Letter height (landscape: shorter than wide, so boxes are wider than tall) */
+  height: 8.5in;
   
   /* the 0.9em padding below counts INSIDE the 8.5in x 11in, so the page is exactly paper size */
   box-sizing: border-box;
@@ -44,63 +44,54 @@ h3 {
 }
 
 .template {
-  font-size: 8pt;
+  font-size: 11pt;
   text-align: center;
   font-style: italic;
 }
 
+.credits {
+  font-size: 6pt;
+  text-align: center;
+  font-style: italic;
+}
+
+.page table
+{
+  line-height: 120%
+}
+  
 .page table thead tr th
 {
   vertical-align: middle;
-  font-size: 10pt;
+  font-size: 12pt;
 }
   
 .page table tbody tr td
 {
   vertical-align: middle;
-  font-size: 10pt;
+  font-size: 11pt;
 }
 
-.page li
+.invert- table thead tr th
 {
-  font-size: 8pt;
-}
-
-.compact p
-{
-  font-size: 8pt;
-  line-height: 110%;
+  line-height: 110%
 }
   
-.horizontal-compact table thead tr th
+.invert- table tbody tr td
 {
-  font-size: 8pt; 
-}
-  
-.horizontal-compact table tbody tr td
-{
-  font-size: 8pt; 
+  line-height: 110%
 }
 
-.vertical-compact table thead tr th
+div.block.center
 {
-  line-height: 130%;
+  margin-top: 0.2em;
 }
   
-.vertical-compact table tbody tr td
-{
-  line-height: 130%;
-}
-
-.center
+.center p
 {
   text-align: center;
-}
-
-.treasure table tbody tr td
-{
-  font-size: 8pt;
-  line-height: 100%;
+  font-size: 9pt;
+  line-height: 85%;
 }
   
 /* ===== Wrapper ===== */
@@ -130,8 +121,10 @@ h3 {
 /* ===== Rows ===== */
 
 /* four rows, each one quarter of the working area; each row is a 2-column grid.
-   (Page 2 uses these rows; page 1 instead has two big half-page boxes — see
-   the #p1 rule below.) */
+   (In Smoothie neither page uses these rows: page 1 holds its two big boxes
+   straight in the wide block and page 2 holds all of its boxes straight in the
+   wide block too — see the #p1 and #p2 rules below. Kept so the standard D9
+   block stays intact.) */
 .block.row1, .block.row2, .block.row3, .block.row4
 {
   /* a quarter of the working area's height */
@@ -145,30 +138,57 @@ h3 {
   margin: 0;
 }
 
-/* Page 1 (the front side of the paper) does NOT use the four rows: it holds two
-   big boxes, 17 and 18, directly in the wide block — box 17 takes the top half
-   of the page and box 18 the bottom half. Make page 1's wide a two-row grid so
-   each big box gets exactly half of the page's height. */
+/* Page 1 does NOT use the four rows: it holds two big boxes directly in the
+   wide block — box 1 takes the top half of the page and box 2 the bottom half.
+   Make page 1's wide a two-row grid so each box gets exactly half of the page's
+   height (both boxes come out the same size: full page width, half page height). */
 #p1 .block.wide
 {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
 }
 
+/* Page 2 also does NOT use the four rows: all of its boxes sit directly in the
+   wide block. The top row is split into four small boxes (3, 4, 5, 6); the
+   bottom row is one single wide box (7) spanning all four columns. */
+#p2 .block.wide
+{
+  /* make the wide block a grid so the boxes below are placed by grid
+     (the theme leaves it a plain block) */
+  display: grid;
+  /* four equal columns for the four small boxes of the top row */
+  grid-template-columns: repeat(4, 1fr);
+  /* two rows: the small boxes (top) and box 7 (bottom), each a half-page */
+  grid-template-rows: repeat(2, 1fr);
+  /* 0.6em between the four columns */
+  column-gap: 0.6em;
+}
+
+/* box 7 is the LAST box in page 2's wide block: let it span all four columns
+   of the bottom row. The four small boxes before it are auto-placed into the
+   top row, one per column, left to right. */
+#p2 .block.wide > .box:last-child
+{
+  grid-column: 1 / -1;
+}
+
 /* ===== Octet boxes ===== */
 
 /* every box: green planning border, content clipped to the box.
-   The 8 octet boxes on page 2 all come out exactly the same size; the two
-   boxes on page 1 each take a full half of that page (see the #p1 rule). */
+   Each box fills the grid cell it sits in, minus 0.6em: on page 1 that cell is
+   a half of the page (see the #p1 rule); on page 2 the four small boxes get a
+   quarter-width cell each and box 7 gets a full-width cell — so boxes 1, 2 and
+   7 all come out exactly the same size: full page width, half page height
+   (see the #p2 rule). */
 .block.box
 {
   /* the theme makes every .block an inline-block at 100% width;
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* fill its row's height minus 0.6em: that 0.6em of slack at the bottom of
-     every row is what makes the 0.6em vertical gap between rows (and, on
-     page 1, between the two big boxes) */
+  /* fill its cell's height minus 0.6em: that 0.6em of slack at the bottom of
+     every cell is what makes the 0.6em vertical gaps (between the small boxes
+     on page 2, between the two big boxes on page 1, and below the tall box) */
   height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
   border: 1px solid green;
@@ -220,10 +240,10 @@ h3 {
   transform: translate(-50%, -50%) rotate(270deg);
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.6em);
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+     Both are derived from the same page numbers the small boxes above are built from
+     (11in x 8.5in landscape page, 0.9em padding, 2 rows, 0.6em gap, 1px border) */
+  width: calc((8.5in - 1.8em) / 2 - 0.6em);
+  height: calc((11in - 3.6em) / 4);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -240,10 +260,10 @@ h3 {
   transform: translate(-50%, -50%) rotate(90deg);
   /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
      the box is wide, so that after the rotation the block fills the box exactly.
-     Both are derived from the same page numbers the boxes above are built from
-     (11in page, 0.9em padding, 4 rows, 0.6em gap, 1px border) */
-  width: calc((11in - 1.8em) / 4 - 0.6em);
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+     Both are derived from the same page numbers the small boxes above are built from
+     (11in x 8.5in landscape page, 0.9em padding, 2 rows, 0.6em gap, 1px border) */
+  width: calc((8.5in - 1.8em) / 2 - 0.6em);
+  height: calc((11in - 3.6em) / 4);
   /* plain block (the theme would otherwise make it an inline-block) */
   display: block;
 }
@@ -261,231 +281,156 @@ h3 {
 {{wide
 
 
-<!-- START BOX 17 -->
+<!-- START BOX 9/10 -->
 {{box
 
-{{column-count:2
+### What is your Quest?
 
-### Quest
+{{template
+You start your adventure in a [**Description**] [**Settlement**] [**Location**] [**Feature**]. [**Event**] [**Time**], causing [**Emotion**].
+}}
+
+:
+
+| #     | Description | Settlement | Location       | Feature      | Event         | Time                     | Emotion   |
+|:-----:|:-----------:|:----------:|:--------------:|:------------:|:-------------:|:------------------------:|:---------:|
+| **1** | Deserted    | Campsite   | atop           | a deep pit   | A battle      | happened a long time ago | Anger     |
+| **2** | Exotic      | Ruin       | near           | a great tree | A celebration | is anticipated           | Fear      |
+| **3** | Fortified   | Outpost    | on the side of | a monument   | A death       | is happening tomorrow    | Hope      |
+| **4** | Remote      | Village    | overlooking    | a tower      | A journey     | occurred today           | Joy       |
+| **5** | Rustic      | Small Town | surrounding    | a waterfall  | A sickness    | recently ended           | Nostalgia |
+| **6** | Well Known  | Large City | under          | the wall     | A theft       | recently started         | Panic     |
+
+:
 
 {{template
 
-A [**Situation**] [**Person**], concerned about [**Motive**], asks you to  
-[**Objective**] the [**Description**] [**Focus**] in the [**Dungeon**] of [**Adjective**] [**Noun**],  
-[**Complication**].
+A [**Trait**] [**Person**], concerned about [**Motive**], asks you to [**Objective**] the [**Description**] [**Focus**] in the [**Dungeon**] of [**Adjective**] [**Noun**], [**Complication**].
 
 }}
 
 :
 
-{{horizontal-compact
-
-| # | Objective            | Description | Focus             | Complication                  |
-|:-:|:--------------------:|:-----------:|:-----------------:|:-----------------------------:|
-| 1 | Attain power from    | Abandoned   | Anomaly           | before time expires           |
-| 2 | Destroy              | Astral      | Faction           | before the ritual completes   |
-| 3 | Escape from          | Decayed     | Information       | before they escape            |
-| 4 | Escort someone to    | Defended    | Monster           | while outmatched              |
-| 5 | Infiltrate           | Hidden      | Seal              | while being hunted            |
-| 6 | Investigate          | Elemental   | NPC               | against a rival faction       |
-| 7 | Negotiate with       | Connected   | Object / Treasure | amid betrayal                 |
-| 8 | Protect              | Strange     | Remains           | though nothing is as it seems |
-| 9 | Rescue someone from  | Toxic       | Plant             | under false pretenses         |
-| 0 | Steal something from | Artificial  | Villain           | while enemies converge        |
-
-{{column-count:2
-
-### Person
-
-| # | Situation | Person      | Motive / Topic |
-|:-:|:---------:|:-----------:|:--------------:|
-| 1 | Deceiving | Criminal    | Equipment      |
-| 2 | Guarding  | Entertainer | Experience     |
-| 3 | Guiding   | Expert      | Family         |
-| 4 | Hunting   | Mage        | Flaws          |
-| 5 | Lost      | Mercenary   | History        |
-| 6 | Spying    | Noble       | Quest          |
-| 7 | Tasked    | Priest      | Reputation     |
-| 8 | Trading   | Ranger      | Superiors      |
-| 9 | Trapped   | Soldier     | Treasure       |
-| 0 | Wounded   | Transporter | Wealth         |
-
-\column
-
-### Location
-
-| # | Dungeon   | Adjective    | Noun     |
-|:-:|:---------:|:------------:|:--------:|
-| 1 | Catacombs | Bloodstained | Blades   |
-| 2 | Cavern    | Chaotic      | Blight   |
-| 3 | Crypt     | Endless      | Darkness |
-| 4 | Fortress  | Fallen       | Fury     |
-| 5 | Hideout   | Forbidden    | Lies     |
-| 6 | Lair      | Forgotten    | Madness  |
-| 7 | Mine      | Shattered    | Mist     |
-| 8 | Depths    | Shrouded     | Prophecy |
-| 9 | Sanctuary | Silent       | Runes    |
-| 0 | Temple    | Unknown      | Terror   |
+| #     | Trait     | Person      | Motive     | Objective            | Description | Focus             | Dungeon   | Adjective    | Noun     | Complication                  |
+|:-----:|:---------:|:-----------:|:----------:|:--------------------:|:-----------:|:-----------------:|:---------:|:------------:|:--------:|:-----------------------------:|
+| **1** | Deceiving | Criminal    | Equipment  | Attain power from    | Abandoned   | Anomaly           | Catacombs | Bloodstained | Blades   | before time expires           |
+| **2** | Guarding  | Entertainer | Experience | Destroy              | Astral      | Faction           | Cavern    | Chaotic      | Blight   | before the ritual completes   |
+| **3** | Guiding   | Expert      | Family     | Escape from          | Decayed     | Information       | Crypt     | Endless      | Darkness | before they escape            |
+| **4** | Hunting   | Mage        | Flaws      | Escort someone to    | Defended    | Monster           | Fortress  | Fallen       | Fury     | while outmatched              |
+| **5** | Lost      | Mercenary   | History    | Infiltrate           | Hidden      | Seal              | Hideout   | Forbidden    | Lies     | while being hunted            |
+| **6** | Spying    | Noble       | Quest      | Investigate          | Elemental   | NPC               | Lair      | Forgotten    | Madness  | against a rival faction       |
+| **7** | Tasked    | Priest      | Reputation | Negotiate with       | Connected   | Object / Treasure | Mine      | Shattered    | Mist     | amid betrayal                 |
+| **8** | Trading   | Ranger      | Superiors  | Protect              | Strange     | Remains           | Depths    | Shrouded     | Prophecy | though nothing is as it seems |
+| **9** | Trapped   | Soldier     | Treasure   | Rescue someone from  | Toxic       | Plant             | Sanctuary | Silent       | Runes    | under false pretenses         |
+| **0** | Wounded   | Transporter | Wealth     | Steal something from | Artificial  | Villain           | Temple    | Unknown      | Terror   | while enemies converge        |
 
 }}
+<!-- END BOX 9/10 -->
 
-}}
-
-\column
-
-### Settlement
-
-
-
-{{horizontal-compact
-
-| # | Settlement Name || Establishment | Artisan    | Symbol         | News             |
-|:-:|:------:|:-------:|:-------------:|:----------:|:--------------:|:----------------:|
-| 1 | Frost  | Crest   | Stable        | Artist     | Arrow          | War              |
-| 2 | High   | Fall    | Tavern        | Baker      | Candle         | Sickness         |
-| 3 | Lost   | Glen    | Inn           | Tailor     | Cauldron       | Natural Disaster |
-| 4 | Moon   | Haven   | Entertainment | Tanner     | Chain          | Crime            |
-| 5 | Raven  | Hollow  | General Store | Archer     | Claw           | Succession       |
-| 6 | Shield | Ridge   | *Artisan*     | Blacksmith | Hook           | Remote Event     |
-| 7 | Storm  | Rock    | Courier       | Carpenter  | Hourglass      | Arrival          |
-| 8 | Sword  | Stead   | Temple        | Apothecary | Quill          | Mail             |
-| 9 | Thorn  | Vale    | Guild Hall    | Jeweler    | Rose           | Sale             |
-| 0 | Wolf   | Wood    | Magic Shop    | Scribe     | Skull          | Celebration      |
-
-:::::
-
-### Details
-
-| # | Color                                                                                                        || Monster                || Trap                 ||
-|:-:|:------------------------------------------------------------------------------------------:|:----------------:|:------------:|:--------:|:--------:|:----------:|
-| 1 | <span style="background-color:Black;       color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shade Black      | Agile        | Climb    | Ambush   | Alarm      |
-| 2 | <span style="background-color:Saddlebrown; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Leather Brown    | Beast        | Detect   | Collapse | Barrier    |
-| 3 | <span style="background-color:Yellow;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Yellow | Clothed      | Drain    | Divert   | Decay      |
-| 4 | <span style="background-color:Forestgreen; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green     | Composite    | Entangle | Imitate  | Denizen    |
-| 5 | <span style="background-color:Dodgerblue;  color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Cobalt Blue      | Decayed      | Illusion | Lure     | Fall       |
-| 6 | <span style="background-color:Crimson;     color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Red      | Elemental    | Immune   | Obscure  | Fire       |
-| 7 | <span style="background-color:Purple;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet     | Inscribed    | Magic    | Summon   | Light      |
-| 8 | <span style="background-color:Silver;      color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver  | Intimidating | Paralyze | Surprise | Path       |
-| 9 | <span style="background-color:Goldenrod;   color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold       | Levitating   | Pierce   | Surround | Poison     |
-| 0 | <span style="background-color:White;       color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Holy White       | Nightmarish  | Ranged   | Trigger  | Projectile |
-
-}}
-
-}}
-
-}}
-<!-- END BOX 17 -->
-
-<!-- START BOX 18 -->
+<!-- START BOX 11/12 -->
 {{box
 
-{{column-count:2
+{{column-count:3
 
-### Wilderness Exploration
+### Exploring the Wilderness
 
-:
-
-{{horizontal-compact
-
-| # | Description | Environment         | Encounter               | Feature   |
-|:-:|:-----------:|:-------------------:|:-----------------------:|:---------:|
-| 1 | Exotic      | Arctic              | Natural Hazard          | Bones     |
-| 2 | Haunted     | Mountains           | Weather                 | Bridge    |
-| 3 | Luminous    | Cavern              | *Immersion*             | Cairn     |
-| 4 | Pristine    | Hills               | Road / River            | Circle    |
-| 5 | Sacred      | Grassland           | Monster                 | Monument  |
-| 6 | Shadowed    | Forest              | *Challenge*             | Ruins     |
-| 7 | Vast        | Swamp               | *Feature*               | Smoke     |
-| 8 | Verdant     | Water Feature       | *Settlement* / Camp     | Spring    |
-| 9 | Dying       | Coast               | Destination / *Dungeon* | Tracks    |
-| 0 | Weathered   | Desert              | Advance Plot            | Well      |
-
+{{template
+You enter a [**Description**] [**Environment**].
 }}
 
 :
 
-### Dungeon Exploration
-
-{{horizontal-compact
-
-| # | Next Area                   | Passage            | Encounter         | Feature   |
-|:-:|:---------------------------:|:------------------:|:-----------------:|:---------:|
-| 1 | *Passage*                   | 4-way Intersection | Natural Hazard    | Armory    |
-| 2 | Small Chamber w/ 3 Doors    | T Intersection     | Safety            | Fountain  |
-| 3 | Large Chamber w/ 3 Doors    | Side Passage       | *Immersion*       | Glyphs    |
-| 4 | Small Chamber w/ 2 Doors    | Right Angle Turn   | Monster           | Known     |
-| 5 | Circular Chamber w/ 2 Doors | Side Alcove        | Key*              | Library   |
-| 6 | Locked Door                 | Long / Winding     | Trap              | Mural     |
-| 7 | Small Chamber w/ 1 Door     | Narrow             | *Challenge*       | Prison    |
-| 8 | Secret Exit / Stairs        | Sloped             | *Feature*         | Shrine    |
-| 9 | Connection to Previous Area | Small Crawlspace   | *Treasure*        | Throne    |
-| 0 | *Passage*                   | Bridge             | Objective* / Clue | Vault     |
-
-}}
-
-::
-
-{{center
-_Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
-}}
+| #      | Description   | Environment          |
+|:------:|:-------------:|:--------------------:|
+| **1**  | a desolate    | frozen tundra        |
+| **2**  | a familiar    | chilly expanse       |
+| **3**  | a forgotten   | snowcapped ridge     |
+| **4**  | a frozen      | rocky mountain range |
+| **5**  | a haunted     | alpine meadow        |
+| **6**  | a luminous    | deep valley          |
+| **7**  | a misty       | rolling hillside     |
+| **8**  | a rugged      | open plain           |
+| **9**  | a sacred      | scattered woodlands  |
+| **10** | a scorched    | dark forest          |
+| **11** | a serene      | flooded woods        |
+| **12** | a shadowed    | bubbling swamp       |
+| **13** | a treacherous | misty grove          | 
+| **14** | a vast        | tropical jungle      |
+| **15** | a vibrant     | ashen wasteland      |
+| **16** | a weathered   | volcanic field       |
+| **17** | a wild        | rocky shore          |
+| **18** | an exotic     | sandy beach          |
+| **19** | an overgrown  | coastal scrubland    |
+| **20** | an unexplored | arid desert          |
 
 \column
 
-### Treasure
+### Exploring a Dungeon
 
-{{treasure
-
-|       |               |             |               |               |
-|:-----:|:-------------:|:-----------:|:-------------:|:-------------:|
-| **1** | **Trinket**   | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Wood          | Toy/Game      |
-|      ^| 2             | Damaged     | Bone          | Bottle        |
-|      ^| 3             | Worn        | Leather       | Instrument    |
-|      ^| 4             | Simple      | Silver        | Charm         |
-|      ^| 5             | Exceptional | Gold          | Tool          |
-|      ^| 6             | Magic       | Gem           | Key           |
-| **2** | **Treasure**  | **Quality** | **Container** | **Contents**  |
-|      ^| 1             | Dusty       | None          | Food          |
-|      ^| 2             | Worn        | Pouch         | Art           |
-|      ^| 3             | Sturdy      | Box           | Deed          |
-|      ^| 4             | Fine        | Satchel       | Silver Coins  |
-|      ^| 5             | New         | Crate         | Gold Coins    |
-|      ^| 6             | Ornate      | Chest         | Gems          |
-| **3** | **Document**  | **Type**    | **Content**   | **Subject**   |
-|      ^| 1             | Song        | Lewd          | Religion      |
-|      ^| 2             | Picture     | Common        | Art           |
-|      ^| 3             | Letter/Note | Map           | Science       |
-|      ^| 4             | Scroll      | Prophecy      | Creatures     |
-|      ^| 5             | Journal     | Arcane        | History       |
-|      ^| 6             | Book        | Forbidden     | Magic         |
-| **4** | **Accessory** | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Ruined      | Wood          | Headpiece     |
-|      ^| 2             | Crude       | Bone          | Emblem        |
-|      ^| 3             | Simple      | Leather       | Earring       |
-|      ^| 4             | Fine        | Silver        | Bracelet      |
-|      ^| 5             | Crafted     | Gold          | Necklace      |
-|      ^| 6             | Magic       | Gem           | Ring          |
-| **5** | **Weapon**    | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Wood          | Axe/Hammer    |
-|      ^| 2             | Improvised  | Bone          | Halberd/Spear |
-|      ^| 3             | Rough       | Steel         | Sword/Dagger  |
-|      ^| 4             | Simple      | Silver        | Staff/Wand    |
-|      ^| 5             | Martial     | Mithral       | Bow           |
-|      ^| 6             | Masterwork  | Adamantine    | Exotic        |
-| **6** | **Armor**     | **Quality** | **Material**  | **Type**      |
-|      ^| 1             | Broken      | Cloth         | Headpiece     |
-|      ^| 2             | Improvised  | Leather       | Bottom        |
-|      ^| 3             | Tattered    | Bone/Fur      | Gloves        |
-|      ^| 4             | Simple      | Steel         | Boots         |
-|      ^| 5             | Fine        | Mithral       | Top           |
-|      ^| 6             | Masterwork  | Adamantine    | Shield        |
-
+{{template
+You enter a [**Description**] [**Area**].
 }}
 
+:
+
+| #      | Description      | Area                                 |
+|:------:|:----------------:|:------------------------------------:|
+| **1**  | a branching      | atrium with 3 exits                  |
+| **2**  | a circular       | bridge                               |
+| **3**  | a cluttered      | connection to a previous area        |
+| **4**  | a cold           | chamber with 2 exits                 |
+| **5**  | a cramped        | crawlspace                           |
+| **6**  | a damaged        | dead end                             |
+| **7**  | a dark           | exit from the dungeon                |
+| **8**  | a decorated      | chamber with 2 exits                 |
+| **9**  | a domed          | passage with a 4-way intersection    |
+| **10** | a dusty          | passage with a locked side door      |
+| **11** | a flooded        | passage with a right-angle turn      |
+| **12** | a long           | chamber with 2 exits. One is locked  |
+| **13** | a mossy          | passage with a T-shaped intersection |
+| **14** | a narrow         | passage with an alcove               |
+| **15** | a sealed         | room with a ladder                   |
+| **16** | a sloped         | chamber with 3 exits                 |
+| **17** | a torch-lit      | rotunda with 4 exits. One is locked  |
+| **18** | a webbed         | staircase                            |
+| **19** | an echoing       | vault with a larged, locked door     |
+| **20** | an overgrown     | chamber with 3 exits. One is locked  |
+
+\column
+
+### What are they talking about?
+
+{{template
+They are talking about [**Information**] [**Subject**].
 }}
 
+:
+
+| #      | Information                    | Subject              |
+|:------:|:------------------------------:|:--------------------:|
+| **1**  | a financial gain involving     | a dangerous place    |
+| **2**  | a financial loss involving     | a distant location   |
+| **3**  | a gain of influence involving  | a historical event   |
+| **4**  | a link between an NPC and      | a PC                 |
+| **5**  | a link between the PC and      | a safe location      |
+| **6**  | a link between the villain and | a sidequest          |
+| **7**  | a loss of influence involving  | a traitor            |
+| **8**  | a material gain involving      | a world truth        |
+| **9**  | a material loss involving      | an allied faction    |
+| **10** | a negative change in           | an allied npc        | 
+| **11** | a positive change in           | an artifact          |
+| **12** | an ambush concerning           | an enemy hideout     |
+| **13** | historical knowledge regarding | an enemy npc         |
+| **14** | negative news regarding        | an important npc     |
+| **15** | positive news regarding        | the current location |
+| **16** | the family of                  | the current quest    |
+| **17** | the identity of                | the destination      |
+| **18** | the location of                | the enemy's plan     |
+| **19** | the reputation of              | the party            |
+| **20** | the weaknesses of              | the villain          |
 }}
-<!-- END BOX 18 -->
+}}
+<!-- END BOX 11/12 -->
 
 }}
 <!-- END FRONT PAGE -->
@@ -495,109 +440,61 @@ _Juice Pop! 10/19/26 - https://github.com/jrruethe/juice_
 <!-- START BACK PAGE -->
 {{wide
 
-
-<!-- START ROW 1 -->
-{{row1
-
-<!-- START BOX 4 -->
-{{box
-
-### Box 4
-
-}}
-<!-- END BOX 4 -->
-
-\column
-
 <!-- START BOX 2 -->
 {{box
-{{right
+{{invert-
 
 ### Name
 
 :
 
-| d20 | 1    | 2    | 3    |
-|:---:|:----:|:----:|:----:|
-| 1   |    A | hal  | an   |
-| 2   |    E | ris  | ar   |
-| 3   |    I | del  | er   |
-| 4   |    O | mor  | ian  |
-| 5   |    U | bar  | ic   |
-| 6   |   De | net  | in   |
-| 7   |   Ka | kel  | o    |
-| 8   |   Li | lim  | on   |
-| 9   |   Ma | tur  | or   |
-| 10  |   Ro | pen  | us   |
-| 11  |   Be | rond | a    |
-| 12  |   Da | kay  | aea  |
-| 13  |   Ki | jam  | aya  |
-| 14  |   Le | vash | elle |
-| 15  |   Mi | zab  | ene  |
-| 16  |   Ne | yos  | ess  |
-| 17  |   Ru | gran | ette |
-| 18  |   Si | ched | ice  |
-| 19  |   Ta | sark | id   |
-| 20  |   To | kic  | osa  |
+| #       | 1    | 2    | 3    |
+|:-------:|:----:|:----:|:----:|
+| **1**   |    A | hal  | an   |
+| **2**   |    E | ris  | ar   |
+| **3**   |    I | del  | er   |
+| **4**   |    O | mor  | ian  |
+| **5**   |    U | bar  | ic   |
+| **6**   |   De | net  | in   |
+| **7**   |   Ka | kel  | o    |
+| **8**   |   Li | lim  | on   |
+| **9**   |   Ma | tur  | or   |
+| **10**  |   Ro | pen  | us   |
+| **11**  |   Be | rond | a    |
+| **12**  |   Da | kay  | aea  |
+| **13**  |   Ki | jam  | aya  |
+| **14**  |   Le | vash | elle |
+| **15**  |   Mi | zab  | ene  |
+| **16**  |   Ne | yos  | ess  |
+| **17**  |   Ru | gran | ette |
+| **18**  |   Si | ched | ice  |
+| **19**  |   Ta | sark | id   |
+| **20**  |   To | kic  | osa  |
 
 }}
 }}
 <!-- END BOX 2 -->
 
-}}
-<!-- END ROW 1 -->
-
-<!-- START ROW 2 -->
-{{row2
-
-<!-- START BOX 5 -->
-{{box
-
-### What do they say?
-
-{{template
-
-Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**].
-
-}}
-
-:
-
-| # | Tone       | Response   | Subject          | Subtext       |
-|:-:|:----------:|:----------:|:----------------:|:-------------:|
-| 1 | Hostile    | Threat     | your weakness    | Malice        |
-| 2 | Suspicious | Refusal    | a danger         | Distrust      |
-| 3 | Guarded    | Deflection | the past         | Secrecy       |
-| 4 | Distant    | Question   | an obstacle      | Uncertainty   |
-| 5 | Calm       | Statement  | the situation    | Neutrality    |
-| 6 | Curious    | Inquiry    | themselves       | Interest      |
-| 7 | Open       | Discussion | your actions     | Consideration |
-| 8 | Warm       | Offer      | the relationship | Goodwill      |
-| 9 | Eager      | Agreement  | an opportunity   | Enthusiasm    |
-| 0 | Trusting   | Revelation | your goal        | Alliance      |
-
-}}
-<!-- END BOX 5 -->
-
 \column
 
 <!-- START BOX 1 -->
 {{box
-{{right
+{{invert-
 
 ### Yes/No Oracle
 
-| Roll | Answer           |
-|:----:|:----------------:|
-| 6    | Yes, and ...     |
-| 5    | Yes, because ... |
-| 4    | Yes, but ...     |
-| 3    | No, but ...      |
-| 2    | No, because ...  |
-| 1    | No, and ...      |
+:
+
+| #     | Answer           |
+|:-----:|:----------------:|
+| **6** | Yes, and ...     |
+| **5** | Yes, because ... |
+| **4** | Yes, but ...     |
+| **3** | No, but ...      |
+| **2** | No, because ...  |
+| **1** | No, and ...      |
 
 {{center
-{{compact
 
 Guidelines, not rules.  
 There is no wrong way to play.  
@@ -611,7 +508,7 @@ If something doesn't make sense, reroll.
 :
 
 Defer some questions for later;  
-Answers may naturally come to you as you play.
+Answers may come naturally as you play.
 
 :
 
@@ -622,7 +519,8 @@ and a challenge to overcome.
 :
 
 Be your character!  
-Describe the situation, how you handle it, and why.
+Describe the situation,  
+how you handle it, and why.
 
 :
 
@@ -630,141 +528,126 @@ Your actions have consequences and
 change the world in a meaningful way.
 
 }}
+
+{{credits
+Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 }}
 
 }}
 }}
 <!-- END BOX 1 -->
 
-}}
-<!-- END ROW 2 -->
-
-<!-- START ROW 3 -->
-{{row3
-
-<!-- START BOX 6 -->
-{{box
-
-### Box 6
-
-}}
-<!-- END BOX 6 -->
-
 \column
-
 
 <!-- START BOX 8 -->
 {{box
-{{left
+{{invert-
 
 ### Inspiration
 
 :
 
-| d20 | Inspiration                     |
-|:---:|:-------------------------------:|
-| 1   | Despair washes over you         |
-| 2   | It fills you with fear          |
-| 3   | This is only the beginning      |
-| 4   | An enemy would want this        |
-| 5   | You've been warned about this   |
-| 6   | It feels out of place here      |
-| 7   | It's not what it appears to be  |
-| 8   | The timing seems deliberate     |
-| 9   | That was too easy               |
-| 10  | There's something hidden here   |
-| 11  | It wasn't always this way       |
-| 12  | This predates you               |
-| 13  | Its size surprises you          |
-| 14  | Deep down, you already know     |
-| 15  | You've encountered this before  |
-| 16  | It will matter later            |
-| 17  | It's impossibly rare            |
-| 18  | Someone trusted is connected    |
-| 19  | It connects to your goal        |
-| 20  | Your sidekick would know more   |
+| #       | Inspiration                    |
+|:-------:|:------------------------------:|
+| **1**   | Despair washes over you        |
+| **2**   | It fills you with fear         |
+| **3**   | This is only the beginning     |
+| **4**   | An enemy would want this       |
+| **5**   | You've been warned about this  |
+| **6**   | It feels out of place here     |
+| **7**   | It's not what it appears to be |
+| **8**   | The timing seems deliberate    |
+| **9**   | That was too easy              |
+| **10**  | There's something hidden here  |
+| **11**  | It wasn't always this way      |
+| **12**  | This predates you              |
+| **13**  | Its size surprises you         |
+| **14**  | Deep down, you already know    |
+| **15**  | You've encountered this before |
+| **16**  | It will matter later           |
+| **17**  | It's impossibly rare           |
+| **18**  | Someone trusted is connected   |
+| **19**  | It connects to your goal       |
+| **20**  | Your companion would know more |
 
 }}
 }}
 <!-- END BOX 8 -->
 
-}}
-<!-- END ROW 3 -->
-
-<!-- START ROW 4 -->
-{{row4
-
-<!-- START BOX 7 -->
-{{box
-{{right
-
-### Situation
-
-| # | Situation                              |
-|:-:|:--------------------------------------:|
-| 1 |A chase begins.                         |
-| 2 |A shorcut is offered, will you take it? |
-| 3 |An assumption proves false.             |
-| 4 |Are you being followed?                 |
-| 5 |Backup will arrive soon.                |
-| 6 |Can you pass without being noticed?     |
-| 7 |Can you use this to your advantage?     |
-| 8 |For the moment, it is safe to rest.     |
-| 9 |Is this the way forward?                |
-|10 |It's quiet. Too quiet...                |
-|11 |Someone is exposed to danger.           |
-|12 |Something calls to you, do you answer?  |
-|13 |The enemy gains new allies.             |
-|14 |The silence is suddenly broken.         |
-|15 |The way forward becomes clear.          |
-|16 |What are you willing to sacrifice?      |
-|17 |Will you reveal yourself?               |
-|18 |Your approach draws unwanted attention. |
-|19 |Your fear is realized.                  |
-|20 |Your past catches up to you.            |
-
-}}
-}}
-<!-- END BOX 7 -->
-
 \column
 
 <!-- START BOX 3 -->
 {{box
-{{right
+{{invert-
 
-### Box 3
+### Color
 
-| # |                                                                                        | Color             |
-|:-:|:--------------------------------------------------------------------------------------:|:-----------------:|
-| 1 | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  |
-| 2 | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   |
-| 3 | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     |
-| 4 | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     |
-| 5 | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam |
-| 6 | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     |
-| 7 | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      |
-| 8 | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  |
-| 9 | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     |
-|10 | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       |
-|11 | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
-|12 | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
-|13 | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
-|14 | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
-|15 | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
-|16 | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
-|17 | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
-|18 | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
-|19 | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
-|20 | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
+:
+
+| #      |                                                                                        | Color             |
+|:------:|:--------------------------------------------------------------------------------------:|:-----------------:|
+| **1**  | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  |
+| **2**  | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   |
+| **3**  | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     |
+| **4**  | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     |
+| **5**  | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam |
+| **6**  | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     |
+| **7**  | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      |
+| **8**  | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  |
+| **9**  | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     |
+| **10** | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       |
+| **11** | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
+| **12** | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
+| **13** | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
+| **14** | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
+| **15** | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
+| **16** | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
+| **17** | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
+| **18** | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
+| **19** | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
+| **20** | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
+
 }}
 }}
 <!-- END BOX 3 -->
 
+<!-- START BOX 4/5/6/7 -->
+{{box
+
+### What is the current Situation?
+
+{{template
+[**Atmosphere**] [**Location**] [**Subject**] [**Action**]. [**Situation**]
 }}
-<!-- END ROW 4 -->
+:
+| #      | Atmosphere                        | Location            | Action               | Subject               | Situation                               |
+|:------:|:---------------------------------:|:-------------------:|:--------------------:|:---------------------:|:---------------------------------------:|
+| **1**  | A colorful glow pulses            | around the corner   | barring access to    | a beckoning passage.  | A chase begins.                         | 
+| **2**  | A faint movement catches your eye | at the edge         | concealing           | a cairn.              | A shorcut is offered, will you take it? | 
+| **3**  | A sticky film covers everything   | behind you          | disclosing           | a dark cave.          | An assumption proves false.             | 
+| **4**  | Blood drips                       | below               | drawing attention to | a deep pit.           | Are you being followed?                 | 
+| **5**  | Cold moisture beads on stone      | beside you          | encircling           | a glinting treasure.  | Backup will arrive soon.                | 
+| **6**  | Creatures laugh                   | beyond reach        | guarding             | a grave.              | Can you pass without being noticed?     | 
+| **7**  | Deafening noise fills the area    | everywhere          | hiding               | a large tree.         | Can you use this to your advantage?     | 
+| **8**  | Embers crackle                    | far away            | highlighting         | a magical ward.       | For the moment, it is safe to rest.     | 
+| **9**  | Flames flicker                    | high above          | hinting at           | a monument.           | Is this the way forward?                | 
+| **10** | Fog hovers                        | in the air          | implying             | a stranger.           | It's quiet. Too quiet...                | 
+| **11** | Insects buzz                      | in the area ahead   | leading to           | a territorial beast.  | Someone is exposed to danger.           | 
+| **12** | Mushroom spores float             | in the distance     | masking              | a well.               | Something calls to you, do you answer?  | 
+| **13** | Rouch scraping fills the air      | in the shadows      | obscuring            | creature tracks.      | The enemy gains new allies.             | 
+| **14** | Scratching sounds echo            | just out of sight   | pointing toward      | fresh water.          | The silence is suddenly broken.         | 
+| **15** | Smoke billows                     | near the walls      | protecting           | mushrooms.            | The way forward becomes clear.          | 
+| **16** | The smell of decay rises          | nearby              | revealing            | ruins.                | What are you willing to sacrifice?      | 
+| **17** | Thorns protrude                   | on the ground       | shrouding            | scavengers.           | Will you reveal yourself?               | 
+| **18** | Water pools                       | to the side         | suggesting           | signs of pursuit.     | Your approach draws unwanted attention. | 
+| **19** | Webs cling to every surface       | where you came from | uncovering           | smoke rising.         | Your fear is realized.                  | 
+| **20** | Whispers are heard                | within arms reach   | warning of           | unstable ground.      | Your past catches up to you.            | 
 
 }}
+
+}}
+<!-- END BOX 4/5/6/7 -->
+
 <!-- END BACK PAGE -->
 
 <!-- BEGIN BOX NUMBERS -->
@@ -774,10 +657,9 @@ change the world in a meaningful way.
      none of the boxes above mention them. To hide every number at once,
      delete this block (from the BEGIN comment to the END comment), or wrap
      the CSS rules inside the <style> tag in a single /* ... */ comment.
-      Each rule below finds one box by position: on page 2, which row and
-      left or right side of the row; on page 1, the two big boxes straight in
-      the wide block. If you ever move boxes around, update the numbers here
-      to match. -->
+      Each rule below finds one box by its position in its wide block: page 1
+      holds boxes 1, 2; page 2 holds boxes 3, 4, 5, 6 (top row) and 7 (bottom
+      row). If you ever move boxes around, update the numbers here to match. -->
 <style>
 
 /* the number itself: small, floating in the upper-right corner of the box
@@ -794,20 +676,20 @@ change the world in a meaningful way.
   color: green;
 }
 
-/* ---- page 1 (front side of the paper): two big boxes —
-   17 = top half, 18 = bottom half (they sit directly in the wide block) ---- */
-#p1 .block.wide > .box:nth-of-type(1)::after { content: "17"; }
-#p1 .block.wide > .box:nth-of-type(2)::after { content: "18"; }
+/* ---- page 1: box 1 (top half) and box 2 (bottom half), straight in the
+   wide block ---- */
+#p1 .block.wide > .box:nth-of-type(1)::after { content: "9/10"; }
+#p1 .block.wide > .box:nth-of-type(2)::after { content: "11/12"; }
 
-/* ---- page 2 (back side of the paper) ---- */
-#p2 .block.row1 .box:first-child::after { content: "4"; }
-#p2 .block.row1 .box:last-child::after  { content: "2"; }
-#p2 .block.row2 .box:first-child::after { content: "5"; }
-#p2 .block.row2 .box:last-child::after  { content: "1"; }
-#p2 .block.row3 .box:first-child::after { content: "6"; }
-#p2 .block.row3 .box:last-child::after  { content: "8"; }
-#p2 .block.row4 .box:first-child::after { content: "7"; }
-#p2 .block.row4 .box:last-child::after  { content: "3"; }
+/* ---- page 2: boxes 3, 4, 5, 6 across the top row, box 7 across the bottom
+   row. Hidden \column markers (divs too) sit between boxes 3-6, so those are
+   the 1st, 3rd, 5th, 7th div children; box 7 (no marker before it) is the
+   8th. ---- */
+#p2 .block.wide > .box:nth-of-type(1)::after { content: "2"; }
+#p2 .block.wide > .box:nth-of-type(3)::after { content: "1"; }
+#p2 .block.wide > .box:nth-of-type(5)::after { content: "8"; }
+#p2 .block.wide > .box:nth-of-type(7)::after { content: "3"; }
+#p2 .block.wide > .box:nth-of-type(8)::after { content: "4/5/6/7"; }
 
 </style>
 <!-- END BOX NUMBERS -->
