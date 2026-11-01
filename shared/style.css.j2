@@ -1,0 +1,143 @@
+{# shared style rules for all Juice pocketfold templates.
+   The per-version template includes this file at the top of its <style> block
+   and then adds its own version-specific rules (table typography, the page-2
+   grid, and — for versions that use sideways boxes — the .left/.right rules).
+   Every geometry value comes from layout.json (see docs/TABLE_FORMATS.md);
+   the build script computes the derived numbers (halves, quarters) because
+   CSS calc() cannot divide. #}
+{% set ob = '{{' %}
+{% set cb = '}}' %}
+
+/* ===== Page ===== */
+
+/* The page: US Letter {{ orientation }}, blank, laid out by us (not by the theme) */
+.page
+{
+  /* US Letter width{% if orientation == "landscape" %} (landscape: wider than tall){% endif %} */
+  width: {{ page_w }};
+  /* US Letter height{% if orientation == "landscape" %} (landscape: shorter than wide, so boxes are wider than tall){% else %} (portrait: taller than wide, so boxes are wider than tall){% endif %} */
+  height: {{ page_h }};
+  
+  /* the {{ padding }} padding below counts INSIDE the {{ page_w }} x {{ page_h }}, so the page is exactly paper size */
+  box-sizing: border-box;
+  /* blank white background (overrides the theme's parchment image / theme color) */
+  background: white;
+  
+  /* gap between content and the page edge, top */
+  padding-top: {{ padding }};
+  /* gap between content and the page edge, right */
+  padding-right: {{ padding }};
+  /* gap between content and the page edge, bottom */
+  padding-bottom: {{ padding }};
+  /* gap between content and the page edge, left */
+  padding-left: {{ padding }};
+  
+  /* the theme lays the page out as two PHB-style columns; force one so we control placement */
+  column-count: 1;
+  /* the theme pins the column width to 8cm and children inherit it; reset so it can't distort ours */
+  column-width: auto;
+}
+
+/* the theme adds a 50px footer image bar along the page bottom; remove it */
+.page::after
+{
+  content: none;
+}
+
+/* ===== Wrapper ===== */
+
+/* Homebrewery wraps all content in this div; the theme turns it into a column container
+   that inherits from the page. Make it a plain block that fills the page, so the
+   percentage heights below have a definite size to measure against. */
+.columnWrapper
+{
+  /* don't inherit the page's columns */
+  column-count: 1;
+  column-width: auto;
+  /* fill the page's content area (the page minus its {{ padding }} padding) */
+  height: 100%;
+}
+
+/* the {{ ob }}wide{{ cb }} block: the whole working area inside the page's padding */
+.block.wide
+{
+  /* fill the wrapper (= the page's content area) */
+  height: 100%;
+  /* the theme adds margins around wide blocks; remove them */
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Page 1 (front side) ===== */
+
+/* Page 1 (the front side of the paper) does NOT use the page-2 rows: it holds
+   two big boxes directly in the wide block, one per half of the page. Make
+   page 1's wide a two-row grid so each big box gets exactly half of the
+   page's height (both boxes come out the same size: full page width, half
+   page height). */
+#p1 .block.wide
+{
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+/* The single fold line on this side of the paper is the MIDDLE of the page;
+   the two half-page boxes each give up {{ half_gutter }} on that side, so the
+   {{ gutter }} gap between them is centered exactly on the fold line. */
+#p1 .block.wide > .box:first-child
+{
+  /* the top box ends {{ half_gutter }} above the middle fold line */
+  height: calc(100% - {{ half_gutter }});
+}
+#p1 .block.wide > .box:last-child
+{
+  /* the bottom box starts {{ half_gutter }} below the middle fold line */
+  margin-top: {{ half_gutter }};
+  height: calc(100% - {{ half_gutter }});
+}
+
+/* ===== Octet boxes ===== */
+
+/* every box: green planning border, content clipped to the box.
+   (Each box's size is set by the version-specific fold-line rules above and
+   in the version template — see the row/grid rules there.) */
+.block.box
+{
+  /* the theme makes every .block an inline-block at 100% width;
+     force a plain block that sits cleanly in its grid cell */
+  display: block;
+  width: auto;
+  /* green border marking the octet's working area (remove when planning is done) */
+  border: 0px solid green;
+  /* content that overflows the box is clipped instead of spilling into its neighbor */
+  overflow: hidden;
+  /* anchor for the {{ ob }}left block (positioned absolutely inside the box);
+     does nothing for boxes that don't contain one */
+  position: relative;
+}
+
+/* optional flip: wrap a box's content in {{ ob }}invert ... {{ cb }} to print the box upside-down.
+   The content is anchored at the box's BOTTOM edge and flows UPWARD, and every line is
+   rotated 180 degrees. So when the folded box is physically flipped, line one is at the
+   top and everything reads normally. (A plain rotate of the whole content would leave
+   it anchored at the top of the box — that is not a real flip.) */
+.block.invert
+{
+  /* fill the box so that "bottom" below means the box's bottom edge */
+  height: 100%;
+  /* flexbox so the lines can be stacked from the bottom edge upward */
+  display: flex;
+  /* the first line sits at the bottom; each following line stacks above it */
+  flex-direction: column-reverse;
+}
+/* rotate every line 180 degrees (upside-down on paper, right-side-up when flipped) */
+.block.invert > *
+{
+  transform: rotate(180deg);
+}
+  
+/* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
+.columnSplit
+{
+  display: none;
+}
