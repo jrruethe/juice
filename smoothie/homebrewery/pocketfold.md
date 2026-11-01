@@ -488,19 +488,13 @@ Choose what is most fun.
 
 :
 
-Keep the flow moving:  
+Keep the flow moving.  
 If something doesn't make sense, reroll.
 
 :
 
 Defer some questions for later;  
 Answers may come naturally as you play.
-
-:
-
-Fail-forward:  
-Every failure is a new opportunity  
-and a challenge to overcome.
 
 :
 
@@ -512,6 +506,12 @@ how you handle it, and why.
 
 Your actions have consequences and   
 change the world in a meaningful way.
+
+:
+
+Every failure is a new opportunity  
+and a challenge to overcome.
+
 
 }}
 
