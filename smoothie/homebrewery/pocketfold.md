@@ -120,24 +120,6 @@ div.block.center
 
 /* ===== Rows ===== */
 
-/* four rows, each one quarter of the working area; each row is a 2-column grid.
-   (In Smoothie neither page uses these rows: page 1 holds its two big boxes
-   straight in the wide block and page 2 holds all of its boxes straight in the
-   wide block too — see the #p1 and #p2 rules below. Kept so the standard D9
-   block stays intact.) */
-.block.row1, .block.row2, .block.row3, .block.row4
-{
-  /* a quarter of the working area's height */
-  height: 25%;
-  /* make the row a grid with two equal-width columns for its two boxes */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* 0.6em of space between the two boxes of a row */
-  column-gap: 0.6em;
-  /* no theme margins around rows (the vertical gap comes from the boxes, below) */
-  margin: 0;
-}
-
 /* Page 1 does NOT use the four rows: it holds two big boxes directly in the
    wide block — box 1 takes the top half of the page and box 2 the bottom half.
    Make page 1's wide a two-row grid so each box gets exactly half of the page's
@@ -230,9 +212,9 @@ div.block.center
 /* ===== Octet boxes ===== */
 
 /* every box: green planning border, content clipped to the box.
-   (The fold-line-aware #p1 / #p2 rules above and below override the height
-   here, so that every gap is centered exactly on the fold line it sits on:
-   the wide boxes come out full page width × half page height minus the
+   (Each box's height is set by the fold-line-aware #p1 / #p2 rules above,
+   so that every gap is centered exactly on the fold line it sits on: the
+   wide boxes come out full page width × half page height minus the
    fold-side slack.) */
 .block.box
 {
@@ -240,9 +222,6 @@ div.block.center
      force a plain block that sits cleanly in its grid cell */
   display: block;
   width: auto;
-  /* default: fill its cell's height minus 0.6em; the #p1 / #p2 rules above
-     override this per box so the gaps center on the fold lines */
-  height: calc(100% - 0.6em);
   /* green border marking the octet's working area (remove when planning is done) */
   border: 0px solid green;
   /* content that overflows the box is clipped instead of spilling into its neighbor */
@@ -272,61 +251,6 @@ div.block.center
   transform: rotate(180deg);
 }
 
-/* optional sideways: wrap a box's content in {{left ... }} to rotate the box 270 degrees.
-   The block's top edge ends up at the box's LEFT edge: the heading (and its underline)
-   runs vertically down the left side, and the lines of text fill in from left to right.
-   Two things are both required, and missing either one breaks it:
-   1. SWAP the block's dimensions — before the rotation it must be as wide as the box is
-      tall and as tall as the box is wide, so that AFTER the rotation its shape matches
-      the box. (A block that is not swapped keeps the box's own width and height, and
-      rotated its shape no longer fits the box — most of it ends up clipped away.)
-   2. CENTER the block in the box before rotating — a transform spins an element around
-      its own center, so first move the element's center onto the box's center. */
-.block.left
-{
-  /* park the element's center on the box's center (the box needs position: relative) */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* then shift the element so its center sits on that point, and rotate 270 degrees
-     clockwise around its center */
-  transform: translate(-50%, -50%) rotate(270deg);
-  /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
-     the box is wide, so that after the rotation the block fills the box exactly.
-     These numbers are sized for the two INNER small boxes of page 2's top row
-     (8.5in/2 - 1.2em tall, 11in/4 - 0.6em wide — the fold-line numbers). If a
-     left/right block goes into a differently-sized box (the outer small boxes
-     or one of the wide boxes), copy this rule, scope it to that box, and
-     re-derive the two calcs from that box's own size. */
-  width: calc(8.5in/2 - 1.2em);
-  height: calc(11in/4 - 0.6em);
-  /* plain block (the theme would otherwise make it an inline-block) */
-  display: block;
-}
-
-
-.block.right
-{
-  /* park the element's center on the box's center (the box needs position: relative) */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* then shift the element so its center sits on that point, and rotate 270 degrees
-     clockwise around its center */
-  transform: translate(-50%, -50%) rotate(90deg);
-  /* the swapped dimensions: before rotation, as wide as the box is tall and as tall as
-     the box is wide, so that after the rotation the block fills the box exactly.
-     These numbers are sized for the two INNER small boxes of page 2's top row
-     (8.5in/2 - 1.2em tall, 11in/4 - 0.6em wide — the fold-line numbers). If a
-     left/right block goes into a differently-sized box (the outer small boxes
-     or one of the wide boxes), copy this rule, scope it to that box, and
-     re-derive the two calcs from that box's own size. */
-  width: calc(8.5in/2 - 1.2em);
-  height: calc(11in/4 - 0.6em);
-  /* plain block (the theme would otherwise make it an inline-block) */
-  display: block;
-}
-
 /* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
 .columnSplit
 {
@@ -339,7 +263,6 @@ div.block.center
 <!-- START FRONT PAGE -->
 {{wide
 
-
 <!-- START BOX 9/10 -->
 {{box
 
@@ -351,14 +274,14 @@ You start your adventure in a [**Description**] [**Settlement**] [**Location**] 
 
 :
 
-| #     | Description | Settlement | Location       | Feature      | Event         | Time                     | Emotion   |
+|   #   | Description | Settlement |    Location    |   Feature    |     Event     |           Time           |  Emotion  |
 |:-----:|:-----------:|:----------:|:--------------:|:------------:|:-------------:|:------------------------:|:---------:|
-| **1** | Deserted    | Campsite   | atop           | a deep pit   | A battle      | happened a long time ago | Anger     |
-| **2** | Exotic      | Ruin       | near           | a great tree | A celebration | is anticipated           | Fear      |
-| **3** | Fortified   | Outpost    | on the side of | a monument   | A death       | is happening tomorrow    | Hope      |
-| **4** | Remote      | Village    | overlooking    | a tower      | A journey     | occurred today           | Joy       |
-| **5** | Rustic      | Small Town | surrounding    | a waterfall  | A sickness    | recently ended           | Nostalgia |
-| **6** | Well Known  | Large City | under          | the wall     | A theft       | recently started         | Panic     |
+| **1** |  Deserted   |  Campsite  |      atop      |  a deep pit  |   A battle    | happened a long time ago |   Anger   |
+| **2** |   Exotic    |    Ruin    |      near      | a great tree | A celebration |      is anticipated      |   Fear    |
+| **3** |  Fortified  |  Outpost   | on the side of |  a monument  |    A death    |  is happening tomorrow   |   Hope    |
+| **4** |   Remote    |  Village   |  overlooking   |   a tower    |   A journey   |      occurred today      |    Joy    |
+| **5** |   Rustic    | Small Town |  surrounding   | a waterfall  |  A sickness   |      recently ended      | Nostalgia |
+| **6** | Well Known  | Large City |     under      |   the wall   |    A theft    |     recently started     |   Panic   |
 
 :
 
@@ -370,18 +293,18 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to [**Objecti
 
 :
 
-| #     | Trait     | Person      | Motive     | Objective            | Description | Focus             | Dungeon   | Adjective    | Noun     | Complication                  |
+|   #   |   Trait   |   Person    |   Motive   |      Objective       | Description |       Focus       |  Dungeon  |  Adjective   |   Noun   |         Complication          |
 |:-----:|:---------:|:-----------:|:----------:|:--------------------:|:-----------:|:-----------------:|:---------:|:------------:|:--------:|:-----------------------------:|
-| **1** | Deceiving | Criminal    | Equipment  | Attain power from    | Abandoned   | Anomaly           | Catacombs | Bloodstained | Blades   | before time expires           |
-| **2** | Guarding  | Entertainer | Experience | Destroy              | Astral      | Faction           | Cavern    | Chaotic      | Blight   | before the ritual completes   |
-| **3** | Guiding   | Expert      | Family     | Escape from          | Decayed     | Information       | Crypt     | Endless      | Darkness | before they escape            |
-| **4** | Hunting   | Mage        | Flaws      | Escort someone to    | Defended    | Monster           | Fortress  | Fallen       | Fury     | while outmatched              |
-| **5** | Lost      | Mercenary   | History    | Infiltrate           | Hidden      | Seal              | Hideout   | Forbidden    | Lies     | while being hunted            |
-| **6** | Spying    | Noble       | Quest      | Investigate          | Elemental   | NPC               | Lair      | Forgotten    | Madness  | against a rival faction       |
-| **7** | Tasked    | Priest      | Reputation | Negotiate with       | Connected   | Object / Treasure | Mine      | Shattered    | Mist     | amid betrayal                 |
-| **8** | Trading   | Ranger      | Superiors  | Protect              | Strange     | Remains           | Depths    | Shrouded     | Prophecy | though nothing is as it seems |
-| **9** | Trapped   | Soldier     | Treasure   | Rescue someone from  | Toxic       | Plant             | Sanctuary | Silent       | Runes    | under false pretenses         |
-| **0** | Wounded   | Transporter | Wealth     | Steal something from | Artificial  | Villain           | Temple    | Unknown      | Terror   | while enemies converge        |
+| **1** | Deceiving |  Criminal   | Equipment  |  Attain power from   |  Abandoned  |      Anomaly      | Catacombs | Bloodstained |  Blades  |      before time expires      |
+| **2** | Guarding  | Entertainer | Experience |       Destroy        |   Astral    |      Faction      |  Cavern   |   Chaotic    |  Blight  |  before the ritual completes  |
+| **3** |  Guiding  |   Expert    |   Family   |     Escape from      |   Decayed   |    Information    |   Crypt   |   Endless    | Darkness |      before they escape       |
+| **4** |  Hunting  |    Mage     |   Flaws    |  Escort someone to   |  Defended   |      Monster      | Fortress  |    Fallen    |   Fury   |       while outmatched        |
+| **5** |   Lost    |  Mercenary  |  History   |      Infiltrate      |   Hidden    |       Seal        |  Hideout  |  Forbidden   |   Lies   |      while being hunted       |
+| **6** |  Spying   |    Noble    |   Quest    |     Investigate      |  Elemental  |        NPC        |   Lair    |  Forgotten   | Madness  |    against a rival faction    |
+| **7** |  Tasked   |   Priest    | Reputation |    Negotiate with    |  Connected  | Object / Treasure |   Mine    |  Shattered   |   Mist   |         amid betrayal         |
+| **8** |  Trading  |   Ranger    | Superiors  |       Protect        |   Strange   |      Remains      |  Depths   |   Shrouded   | Prophecy | though nothing is as it seems |
+| **9** |  Trapped  |   Soldier   |  Treasure  | Rescue someone from  |    Toxic    |       Plant       | Sanctuary |    Silent    |  Runes   |     under false pretenses     |
+| **0** |  Wounded  | Transporter |   Wealth   | Steal something from | Artificial  |      Villain      |  Temple   |   Unknown    |  Terror  |    while enemies converge     |
 
 }}
 <!-- END BOX 9/10 -->
@@ -399,28 +322,28 @@ You enter a [**Description**] [**Environment**].
 
 :
 
-| #      | Description   | Environment          |
+|   #    |  Description  |     Environment      |
 |:------:|:-------------:|:--------------------:|
-| **1**  | a desolate    | frozen tundra        |
-| **2**  | a familiar    | chilly expanse       |
-| **3**  | a forgotten   | snowcapped ridge     |
-| **4**  | a frozen      | rocky mountain range |
-| **5**  | a haunted     | alpine meadow        |
-| **6**  | a luminous    | deep valley          |
-| **7**  | a misty       | rolling hillside     |
-| **8**  | a rugged      | open plain           |
-| **9**  | a sacred      | scattered woodlands  |
-| **10** | a scorched    | dark forest          |
-| **11** | a serene      | flooded woods        |
-| **12** | a shadowed    | bubbling swamp       |
-| **13** | a treacherous | misty grove          | 
-| **14** | a vast        | tropical jungle      |
-| **15** | a vibrant     | ashen wasteland      |
-| **16** | a weathered   | volcanic field       |
-| **17** | a wild        | rocky shore          |
-| **18** | an exotic     | sandy beach          |
-| **19** | an overgrown  | coastal scrubland    |
-| **20** | an unexplored | arid desert          |
+| **1**  |  a desolate   |    frozen tundra     |
+| **2**  |  a familiar   |    chilly expanse    |
+| **3**  |  a forgotten  |   snowcapped ridge   |
+| **4**  |   a frozen    | rocky mountain range |
+| **5**  |   a haunted   |    alpine meadow     |
+| **6**  |  a luminous   |     deep valley      |
+| **7**  |    a misty    |   rolling hillside   |
+| **8**  |   a rugged    |      open plain      |
+| **9**  |   a sacred    | scattered woodlands  |
+| **10** |  a scorched   |     dark forest      |
+| **11** |   a serene    |    flooded woods     |
+| **12** |  a shadowed   |    bubbling swamp    |
+| **13** | a treacherous |     misty grove      |
+| **14** |    a vast     |   tropical jungle    |
+| **15** |   a vibrant   |   ashen wasteland    |
+| **16** |  a weathered  |    volcanic field    |
+| **17** |    a wild     |     rocky shore      |
+| **18** |   an exotic   |     sandy beach      |
+| **19** | an overgrown  |  coastal scrubland   |
+| **20** | an unexplored |     arid desert      |
 
 \column
 
@@ -432,28 +355,28 @@ You enter a [**Description**] [**Area**].
 
 :
 
-| #      | Description      | Area                                 |
-|:------:|:----------------:|:------------------------------------:|
-| **1**  | a branching      | atrium with 3 exits                  |
-| **2**  | a circular       | bridge                               |
-| **3**  | a cluttered      | connection to a previous area        |
-| **4**  | a cold           | chamber with 2 exits                 |
-| **5**  | a cramped        | crawlspace                           |
-| **6**  | a damaged        | dead end                             |
-| **7**  | a dark           | exit from the dungeon                |
-| **8**  | a decorated      | chamber with 2 exits                 |
-| **9**  | a domed          | passage with a 4-way intersection    |
-| **10** | a dusty          | passage with a locked side door      |
-| **11** | a flooded        | passage with a right-angle turn      |
-| **12** | a long           | chamber with 2 exits. One is locked  |
-| **13** | a mossy          | passage with a T-shaped intersection |
-| **14** | a narrow         | passage with an alcove               |
-| **15** | a sealed         | room with a ladder                   |
-| **16** | a sloped         | chamber with 3 exits                 |
-| **17** | a torch-lit      | rotunda with 4 exits. One is locked  |
-| **18** | a webbed         | staircase                            |
-| **19** | an echoing       | vault with a larged, locked door     |
-| **20** | an overgrown     | chamber with 3 exits. One is locked  |
+|   #    | Description  |                 Area                 |
+|:------:|:------------:|:------------------------------------:|
+| **1**  | a branching  |         atrium with 3 exits          |
+| **2**  |  a circular  |                bridge                |
+| **3**  | a cluttered  |    connection to a previous area     |
+| **4**  |    a cold    |         chamber with 2 exits         |
+| **5**  |  a cramped   |              crawlspace              |
+| **6**  |  a damaged   |               dead end               |
+| **7**  |    a dark    |        exit from the dungeon         |
+| **8**  | a decorated  |         chamber with 2 exits         |
+| **9**  |   a domed    |  passage with a 4-way intersection   |
+| **10** |   a dusty    |   passage with a locked side door    |
+| **11** |  a flooded   |   passage with a right-angle turn    |
+| **12** |    a long    | chamber with 2 exits. One is locked  |
+| **13** |   a mossy    | passage with a T-shaped intersection |
+| **14** |   a narrow   |        passage with an alcove        |
+| **15** |   a sealed   |          room with a ladder          |
+| **16** |   a sloped   |         chamber with 3 exits         |
+| **17** | a torch-lit  | rotunda with 4 exits. One is locked  |
+| **18** |   a webbed   |              staircase               |
+| **19** |  an echoing  |   vault with a larged, locked door   |
+| **20** | an overgrown | chamber with 3 exits. One is locked  |
 
 \column
 
@@ -465,28 +388,28 @@ They are talking about [**Information**] [**Subject**].
 
 :
 
-| #      | Information                    | Subject              |
+|   #    |          Information           |       Subject        |
 |:------:|:------------------------------:|:--------------------:|
-| **1**  | a financial gain involving     | a dangerous place    |
-| **2**  | a financial loss involving     | a distant location   |
-| **3**  | a gain of influence involving  | a historical event   |
-| **4**  | a link between an NPC and      | a PC                 |
-| **5**  | a link between the PC and      | a safe location      |
-| **6**  | a link between the villain and | a sidequest          |
-| **7**  | a loss of influence involving  | a traitor            |
-| **8**  | a material gain involving      | a world truth        |
-| **9**  | a material loss involving      | an allied faction    |
-| **10** | a negative change in           | an allied npc        | 
-| **11** | a positive change in           | an artifact          |
-| **12** | an ambush concerning           | an enemy hideout     |
-| **13** | historical knowledge regarding | an enemy npc         |
-| **14** | negative news regarding        | an important npc     |
-| **15** | positive news regarding        | the current location |
-| **16** | the family of                  | the current quest    |
-| **17** | the identity of                | the destination      |
-| **18** | the location of                | the enemy's plan     |
-| **19** | the reputation of              | the party            |
-| **20** | the weaknesses of              | the villain          |
+| **1**  |   a financial gain involving   |  a dangerous place   |
+| **2**  |   a financial loss involving   |  a distant location  |
+| **3**  | a gain of influence involving  |  a historical event  |
+| **4**  |   a link between an NPC and    |         a PC         |
+| **5**  |   a link between the PC and    |   a safe location    |
+| **6**  | a link between the villain and |     a sidequest      |
+| **7**  | a loss of influence involving  |      a traitor       |
+| **8**  |   a material gain involving    |    a world truth     |
+| **9**  |   a material loss involving    |  an allied faction   |
+| **10** |      a negative change in      |    an allied npc     |
+| **11** |      a positive change in      |     an artifact      |
+| **12** |      an ambush concerning      |   an enemy hideout   |
+| **13** | historical knowledge regarding |     an enemy npc     |
+| **14** |    negative news regarding     |   an important npc   |
+| **15** |    positive news regarding     | the current location |
+| **16** |         the family of          |  the current quest   |
+| **17** |        the identity of         |   the destination    |
+| **18** |        the location of         |   the enemy's plan   |
+| **19** |       the reputation of        |      the party       |
+| **20** |       the weaknesses of        |     the villain      |
 }}
 }}
 <!-- END BOX 11/12 -->
@@ -507,28 +430,28 @@ They are talking about [**Information**] [**Subject**].
 
 :
 
-| #       | 1    | 2    | 3    |
-|:-------:|:----:|:----:|:----:|
-| **1**   |    A | hal  | an   |
-| **2**   |    E | ris  | ar   |
-| **3**   |    I | del  | er   |
-| **4**   |    O | mor  | ian  |
-| **5**   |    U | bar  | ic   |
-| **6**   |   De | net  | in   |
-| **7**   |   Ka | kel  | o    |
-| **8**   |   Li | lim  | on   |
-| **9**   |   Ma | tur  | or   |
-| **10**  |   Ro | pen  | us   |
-| **11**  |   Be | rond | a    |
-| **12**  |   Da | kay  | aea  |
-| **13**  |   Ki | jam  | aya  |
-| **14**  |   Le | vash | elle |
-| **15**  |   Mi | zab  | ene  |
-| **16**  |   Ne | yos  | ess  |
-| **17**  |   Ru | gran | ette |
-| **18**  |   Si | ched | ice  |
-| **19**  |   Ta | sark | id   |
-| **20**  |   To | kic  | osa  |
+|   #    | 1  |  2   |  3   |
+|:------:|:--:|:----:|:----:|
+| **1**  | A  | hal  |  an  |
+| **2**  | E  | ris  |  ar  |
+| **3**  | I  | del  |  er  |
+| **4**  | O  | mor  | ian  |
+| **5**  | U  | bar  |  ic  |
+| **6**  | De | net  |  in  |
+| **7**  | Ka | kel  |  o   |
+| **8**  | Li | lim  |  on  |
+| **9**  | Ma | tur  |  or  |
+| **10** | Ro | pen  |  us  |
+| **11** | Be | rond |  a   |
+| **12** | Da | kay  | aea  |
+| **13** | Ki | jam  | aya  |
+| **14** | Le | vash | elle |
+| **15** | Mi | zab  | ene  |
+| **16** | Ne | yos  | ess  |
+| **17** | Ru | gran | ette |
+| **18** | Si | ched | ice  |
+| **19** | Ta | sark |  id  |
+| **20** | To | kic  | osa  |
 
 }}
 }}
@@ -544,14 +467,14 @@ They are talking about [**Information**] [**Subject**].
 
 :
 
-| #     | Answer           |
+|   #   |      Answer      |
 |:-----:|:----------------:|
-| **6** | Yes, and ...     |
+| **6** |   Yes, and ...   |
 | **5** | Yes, because ... |
-| **4** | Yes, but ...     |
-| **3** | No, but ...      |
+| **4** |   Yes, but ...   |
+| **3** |   No, but ...    |
 | **2** | No, because ...  |
-| **1** | No, and ...      |
+| **1** |   No, and ...    |
 
 {{center
 
@@ -606,28 +529,28 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 :
 
-| #       | Inspiration                    |
-|:-------:|:------------------------------:|
-| **1**   | Despair washes over you        |
-| **2**   | It fills you with fear         |
-| **3**   | This is only the beginning     |
-| **4**   | An enemy would want this       |
-| **5**   | You've been warned about this  |
-| **6**   | It feels out of place here     |
-| **7**   | It's not what it appears to be |
-| **8**   | The timing seems deliberate    |
-| **9**   | That was too easy              |
-| **10**  | There's something hidden here  |
-| **11**  | It wasn't always this way      |
-| **12**  | This predates you              |
-| **13**  | Its size surprises you         |
-| **14**  | Deep down, you already know    |
-| **15**  | You've encountered this before |
-| **16**  | It will matter later           |
-| **17**  | It's impossibly rare           |
-| **18**  | Someone trusted is connected   |
-| **19**  | It connects to your goal       |
-| **20**  | Your companion would know more |
+|   #    |          Inspiration           |
+|:------:|:------------------------------:|
+| **1**  |    Despair washes over you     |
+| **2**  |     It fills you with fear     |
+| **3**  |   This is only the beginning   |
+| **4**  |    An enemy would want this    |
+| **5**  | You've been warned about this  |
+| **6**  |   It feels out of place here   |
+| **7**  | It's not what it appears to be |
+| **8**  |  The timing seems deliberate   |
+| **9**  |       That was too easy        |
+| **10** | There's something hidden here  |
+| **11** |   It wasn't always this way    |
+| **12** |       This predates you        |
+| **13** |     Its size surprises you     |
+| **14** |  Deep down, you already know   |
+| **15** | You've encountered this before |
+| **16** |      It will matter later      |
+| **17** |      It's impossibly rare      |
+| **18** |  Someone trusted is connected  |
+| **19** |    It connects to your goal    |
+| **20** | Your companion would know more |
 
 }}
 }}
@@ -643,28 +566,28 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 :
 
-| #      |                                                                                        | Color             |
+|   #    |                                                                                        |       Color       |
 |:------:|:--------------------------------------------------------------------------------------:|:-----------------:|
 | **1**  | <span style="background-color:#C700C7; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Ethereal Magenta  |
-| **2**  | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Shimmering Ruby   |
-| **3**  | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Crimson Blood     |
-| **4**  | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Warning Flame     |
+| **2**  | <span style="background-color:#FFA1D0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |  Shimmering Ruby  |
+| **3**  | <span style="background-color:#c41235; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Crimson Blood   |
+| **4**  | <span style="background-color:#FF8C00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Warning Flame   |
 | **5**  | <span style="background-color:#FFFF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Highlight Sunbeam |
-| **6**  | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Electric Lime     |
-| **7**  | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Forest Green      |
+| **6**  | <span style="background-color:#00FF7F; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Electric Lime   |
+| **7**  | <span style="background-color:#008000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Forest Green    |
 | **8**  | <span style="background-color:#00CED1; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Luminescent Cyan  |
-| **9**  | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Sturdy Cobalt     |
-| **10** | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Clear Frost       |
+| **9**  | <span style="background-color:#0000CD; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Sturdy Cobalt   |
+| **10** | <span style="background-color:#d6ecf3; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |    Clear Frost    |
 | **11** | <span style="background-color:#ae94e4; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Fragrant Lavender |
-| **12** | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Royal Violet      |
+| **12** | <span style="background-color:#4B0082; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Royal Violet    |
 | **13** | <span style="background-color:#000000; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Mirrored Obsidian |
-| **14** | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midnight Shade    |
-| **15** | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Hidden Slate      |
-| **16** | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Metallic Silver   |
-| **17** | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Midas Gold        |
-| **18** | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Worn Leather      |
-| **19** | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Weathered Sand    |
-| **20** | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> | Divine Pearl      |
+| **14** | <span style="background-color:#073642; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |  Midnight Shade   |
+| **15** | <span style="background-color:#657b83; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Hidden Slate    |
+| **16** | <span style="background-color:#C0C0C0; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |  Metallic Silver  |
+| **17** | <span style="background-color:#E3BF00; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |    Midas Gold     |
+| **18** | <span style="background-color:#8B4513; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Worn Leather    |
+| **19** | <span style="background-color:#D2B48C; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |  Weathered Sand   |
+| **20** | <span style="background-color:#FFFFFF; color:Black;"> &nbsp;&nbsp;&nbsp;&nbsp; </span> |   Divine Pearl    |
 
 }}
 }}
@@ -679,28 +602,28 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 [**Atmosphere**] [**Location**] [**Subject**] [**Action**]. [**Situation**]
 }}
 :
-| #      | Atmosphere                        | Location            | Action               | Subject               | Situation                               |
-|:------:|:---------------------------------:|:-------------------:|:--------------------:|:---------------------:|:---------------------------------------:|
-| **1**  | A colorful glow pulses            | around the corner   | barring access to    | a beckoning passage.  | A chase begins.                         | 
-| **2**  | A faint movement catches your eye | at the edge         | concealing           | a cairn.              | A shorcut is offered, will you take it? | 
-| **3**  | A sticky film covers everything   | behind you          | disclosing           | a dark cave.          | An assumption proves false.             | 
-| **4**  | Blood drips                       | below               | drawing attention to | a deep pit.           | Are you being followed?                 | 
-| **5**  | Cold moisture beads on stone      | beside you          | encircling           | a glinting treasure.  | Backup will arrive soon.                | 
-| **6**  | Creatures laugh                   | beyond reach        | guarding             | a grave.              | Can you pass without being noticed?     | 
-| **7**  | Deafening noise fills the area    | everywhere          | hiding               | a large tree.         | Can you use this to your advantage?     | 
-| **8**  | Embers crackle                    | far away            | highlighting         | a magical ward.       | For the moment, it is safe to rest.     | 
-| **9**  | Flames flicker                    | high above          | hinting at           | a monument.           | Is this the way forward?                | 
-| **10** | Fog hovers                        | in the air          | implying             | a stranger.           | It's quiet. Too quiet...                | 
-| **11** | Insects buzz                      | in the area ahead   | leading to           | a territorial beast.  | Someone is exposed to danger.           | 
-| **12** | Mushroom spores float             | in the distance     | masking              | a well.               | Something calls to you, do you answer?  | 
-| **13** | Rouch scraping fills the air      | in the shadows      | obscuring            | creature tracks.      | The enemy gains new allies.             | 
-| **14** | Scratching sounds echo            | just out of sight   | pointing toward      | fresh water.          | The silence is suddenly broken.         | 
-| **15** | Smoke billows                     | near the walls      | protecting           | mushrooms.            | The way forward becomes clear.          | 
-| **16** | The smell of decay rises          | nearby              | revealing            | ruins.                | What are you willing to sacrifice?      | 
-| **17** | Thorns protrude                   | on the ground       | shrouding            | scavengers.           | Will you reveal yourself?               | 
-| **18** | Water pools                       | to the side         | suggesting           | signs of pursuit.     | Your approach draws unwanted attention. | 
-| **19** | Webs cling to every surface       | where you came from | uncovering           | smoke rising.         | Your fear is realized.                  | 
-| **20** | Whispers are heard                | within arms reach   | warning of           | unstable ground.      | Your past catches up to you.            | 
+|   #    |            Atmosphere             |      Location       |        Action        |       Subject        |                Situation                |
+|:------:|:---------------------------------:|:-------------------:|:--------------------:|:--------------------:|:---------------------------------------:|
+| **1**  |      A colorful glow pulses       |  around the corner  |  barring access to   | a beckoning passage. |             A chase begins.             |
+| **2**  | A faint movement catches your eye |     at the edge     |      concealing      |       a cairn.       | A shorcut is offered, will you take it? |
+| **3**  |  A sticky film covers everything  |     behind you      |      disclosing      |     a dark cave.     |       An assumption proves false.       |
+| **4**  |            Blood drips            |        below        | drawing attention to |     a deep pit.      |         Are you being followed?         |
+| **5**  |   Cold moisture beads on stone    |     beside you      |      encircling      | a glinting treasure. |        Backup will arrive soon.         |
+| **6**  |          Creatures laugh          |    beyond reach     |       guarding       |       a grave.       |   Can you pass without being noticed?   |
+| **7**  |  Deafening noise fills the area   |     everywhere      |        hiding        |    a large tree.     |   Can you use this to your advantage?   |
+| **8**  |          Embers crackle           |      far away       |     highlighting     |   a magical ward.    |   For the moment, it is safe to rest.   |
+| **9**  |          Flames flicker           |     high above      |      hinting at      |     a monument.      |        Is this the way forward?         |
+| **10** |            Fog hovers             |     in the air      |       implying       |     a stranger.      |        It's quiet. Too quiet...         |
+| **11** |           Insects buzz            |  in the area ahead  |      leading to      | a territorial beast. |      Someone is exposed to danger.      |
+| **12** |       Mushroom spores float       |   in the distance   |       masking        |       a well.        | Something calls to you, do you answer?  |
+| **13** |   Rouch scraping fills the air    |   in the shadows    |      obscuring       |   creature tracks.   |       The enemy gains new allies.       |
+| **14** |      Scratching sounds echo       |  just out of sight  |   pointing toward    |     fresh water.     |     The silence is suddenly broken.     |
+| **15** |           Smoke billows           |   near the walls    |      protecting      |      mushrooms.      |     The way forward becomes clear.      |
+| **16** |     The smell of decay rises      |       nearby        |      revealing       |        ruins.        |   What are you willing to sacrifice?    |
+| **17** |          Thorns protrude          |    on the ground    |      shrouding       |     scavengers.      |        Will you reveal yourself?        |
+| **18** |            Water pools            |     to the side     |      suggesting      |  signs of pursuit.   | Your approach draws unwanted attention. |
+| **19** |    Webs cling to every surface    | where you came from |      uncovering      |    smoke rising.     |         Your fear is realized.          |
+| **20** |        Whispers are heard         |  within arms reach  |      warning of      |   unstable ground.   |      Your past catches up to you.       |
 
 }}
 
@@ -708,58 +631,3 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 <!-- END BOX 4/5/6/7 -->
 
 <!-- END BACK PAGE -->
-
-<!-- BEGIN FOLD LINES -->
-<style>
-
-/* Eyeball aid (delete this whole block when you are done): thin red lines
-   drawn exactly on the paper's FOLD LINES, measured from the paper's EDGES —
-   no margins: 25% / 50% / 75% across the full page width (the long side of
-   this landscape sheet) plus a single 50% line down the full page height.
-   The ::after pseudo-element covers the entire page (the top style block
-   switched it off to remove the theme's footer bar — this re-uses it) and
-   paints on top of the boxes, so the lines are visible across the whole
-   paper. Each gradient layer paints one 1px red line centered on its
-   percentage of the FULL page. */
-#p1::after, #p2::after
-{
-  content: "";
-  /* cover the entire page, including the 0.9em margins */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* never intercepts the page underneath */
-  pointer-events: none;
-  background:
-    /* vertical line at 25% across the paper */
-    linear-gradient(to right,
-      transparent calc(25% - 1px), red calc(25% - 1px),
-      red calc(25% + 1px), transparent calc(25% + 1px)),
-    /* vertical line at 50% across the paper */
-    linear-gradient(to right,
-      transparent calc(50% - 1px), red calc(50% - 1px),
-      red calc(50% + 1px), transparent calc(50% + 1px)),
-    /* vertical line at 75% across the paper */
-    linear-gradient(to right,
-      transparent calc(75% - 1px), red calc(75% - 1px),
-      red calc(75% + 1px), transparent calc(75% + 1px)),
-    /* horizontal line at 50% down the paper */
-    linear-gradient(to bottom,
-      transparent calc(50% - 1px), red calc(50% - 1px),
-      red calc(50% + 1px), transparent calc(50% + 1px));
-}
-
-/* the lines are for screen-checking only — never let them reach the PDF */
-@media print
-{
-  #p1::after, #p2::after
-  {
-    content: none !important;
-    background: none !important;
-  }
-}
-
-</style>
-<!-- END FOLD LINES -->
