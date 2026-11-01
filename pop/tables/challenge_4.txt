@@ -1,0 +1,10 @@
+alter
+bypass
+destroy
+protect
+redirect
+reveal
+sabotage
+secure
+seize
+weaken

@@ -1,0 +1,30 @@
+{
+  "header": "Quest",
+  "template": "\nA [**Trait**] [**Person**], concerned about [**Motive**], asks you to  \n[**Objective**] the [**Description**] [**Focus**] in the [**Dungeon**] of [**Adjective**] [**Noun**],  \n[**Complication**].\n",
+  "dice": "1d10",
+  "columns": [
+    "#",
+    "Objective",
+    "Description",
+    "Focus",
+    "Complication"
+  ],
+  "rows": [
+    [
+      "**1**",
+      "**2**",
+      "**3**",
+      "**4**",
+      "**5**",
+      "**6**",
+      "**7**",
+      "**8**",
+      "**9**",
+      "**0**"
+    ],
+    "quest_1.json",
+    "quest_2.json",
+    "quest_3.json",
+    "quest_4.json"
+  ]
+}

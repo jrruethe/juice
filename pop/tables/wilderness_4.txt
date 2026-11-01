@@ -1,0 +1,10 @@
+Bones
+Bridge
+Cairn
+Circle
+Monument
+Ruins
+Smoke
+Spring
+Tracks
+Well

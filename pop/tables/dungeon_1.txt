@@ -1,0 +1,10 @@
+*Passage*
+Small Chamber w/ 3 Exits
+Large Chamber w/ 3 Exits
+Small Chamber w/ 2 Exits
+Circular Chamber w/ 2 Exits
+Locked Door
+Small Chamber w/ 1 Exit
+Secret Exit / Stairs
+Connection to Previous Area
+*Passage*

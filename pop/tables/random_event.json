@@ -1,0 +1,13 @@
+{
+  "header": "Random Event",
+  "template": "",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Random Event"
+  ],
+  "rows": [
+    "*",
+    "random_event_1.json"
+  ]
+}

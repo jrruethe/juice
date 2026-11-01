@@ -1,0 +1,30 @@
+{
+  "header": "Dungeon Exploration",
+  "template": "\n**Early**: Roll **NA** & **Encounter** @ Disadv. | **Late**: Roll **NA** & **Encounter** @ Adv.  \nDoubles on **NA**: **Early** ➜ **Late** | Doubles on **Encounter**: **Random Event**\n",
+  "dice": "1d10",
+  "columns": [
+    "#",
+    "Next Area",
+    "Passage",
+    "Encounter",
+    "Feature"
+  ],
+  "rows": [
+    [
+      "**1**",
+      "**2**",
+      "**3**",
+      "**4**",
+      "**5**",
+      "**6**",
+      "**7**",
+      "**8**",
+      "**9**",
+      "**0**"
+    ],
+    "dungeon_1.json",
+    "dungeon_2.json",
+    "dungeon_3.json",
+    "dungeon_4.json"
+  ]
+}

@@ -1,0 +1,10 @@
+Arctic
+Mountains
+Cavern
+Hills
+Grassland
+Forest
+Swamp
+Water Feature
+Coast
+Desert

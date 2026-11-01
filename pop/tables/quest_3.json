@@ -1,0 +1,15 @@
+{
+  "header": "Focus",
+  "rows": [
+    "Anomaly",
+    "Faction",
+    "Information",
+    "Monster",
+    "Seal",
+    "NPC",
+    "Object / Treasure",
+    "Remains",
+    "Plant",
+    "Villain"
+  ]
+}

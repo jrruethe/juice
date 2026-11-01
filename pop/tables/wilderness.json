@@ -1,0 +1,32 @@
+{
+  "header": "Wilderness Exploration",
+  "template": "Move Up/Down **Environment** Ladder when transitioning areas.  \nRoll **Encounter** @ Disadvantage until Doubles, then @ Advantage.",
+  "dice": "1d10",
+  "columns": [
+    "#",
+    "Description",
+    "Environment",
+    "Encounter",
+    "Feature",
+    "*Ladder*"
+  ],
+  "rows": [
+    [
+      "**1**",
+      "**2**",
+      "**3**",
+      "**4**",
+      "**5**",
+      "**6**",
+      "**7**",
+      "**8**",
+      "**9**",
+      "**0**"
+    ],
+    "wilderness_1.json",
+    "wilderness_2.json",
+    "wilderness_3.json",
+    "wilderness_4.json",
+    "wilderness_5.json"
+  ]
+}

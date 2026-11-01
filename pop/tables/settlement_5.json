@@ -1,0 +1,15 @@
+{
+  "header": "News",
+  "rows": [
+    "War",
+    "Sickness",
+    "Natural Disaster",
+    "Crime",
+    "Succession",
+    "Remote Event",
+    "Arrival",
+    "Mail",
+    "Sale",
+    "Celebration"
+  ]
+}

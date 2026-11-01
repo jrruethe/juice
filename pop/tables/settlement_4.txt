@@ -1,0 +1,10 @@
+Artist
+Baker
+Tailor
+Tanner
+Archer
+Blacksmith
+Carpenter
+Apothecary
+Jeweler
+Scribe

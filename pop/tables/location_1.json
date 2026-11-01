@@ -1,0 +1,15 @@
+{
+  "header": "Dungeon",
+  "rows": [
+    "Catacombs",
+    "Cavern",
+    "Crypt",
+    "Fortress",
+    "Hideout",
+    "Lair",
+    "Mine",
+    "Depths",
+    "Sanctuary",
+    "Temple"
+  ]
+}

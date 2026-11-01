@@ -1,0 +1,13 @@
+{
+  "header": "Consequence",
+  "template": "",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Consequence"
+  ],
+  "rows": [
+    "*",
+    "consequence_1.json"
+  ]
+}

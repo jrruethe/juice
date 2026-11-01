@@ -1,0 +1,10 @@
+Hostile
+Suspicious
+Guarded
+Distant
+Calm
+Curious
+Open
+Warm
+Eager
+Trusting

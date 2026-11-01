@@ -1,0 +1,10 @@
+a barrier
+a cipher
+a device
+a foe
+a guard
+a hazard
+a lever
+the terrain
+a trap
+a vital link

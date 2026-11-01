@@ -1,0 +1,15 @@
+{
+  "header": "Establishment",
+  "rows": [
+    "Stable",
+    "Tavern",
+    "Inn",
+    "Entertainment",
+    "General Store",
+    "*Artisan*",
+    "Courier",
+    "Temple",
+    "Guild Hall",
+    "Magic Shop"
+  ]
+}

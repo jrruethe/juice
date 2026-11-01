@@ -1,0 +1,10 @@
+Anomaly
+Faction
+Information
+Monster
+Seal
+NPC
+Object / Treasure
+Remains
+Plant
+Villain

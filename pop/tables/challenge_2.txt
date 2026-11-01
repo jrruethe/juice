@@ -1,0 +1,10 @@
+Tool
+Nature
+Investigate
+Persuasion
+Deception
+Language
+Religion
+Arcana
+History
+Insight

@@ -1,0 +1,15 @@
+{
+  "header": "Passage",
+  "rows": [
+    "4-way Intersection",
+    "T Intersection",
+    "Side Passage",
+    "Right Angle Turn",
+    "Side Alcove",
+    "Long / Winding",
+    "Narrow",
+    "Sloped",
+    "Small Crawlspace",
+    "Bridge"
+  ]
+}

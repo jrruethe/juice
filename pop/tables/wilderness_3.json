@@ -1,0 +1,15 @@
+{
+  "header": "Encounter",
+  "rows": [
+    "Natural Hazard",
+    "Weather",
+    "*Immersion*",
+    "Road / River",
+    "Monster",
+    "*Challenge*",
+    "*Feature*",
+    "*Settlement* / Camp",
+    "Destination / *Dungeon*",
+    "Advance Plot"
+  ]
+}

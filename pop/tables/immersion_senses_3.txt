@@ -1,0 +1,10 @@
+Alcohol
+Blood
+Smoke
+Cooking
+Decay
+Dust
+Flowers
+Leather
+Oil
+Soil

@@ -1,0 +1,20 @@
+{
+  "header": "Yes/No Oracle",
+  "template": "",
+  "dice": "2d6",
+  "columns": [
+    "Roll",
+    "Answer"
+  ],
+  "rows": [
+    [
+      "**6**",
+      "**5**",
+      "**4**",
+      "**3**",
+      "**2**",
+      "**1**"
+    ],
+    "oracle_1.json"
+  ]
+}

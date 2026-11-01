@@ -1,0 +1,15 @@
+{
+  "header": "Response",
+  "rows": [
+    "Threat",
+    "Refusal",
+    "Deflection",
+    "Question",
+    "Statement",
+    "Inquiry",
+    "Discussion",
+    "Offer",
+    "Agreement",
+    "Revelation"
+  ]
+}

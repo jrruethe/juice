@@ -1,0 +1,22 @@
+| # |  Symbol   |
+|:-:|:---------:|
+| 1 |   Arrow   |
+| 2 |  Beetle   |
+| 3 |   Blade   |
+| 4 |  Bottle   |
+| 5 |  Candle   |
+| 6 | Cauldron  |
+| 7 |   Chain   |
+| 8 |  Dragon   |
+| 9 |    Eye    |
+| 10 |   Fang    |
+| 11 |  Hammer   |
+| 12 |   Hook    |
+| 13 | Hourglass |
+| 14 |    Key    |
+| 15 |  Lizard   |
+| 16 |   Quill   |
+| 17 |   Rose    |
+| 18 |   Skull   |
+| 19 |   Snake   |
+| 20 |  Spider   |

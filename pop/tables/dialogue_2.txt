@@ -1,0 +1,10 @@
+Threat
+Refusal
+Deflection
+Question
+Statement
+Inquiry
+Discussion
+Offer
+Agreement
+Revelation

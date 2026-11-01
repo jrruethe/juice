@@ -1,0 +1,20 @@
+You see a monster.
+You spot a trap.
+You are too late.
+An assumption you made is proven false.
+Time advances. Check torches, rations, etc.
+A periodic event occurs or advances.
+A remote event occurrs that will impact you.
+You sense something...
+A new character appears.
+Whatever difficulty you face is overcome.
+Your companion makes a mistake.
+Your companion acts in their own self-interest.
+Your companion gestures subtly.
+Companion: "There are other things to do first."
+Companion: "How do you plan on ...?"
+Your companion talks about their past.
+Your companion asks a question about you.
+Your companion acts in your interest.
+Your companion gives you something.
+Companion: "What's that?"

@@ -1,0 +1,15 @@
+{
+  "header": "*Ladder*",
+  "rows": [
+    "*Move Up 2*",
+    "*Move Up 1*",
+    "*Move Up 1*",
+    "*Move Up 1*",
+    "*Same Env*",
+    "*Same Env*",
+    "*Move Down 1*",
+    "*Move Down 1*",
+    "*Move Down 1*",
+    "*Move Down 2*"
+  ]
+}

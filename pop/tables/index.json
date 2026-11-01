@@ -1,0 +1,19 @@
+[
+  "quest.json",
+  "person.json",
+  "location.json",
+  "settlement.json",
+  "color.json",
+  "wilderness.json",
+  "dungeon.json",
+  "treasure.json",
+  "immersion_senses.json",
+  "immersion_context.json",
+  "name.json",
+  "dialogue.json",
+  "oracle.json",
+  "challenge.json",
+  "random_event.json",
+  "consequence.json",
+  "inspiration.json"
+]

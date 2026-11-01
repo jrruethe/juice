@@ -1,0 +1,31 @@
+{
+  "header": "Person",
+  "template": "",
+  "dice": "1d10",
+  "columns": [
+    "#",
+    "Trait",
+    "Person",
+    "Motive / Topic"
+  ],
+  "rows": [
+    [
+      "**1**",
+      "**2**",
+      "**3**",
+      "**4**",
+      "**5**",
+      "**6**",
+      "**7**",
+      "**8**",
+      "**9**",
+      "**0**"
+    ],
+    "person_1.json",
+    "person_2.json",
+    "person_3.json"
+  ],
+  "aliases": {
+    "Motive": "Motive / Topic"
+  }
+}

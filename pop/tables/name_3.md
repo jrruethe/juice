@@ -1,0 +1,22 @@
+| # |  2   |
+|:-:|:----:|
+| 1 | hal  |
+| 2 | ris  |
+| 3 | del  |
+| 4 | mor  |
+| 5 | bar  |
+| 6 | net  |
+| 7 | kel  |
+| 8 | lim  |
+| 9 | tur  |
+| 10 | pen  |
+| 11 | rond |
+| 12 | kay  |
+| 13 | jam  |
+| 14 | vash |
+| 15 | zab  |
+| 16 | yos  |
+| 17 | gran |
+| 18 | ched |
+| 19 | sark |
+| 20 | kic  |

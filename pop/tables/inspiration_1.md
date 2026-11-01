@@ -1,0 +1,22 @@
+| # | Inspiration |
+|:-:|:-----------:|
+| 1 |   Ancient   |
+| 2 | Artificial  |
+| 3 | Communicate |
+| 4 |   Conceal   |
+| 5 |  Dangerous  |
+| 6 |   Extreme   |
+| 7 |  Familiar   |
+| 8 |   Helpful   |
+| 9 |   Looming   |
+| 10 |   Missing   |
+| 11 |   Mundane   |
+| 12 | Mysterious  |
+| 13 |   Oppose    |
+| 14 |  Peaceful   |
+| 15 | Persistent  |
+| 16 |  Powerful   |
+| 17 |   Reveal    |
+| 18 | Specialized |
+| 19 |  Transform  |
+| 20 |  Weakened   |

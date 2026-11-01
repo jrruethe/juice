@@ -1,0 +1,15 @@
+{
+  "header": "Encounter",
+  "rows": [
+    "Natural Hazard",
+    "Safety",
+    "*Immersion*",
+    "Monster",
+    "Key*",
+    "Trap",
+    "*Challenge*",
+    "*Feature*",
+    "*Treasure*",
+    "Objective* / Clue"
+  ]
+}

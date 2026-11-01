@@ -1,0 +1,15 @@
+{
+  "header": "Mental Skill",
+  "rows": [
+    "Tool",
+    "Nature",
+    "Investigate",
+    "Persuasion",
+    "Deception",
+    "Language",
+    "Religion",
+    "Arcana",
+    "History",
+    "Insight"
+  ]
+}
