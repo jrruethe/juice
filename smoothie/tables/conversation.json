@@ -1,0 +1,15 @@
+{
+  "header": "What are they talking about?",
+  "template": "They are talking about [**Information**] [**Subject**].",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Information",
+    "Subject"
+  ],
+  "rows": [
+    "*",
+    "conversation_1.json",
+    "conversation_2.json"
+  ]
+}

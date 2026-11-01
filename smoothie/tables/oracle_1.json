@@ -1,0 +1,11 @@
+{
+  "header": "Answer",
+  "rows": [
+    "Yes, and ...",
+    "Yes, because ...",
+    "Yes, but ...",
+    "No, but ...",
+    "No, because ...",
+    "No, and ..."
+  ]
+}

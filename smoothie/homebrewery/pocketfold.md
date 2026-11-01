@@ -3,7 +3,7 @@
 
 /* ===== Page ===== */
 
-/* The page: US Letter portrait, blank, laid out by us (not by the theme) */
+/* The page: US Letter landscape, blank, laid out by us (not by the theme) */
 .page
 {
   /* US Letter width (landscape: wider than tall) */
@@ -11,19 +11,19 @@
   /* US Letter height (landscape: shorter than wide, so boxes are wider than tall) */
   height: 8.5in;
   
-  /* the 0.9em padding below counts INSIDE the 8.5in x 11in, so the page is exactly paper size */
+  /* the 1em padding below counts INSIDE the 11in x 8.5in, so the page is exactly paper size */
   box-sizing: border-box;
   /* blank white background (overrides the theme's parchment image / theme color) */
   background: white;
   
   /* gap between content and the page edge, top */
-  padding-top: 0.9em;
+  padding-top: 1em;
   /* gap between content and the page edge, right */
-  padding-right: 0.9em;
+  padding-right: 1em;
   /* gap between content and the page edge, bottom */
-  padding-bottom: 0.9em;
+  padding-bottom: 1em;
   /* gap between content and the page edge, left */
-  padding-left: 0.9em;
+  padding-left: 1em;
   
   /* the theme lays the page out as two PHB-style columns; force one so we control placement */
   column-count: 1;
@@ -35,6 +35,104 @@
 .page::after
 {
   content: none;
+}
+
+/* ===== Wrapper ===== */
+
+/* Homebrewery wraps all content in this div; the theme turns it into a column container
+   that inherits from the page. Make it a plain block that fills the page, so the
+   percentage heights below have a definite size to measure against. */
+.columnWrapper
+{
+  /* don't inherit the page's columns */
+  column-count: 1;
+  column-width: auto;
+  /* fill the page's content area (the page minus its 1em padding) */
+  height: 100%;
+}
+
+/* the {{wide}} block: the whole working area inside the page's padding */
+.block.wide
+{
+  /* fill the wrapper (= the page's content area) */
+  height: 100%;
+  /* the theme adds margins around wide blocks; remove them */
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Page 1 (front side) ===== */
+
+/* Page 1 (the front side of the paper) does NOT use the page-2 rows: it holds
+   two big boxes directly in the wide block, one per half of the page. Make
+   page 1's wide a two-row grid so each big box gets exactly half of the
+   page's height (both boxes come out the same size: full page width, half
+   page height). */
+#p1 .block.wide
+{
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+/* The single fold line on this side of the paper is the MIDDLE of the page;
+   the two half-page boxes each give up 0.35em on that side, so the
+   0.7em gap between them is centered exactly on the fold line. */
+#p1 .block.wide > .box:first-child
+{
+  /* the top box ends 0.35em above the middle fold line */
+  height: calc(100% - 0.35em);
+}
+#p1 .block.wide > .box:last-child
+{
+  /* the bottom box starts 0.35em below the middle fold line */
+  margin-top: 0.35em;
+  height: calc(100% - 0.35em);
+}
+
+/* ===== Octet boxes ===== */
+
+/* every box: green planning border, content clipped to the box.
+   (Each box's size is set by the version-specific fold-line rules above and
+   in the version template — see the row/grid rules there.) */
+.block.box
+{
+  /* the theme makes every .block an inline-block at 100% width;
+     force a plain block that sits cleanly in its grid cell */
+  display: block;
+  width: auto;
+  /* green border marking the octet's working area (remove when planning is done) */
+  border: 0px solid green;
+  /* content that overflows the box is clipped instead of spilling into its neighbor */
+  overflow: hidden;
+  /* anchor for the {{left block (positioned absolutely inside the box);
+     does nothing for boxes that don't contain one */
+  position: relative;
+}
+
+/* optional flip: wrap a box's content in {{invert ... }} to print the box upside-down.
+   The content is anchored at the box's BOTTOM edge and flows UPWARD, and every line is
+   rotated 180 degrees. So when the folded box is physically flipped, line one is at the
+   top and everything reads normally. (A plain rotate of the whole content would leave
+   it anchored at the top of the box — that is not a real flip.) */
+.block.invert
+{
+  /* fill the box so that "bottom" below means the box's bottom edge */
+  height: 100%;
+  /* flexbox so the lines can be stacked from the bottom edge upward */
+  display: flex;
+  /* the first line sits at the bottom; each following line stacks above it */
+  flex-direction: column-reverse;
+}
+/* rotate every line 180 degrees (upside-down on paper, right-side-up when flipped) */
+.block.invert > *
+{
+  transform: rotate(180deg);
+}
+  
+/* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
+.columnSplit
+{
+  display: none;
 }
 
 /* ===== Tables ===== */
@@ -94,72 +192,25 @@ div.block.center
   line-height: 85%;
 }
   
-/* ===== Wrapper ===== */
-
-/* Homebrewery wraps all content in this div; the theme turns it into a column container
-   that inherits from the page. Make it a plain block that fills the page, so the
-   percentage heights below have a definite size to measure against. */
-.columnWrapper
-{
-  /* don't inherit the page's columns */
-  column-count: 1;
-  column-width: auto;
-  /* fill the page's content area (the page minus its 0.9em padding) */
-  height: 100%;
-}
-
-/* the {{wide}} block: the whole working area inside the page's padding */
-.block.wide
-{
-  /* fill the wrapper (= the page's content area) */
-  height: 100%;
-  /* the theme adds margins around wide blocks; remove them */
-  margin: 0;
-  padding: 0;
-}
-
-/* ===== Rows ===== */
-
-/* Page 1 does NOT use the four rows: it holds two big boxes directly in the
-   wide block — box 1 takes the top half of the page and box 2 the bottom half.
-   Make page 1's wide a two-row grid so each box gets exactly half of the page's
-   height (both boxes come out the same size: full page width, half page height). */
-#p1 .block.wide
-{
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-}
-
-/* The single fold line on this side of the paper is the MIDDLE of the page;
-   the two half-page boxes each give up 0.3em on that side, so the 0.6em gap
-   between them is centered exactly on the fold line. */
-#p1 .block.wide > .box:first-child
-{
-  /* the top box ends 0.3em above the middle fold line */
-  height: calc(100% - 0.3em);
-}
-#p1 .block.wide > .box:last-child
-{
-  /* the bottom box starts 0.3em below the middle fold line */
-  margin-top: 0.3em;
-  height: calc(100% - 0.3em);
-}
+/* ===== Page 2 (back side) ===== */
 
 /* Page 2 also does NOT use the four rows: all of its boxes sit directly in the
-   wide block. The top row is split into four small boxes (3, 4, 5, 6); the
-   bottom row is one single wide box (7) spanning all four columns. */
+   wide block. The top row is split into four small boxes (2, 1, 8, 3 — all
+   inverted); the bottom row is one single wide box (4/5/6/7) spanning all
+   four columns. */
 #p2 .block.wide
 {
   /* make the wide block a grid so the boxes below are placed by grid
      (the theme leaves it a plain block) */
   display: grid;
   /* the column BOUNDARIES sit on the paper's VERTICAL fold lines (1/4, 1/2
-     and 3/4 of the full 11in width — the fold lines do not know about the
-     0.9em margins), so the two outer columns are a quarter of the paper
-     minus the 0.9em margin at the outer edge, and the two inner columns a
-     full quarter of the paper. The 0.6em gutters between the columns are
-     made by the box rules below, centered on the fold lines. */
-  grid-template-columns: calc(11in/4 - 0.9em) calc(11in/4) calc(11in/4) calc(11in/4 - 0.9em);
+     and 3/4 of the full 11in width — the fold lines do not know about
+     the 1em margins), so the two outer columns are a quarter of the
+     paper (2.75in) minus the 1em margin at the outer edge,
+     and the two inner columns a full quarter of the paper. The 0.7em
+     gutters between the columns are made by the box rules below, centered on
+     the fold lines. */
+  grid-template-columns: calc(2.75in - 1em) 2.75in 2.75in calc(2.75in - 1em);
   /* two rows: the small boxes (top) and the wide box (bottom), each a half-page */
   grid-template-rows: repeat(2, 1fr);
   /* no gap here — the gutters are made by the boxes, below */
@@ -169,94 +220,46 @@ div.block.center
 /* the wide box (4/5/6/7) is the LAST box in page 2's wide block: let it span
    all four columns of the bottom row. The four small boxes before it are
    auto-placed into the top row, one per column, left to right. It also
-   starts 0.3em below the middle fold line: the far half of the 0.6em gap
-   between the top row and the wide box. */
+   starts 0.35em below the middle fold line: the far half of the
+   0.7em gap between the top row and the wide box. */
 #p2 .block.wide > .box:last-child
 {
   grid-column: 1 / -1;
-  margin-top: 0.3em;
-  height: calc(100% - 0.3em);
+  margin-top: 0.35em;
+  height: calc(100% - 0.35em);
 }
 
 /* the four small boxes of the top row. The vertical fold lines run at 1/4,
    1/2 and 3/4 of the paper's width, so each gutter between two small boxes
-   is 0.3em on each side of its fold line: the outer small boxes give up
-   0.3em on their inner side only, the two inner small boxes give up 0.3em
-   on BOTH sides. (The hidden \column divs between the boxes are counted by
-   nth-of-type: the small boxes are the 1st, 3rd, 5th and 7th children of
-   the wide block, the wide box is the 8th.) Every small box also ends
-   0.3em above the middle fold line — the near half of the top/bottom gap. */
+   is 0.35em on each side of its fold line: the outer small boxes
+   give up 0.35em on their inner side only, the two inner small
+   boxes give up 0.35em on BOTH sides. (The hidden \column divs
+   between the boxes are counted by nth-of-type: the small boxes are the 1st,
+   3rd, 5th and 7th children of the wide block, the wide box is the 8th.)
+   Every small box also ends 0.35em above the middle fold line —
+   the near half of the top/bottom gap. */
 #p2 .block.wide > .box:nth-of-type(1)
 {
-  /* leftmost small box: ends 0.3em short of the 1/4 fold line */
-  width: calc(100% - 0.3em);
-  /* ends 0.3em above the middle fold line */
-  height: calc(100% - 0.3em);
+  /* leftmost small box: ends 0.35em short of the 1/4 fold line */
+  width: calc(100% - 0.35em);
+  /* ends 0.35em above the middle fold line */
+  height: calc(100% - 0.35em);
 }
 #p2 .block.wide > .box:nth-of-type(3),
 #p2 .block.wide > .box:nth-of-type(5)
 {
-  /* the two inner small boxes: 0.3em of gutter on each side */
-  margin-left: 0.3em;
-  width: calc(100% - 0.6em);
-  height: calc(100% - 0.3em);
+  /* the two inner small boxes: 0.35em of gutter on each side */
+  margin-left: 0.35em;
+  width: calc(100% - 0.7em);
+  height: calc(100% - 0.35em);
 }
 #p2 .block.wide > .box:nth-of-type(7)
 {
-  /* rightmost small box: 0.3em of gutter on its left only */
-  margin-left: 0.3em;
-  width: calc(100% - 0.3em);
-  height: calc(100% - 0.3em);
+  /* rightmost small box: 0.35em of gutter on its left only */
+  margin-left: 0.35em;
+  width: calc(100% - 0.35em);
+  height: calc(100% - 0.35em);
 }
-
-/* ===== Octet boxes ===== */
-
-/* every box: green planning border, content clipped to the box.
-   (Each box's height is set by the fold-line-aware #p1 / #p2 rules above,
-   so that every gap is centered exactly on the fold line it sits on: the
-   wide boxes come out full page width × half page height minus the
-   fold-side slack.) */
-.block.box
-{
-  /* the theme makes every .block an inline-block at 100% width;
-     force a plain block that sits cleanly in its grid cell */
-  display: block;
-  width: auto;
-  /* green border marking the octet's working area (remove when planning is done) */
-  border: 0px solid green;
-  /* content that overflows the box is clipped instead of spilling into its neighbor */
-  overflow: hidden;
-  /* anchor for the {{left block (positioned absolutely inside the box);
-     does nothing for boxes that don't contain one */
-  position: relative;
-}
-
-/* optional flip: wrap a box's content in {{invert ... }} to print the box upside-down.
-   The content is anchored at the box's BOTTOM edge and flows UPWARD, and every line is
-   rotated 180 degrees. So when the folded box is physically flipped, line one is at the
-   top and everything reads normally. (A plain rotate of the whole content would leave
-   it anchored at the top of the box — that is not a real flip.) */
-.block.invert
-{
-  /* fill the box so that "bottom" below means the box's bottom edge */
-  height: 100%;
-  /* flexbox so the lines can be stacked from the bottom edge upward */
-  display: flex;
-  /* the first line sits at the bottom; each following line stacks above it */
-  flex-direction: column-reverse;
-}
-/* rotate every line 180 degrees (upside-down on paper, right-side-up when flipped) */
-.block.invert > *
-{
-  transform: rotate(180deg);
-}
-
-/* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
-.columnSplit
-{
-  display: none;
-}
-
 </style>
 <!-- END Style -->
 
@@ -478,7 +481,8 @@ They are talking about [**Information**] [**Subject**].
 
 {{center
 
-Guidelines, not rules.  
+:
+
 There is no wrong way to play.  
 Choose what is most fun.
 
@@ -510,6 +514,8 @@ Your actions have consequences and
 change the world in a meaningful way.
 
 }}
+
+:
 
 {{credits
 Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0

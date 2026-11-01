@@ -1,0 +1,11 @@
+{
+  "header": "Settlement",
+  "rows": [
+    "Campsite",
+    "Ruin",
+    "Outpost",
+    "Village",
+    "Small Town",
+    "Large City"
+  ]
+}

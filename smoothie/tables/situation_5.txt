@@ -1,0 +1,20 @@
+A chase begins.
+A shorcut is offered, will you take it?
+An assumption proves false.
+Are you being followed?
+Backup will arrive soon.
+Can you pass without being noticed?
+Can you use this to your advantage?
+For the moment, it is safe to rest.
+Is this the way forward?
+It's quiet. Too quiet...
+Someone is exposed to danger.
+Something calls to you, do you answer?
+The enemy gains new allies.
+The silence is suddenly broken.
+The way forward becomes clear.
+What are you willing to sacrifice?
+Will you reveal yourself?
+Your approach draws unwanted attention.
+Your fear is realized.
+Your past catches up to you.

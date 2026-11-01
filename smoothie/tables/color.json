@@ -1,0 +1,15 @@
+{
+  "header": "Color",
+  "template": "",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "",
+    "Color"
+  ],
+  "rows": [
+    "*",
+    "color_1.json",
+    "color_2.json"
+  ]
+}

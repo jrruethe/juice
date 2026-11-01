@@ -1,0 +1,15 @@
+{
+  "header": "Exploring a Dungeon",
+  "template": "You enter a [**Description**] [**Area**].",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Description",
+    "Area"
+  ],
+  "rows": [
+    "*",
+    "dungeon_1.json",
+    "dungeon_2.json"
+  ]
+}

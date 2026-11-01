@@ -1,0 +1,11 @@
+{
+  "header": "Emotion",
+  "rows": [
+    "Anger",
+    "Fear",
+    "Hope",
+    "Joy",
+    "Nostalgia",
+    "Panic"
+  ]
+}

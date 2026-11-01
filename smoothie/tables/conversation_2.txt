@@ -1,0 +1,20 @@
+a dangerous place
+a distant location
+a historical event
+a PC
+a safe location
+a sidequest
+a traitor
+a world truth
+an allied faction
+an allied npc
+an artifact
+an enemy hideout
+an enemy npc
+an important npc
+the current location
+the current quest
+the destination
+the enemy's plan
+the party
+the villain

@@ -1,0 +1,13 @@
+{
+  "header": "Inspiration",
+  "template": "",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Inspiration"
+  ],
+  "rows": [
+    "*",
+    "inspiration_1.json"
+  ]
+}

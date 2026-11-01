@@ -417,7 +417,7 @@ Roll for **News** when entering a Settlement.
 
 {{horizontal-compact
 
-|   #   | Settlement Name || Establishment |  Artisan   |       News       |
+|   #   | Settlement Name         || Establishment |  Artisan   |       News       |
 |:-----:|:---------------:|:------:|:-------------:|:----------:|:----------------:|
 | **1** |      Frost      | Crest  |    Stable     |   Artist   |       War        |
 | **2** |      High       |  Fall  |    Tavern     |   Baker    |     Sickness     |
@@ -895,7 +895,7 @@ Juice Pop! 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 ### Inspiration
 
-|   #    | Inspiration ||  Symbol   |
+|   #    | Inspiration             ||  Symbol   |
 |:------:|:-----------:|:----------:|:---------:|
 | **1**  |   Ancient   | Assistance |   Arrow   |
 | **2**  | Artificial  | Attention  |  Beetle   |

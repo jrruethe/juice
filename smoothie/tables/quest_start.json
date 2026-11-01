@@ -1,0 +1,25 @@
+{
+  "header": "What is your Quest?",
+  "template": "You start your adventure in a [**Description**] [**Settlement**] [**Location**] [**Feature**]. [**Event**] [**Time**], causing [**Emotion**].",
+  "dice": "1d6",
+  "columns": [
+    "#",
+    "Description",
+    "Settlement",
+    "Location",
+    "Feature",
+    "Event",
+    "Time",
+    "Emotion"
+  ],
+  "rows": [
+    "*",
+    "quest_start_1.json",
+    "quest_start_2.json",
+    "quest_start_3.json",
+    "quest_start_4.json",
+    "quest_start_5.json",
+    "quest_start_6.json",
+    "quest_start_7.json"
+  ]
+}

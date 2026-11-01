@@ -1,0 +1,10 @@
+Equipment
+Experience
+Family
+Flaws
+History
+Quest
+Reputation
+Superiors
+Treasure
+Wealth

@@ -1,0 +1,15 @@
+{
+  "header": "Person",
+  "rows": [
+    "Criminal",
+    "Entertainer",
+    "Expert",
+    "Mage",
+    "Mercenary",
+    "Noble",
+    "Priest",
+    "Ranger",
+    "Soldier",
+    "Transporter"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "header": "Name",
+  "template": "",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "1",
+    "2",
+    "3"
+  ],
+  "rows": [
+    "*",
+    "name_1.json",
+    "name_2.json",
+    "name_3.json"
+  ]
+}

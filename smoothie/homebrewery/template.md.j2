@@ -1,0 +1,322 @@
+<!-- BEGIN Style -->
+<style>
+{% include "shared/style.css.j2" %}
+{% set ob = '{{' %}
+{% set cb = '}}' %}
+
+/* ===== Tables ===== */
+
+h3 {
+  text-align: center;
+}
+
+.template {
+  font-size: 11pt;
+  text-align: center;
+  font-style: italic;
+}
+
+.credits {
+  font-size: 6pt;
+  text-align: center;
+  font-style: italic;
+}
+
+.page table
+{
+  line-height: 120%
+}
+  
+.page table thead tr th
+{
+  vertical-align: middle;
+  font-size: 12pt;
+}
+  
+.page table tbody tr td
+{
+  vertical-align: middle;
+  font-size: 11pt;
+}
+
+.invert table thead tr th
+{
+  line-height: 110%
+}
+  
+.invert table tbody tr td
+{
+  line-height: 110%
+}
+
+div.block.center
+{
+  margin-top: 0.2em;
+}
+  
+.center p
+{
+  text-align: center;
+  font-size: 9pt;
+  line-height: 85%;
+}
+  
+/* ===== Page 2 (back side) ===== */
+
+/* Page 2 also does NOT use the four rows: all of its boxes sit directly in the
+   wide block. The top row is split into four small boxes (2, 1, 8, 3 — all
+   inverted); the bottom row is one single wide box (4/5/6/7) spanning all
+   four columns. */
+#p2 .block.wide
+{
+  /* make the wide block a grid so the boxes below are placed by grid
+     (the theme leaves it a plain block) */
+  display: grid;
+  /* the column BOUNDARIES sit on the paper's VERTICAL fold lines (1/4, 1/2
+     and 3/4 of the full {{ page_w }} width — the fold lines do not know about
+     the {{ padding }} margins), so the two outer columns are a quarter of the
+     paper ({{ quarter_w }}) minus the {{ padding }} margin at the outer edge,
+     and the two inner columns a full quarter of the paper. The {{ gutter }}
+     gutters between the columns are made by the box rules below, centered on
+     the fold lines. */
+  grid-template-columns: {{ col_outer_w }} {{ col_inner_w }} {{ col_inner_w }} {{ col_outer_w }};
+  /* two rows: the small boxes (top) and the wide box (bottom), each a half-page */
+  grid-template-rows: repeat(2, 1fr);
+  /* no gap here — the gutters are made by the boxes, below */
+  column-gap: 0;
+}
+
+/* the wide box (4/5/6/7) is the LAST box in page 2's wide block: let it span
+   all four columns of the bottom row. The four small boxes before it are
+   auto-placed into the top row, one per column, left to right. It also
+   starts {{ half_gutter }} below the middle fold line: the far half of the
+   {{ gutter }} gap between the top row and the wide box. */
+#p2 .block.wide > .box:last-child
+{
+  grid-column: 1 / -1;
+  margin-top: {{ half_gutter }};
+  height: calc(100% - {{ half_gutter }});
+}
+
+/* the four small boxes of the top row. The vertical fold lines run at 1/4,
+   1/2 and 3/4 of the paper's width, so each gutter between two small boxes
+   is {{ half_gutter }} on each side of its fold line: the outer small boxes
+   give up {{ half_gutter }} on their inner side only, the two inner small
+   boxes give up {{ half_gutter }} on BOTH sides. (The hidden \column divs
+   between the boxes are counted by nth-of-type: the small boxes are the 1st,
+   3rd, 5th and 7th children of the wide block, the wide box is the 8th.)
+   Every small box also ends {{ half_gutter }} above the middle fold line —
+   the near half of the top/bottom gap. */
+#p2 .block.wide > .box:nth-of-type(1)
+{
+  /* leftmost small box: ends {{ half_gutter }} short of the 1/4 fold line */
+  width: calc(100% - {{ half_gutter }});
+  /* ends {{ half_gutter }} above the middle fold line */
+  height: calc(100% - {{ half_gutter }});
+}
+#p2 .block.wide > .box:nth-of-type(3),
+#p2 .block.wide > .box:nth-of-type(5)
+{
+  /* the two inner small boxes: {{ half_gutter }} of gutter on each side */
+  margin-left: {{ half_gutter }};
+  width: calc(100% - {{ gutter }});
+  height: calc(100% - {{ half_gutter }});
+}
+#p2 .block.wide > .box:nth-of-type(7)
+{
+  /* rightmost small box: {{ half_gutter }} of gutter on its left only */
+  margin-left: {{ half_gutter }};
+  width: calc(100% - {{ half_gutter }});
+  height: calc(100% - {{ half_gutter }});
+}
+</style>
+<!-- END Style -->
+
+<!-- START FRONT PAGE -->
+{{wide
+
+<!-- START BOX 9/10 -->
+{{box
+
+### What is your Quest?
+
+[[template:quest_start]]
+
+:
+
+[[table:quest_start]]
+
+:
+
+[[template:quest_offer]]
+
+:
+
+[[table:quest_offer]]
+
+}}
+<!-- END BOX 9/10 -->
+
+<!-- START BOX 11/12 -->
+{{box
+
+{{column-count:3
+
+### Exploring the Wilderness
+
+[[template:wilderness]]
+
+:
+
+[[table:wilderness]]
+
+\column
+
+### Exploring a Dungeon
+
+[[template:dungeon]]
+
+:
+
+[[table:dungeon]]
+
+\column
+
+### What are they talking about?
+
+[[template:conversation]]
+
+:
+
+[[table:conversation]]
+}}
+}}
+<!-- END BOX 11/12 -->
+
+}}
+<!-- END FRONT PAGE -->
+
+\page
+
+<!-- START BACK PAGE -->
+{{wide
+
+<!-- START BOX 2 -->
+{{box
+{{invert
+
+### Name
+
+:
+
+[[table:name]]
+
+}}
+}}
+<!-- END BOX 2 -->
+
+\column
+
+<!-- START BOX 1 -->
+{{box
+{{invert
+
+### Yes/No Oracle
+
+:
+
+[[table:oracle]]
+
+{{center
+
+:
+
+There is no wrong way to play.  
+Choose what is most fun.
+
+:
+
+Keep the flow moving:  
+If something doesn't make sense, reroll.
+
+:
+
+Defer some questions for later;  
+Answers may come naturally as you play.
+
+:
+
+Fail-forward:  
+Every failure is a new opportunity  
+and a challenge to overcome.
+
+:
+
+Be your character!  
+Describe the situation,  
+how you handle it, and why.
+
+:
+
+Your actions have consequences and   
+change the world in a meaningful way.
+
+}}
+
+:
+
+{{credits
+Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
+}}
+
+}}
+}}
+<!-- END BOX 1 -->
+
+\column
+
+<!-- START BOX 8 -->
+{{box
+{{invert
+
+### Inspiration
+
+:
+
+[[table:inspiration]]
+
+}}
+}}
+<!-- END BOX 8 -->
+
+\column
+
+<!-- START BOX 3 -->
+{{box
+{{invert
+
+### Color
+
+:
+
+[[table:color]]
+
+}}
+}}
+<!-- END BOX 3 -->
+
+<!-- START BOX 4/5/6/7 -->
+{{box
+
+### What is the current Situation?
+
+[[template:situation]]
+:
+[[table:situation]]
+
+}}
+
+}}
+<!-- END BOX 4/5/6/7 -->
+
+<!-- END BACK PAGE -->

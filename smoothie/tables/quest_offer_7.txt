@@ -1,0 +1,10 @@
+Catacombs
+Cavern
+Crypt
+Fortress
+Hideout
+Lair
+Mine
+Depths
+Sanctuary
+Temple

@@ -1,0 +1,25 @@
+{
+  "header": "Environment",
+  "rows": [
+    "frozen tundra",
+    "chilly expanse",
+    "snowcapped ridge",
+    "rocky mountain range",
+    "alpine meadow",
+    "deep valley",
+    "rolling hillside",
+    "open plain",
+    "scattered woodlands",
+    "dark forest",
+    "flooded woods",
+    "bubbling swamp",
+    "misty grove",
+    "tropical jungle",
+    "ashen wasteland",
+    "volcanic field",
+    "rocky shore",
+    "sandy beach",
+    "coastal scrubland",
+    "arid desert"
+  ]
+}
