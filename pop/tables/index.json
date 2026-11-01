@@ -12,6 +12,7 @@
   "name.json",
   "dialogue.json",
   "oracle.json",
+  "next_scene.json",
   "challenge.json",
   "random_event.json",
   "consequence.json",

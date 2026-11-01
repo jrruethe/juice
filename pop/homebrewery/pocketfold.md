@@ -11,19 +11,19 @@
   /* US Letter height (portrait: taller than wide, so boxes are wider than tall) */
   height: 11in;
   
-  /* the 0.9em padding below counts INSIDE the 8.5in x 11in, so the page is exactly paper size */
+  /* the 1em padding below counts INSIDE the 8.5in x 11in, so the page is exactly paper size */
   box-sizing: border-box;
   /* blank white background (overrides the theme's parchment image / theme color) */
   background: white;
   
   /* gap between content and the page edge, top */
-  padding-top: 0.9em;
+  padding-top: 1em;
   /* gap between content and the page edge, right */
-  padding-right: 0.9em;
+  padding-right: 1em;
   /* gap between content and the page edge, bottom */
-  padding-bottom: 0.9em;
+  padding-bottom: 1em;
   /* gap between content and the page edge, left */
-  padding-left: 0.9em;
+  padding-left: 1em;
   
   /* the theme lays the page out as two PHB-style columns; force one so we control placement */
   column-count: 1;
@@ -35,6 +35,104 @@
 .page::after
 {
   content: none;
+}
+
+/* ===== Wrapper ===== */
+
+/* Homebrewery wraps all content in this div; the theme turns it into a column container
+   that inherits from the page. Make it a plain block that fills the page, so the
+   percentage heights below have a definite size to measure against. */
+.columnWrapper
+{
+  /* don't inherit the page's columns */
+  column-count: 1;
+  column-width: auto;
+  /* fill the page's content area (the page minus its 1em padding) */
+  height: 100%;
+}
+
+/* the {{wide}} block: the whole working area inside the page's padding */
+.block.wide
+{
+  /* fill the wrapper (= the page's content area) */
+  height: 100%;
+  /* the theme adds margins around wide blocks; remove them */
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Page 1 (front side) ===== */
+
+/* Page 1 (the front side of the paper) does NOT use the page-2 rows: it holds
+   two big boxes directly in the wide block, one per half of the page. Make
+   page 1's wide a two-row grid so each big box gets exactly half of the
+   page's height (both boxes come out the same size: full page width, half
+   page height). */
+#p1 .block.wide
+{
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+/* The single fold line on this side of the paper is the MIDDLE of the page;
+   the two half-page boxes each give up 0.35em on that side, so the
+   0.7em gap between them is centered exactly on the fold line. */
+#p1 .block.wide > .box:first-child
+{
+  /* the top box ends 0.35em above the middle fold line */
+  height: calc(100% - 0.35em);
+}
+#p1 .block.wide > .box:last-child
+{
+  /* the bottom box starts 0.35em below the middle fold line */
+  margin-top: 0.35em;
+  height: calc(100% - 0.35em);
+}
+
+/* ===== Octet boxes ===== */
+
+/* every box: green planning border, content clipped to the box.
+   (Each box's size is set by the version-specific fold-line rules above and
+   in the version template — see the row/grid rules there.) */
+.block.box
+{
+  /* the theme makes every .block an inline-block at 100% width;
+     force a plain block that sits cleanly in its grid cell */
+  display: block;
+  width: auto;
+  /* green border marking the octet's working area (remove when planning is done) */
+  border: 0px solid green;
+  /* content that overflows the box is clipped instead of spilling into its neighbor */
+  overflow: hidden;
+  /* anchor for the {{left block (positioned absolutely inside the box);
+     does nothing for boxes that don't contain one */
+  position: relative;
+}
+
+/* optional flip: wrap a box's content in {{invert ... }} to print the box upside-down.
+   The content is anchored at the box's BOTTOM edge and flows UPWARD, and every line is
+   rotated 180 degrees. So when the folded box is physically flipped, line one is at the
+   top and everything reads normally. (A plain rotate of the whole content would leave
+   it anchored at the top of the box — that is not a real flip.) */
+.block.invert
+{
+  /* fill the box so that "bottom" below means the box's bottom edge */
+  height: 100%;
+  /* flexbox so the lines can be stacked from the bottom edge upward */
+  display: flex;
+  /* the first line sits at the bottom; each following line stacks above it */
+  flex-direction: column-reverse;
+}
+/* rotate every line 180 degrees (upside-down on paper, right-side-up when flipped) */
+.block.invert > *
+{
+  transform: rotate(180deg);
+}
+  
+/* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
+.columnSplit
+{
+  display: none;
 }
 
 /* ===== Tables ===== */
@@ -74,12 +172,12 @@ h3 {
 
 .horizontal-compact table thead tr th
 {
-  font-size: 8pt; 
+  font-size: 8pt;
 }
   
 .horizontal-compact table tbody tr td
 {
-  font-size: 8pt; 
+  font-size: 8pt;
 }
 
 .vertical-compact table thead tr th
@@ -98,134 +196,67 @@ h3 {
   line-height: 100%;
 }
   
-/* ===== Wrapper ===== */
-
-/* Homebrewery wraps all content in this div; the theme turns it into a column container
-   that inherits from the page. Make it a plain block that fills the page, so the
-   percentage heights below have a definite size to measure against. */
-.columnWrapper
-{
-  /* don't inherit the page's columns */
-  column-count: 1;
-  column-width: auto;
-  /* fill the page's content area (the page minus its 0.9em padding) */
-  height: 100%;
-}
-
-/* the {{wide}} block: the whole working area inside the page's padding */
-.block.wide
-{
-  /* fill the wrapper (= the page's content area) */
-  height: 100%;
-  /* the theme adds margins around wide blocks; remove them */
-  margin: 0;
-  padding: 0;
-}
-
-/* ===== Rows ===== */
+/* ===== Page 2 (back side) ===== */
 
 /* four rows; each row is a 2-column grid. (Page 2 uses these rows; page 1
-   instead has two big half-page boxes — see the #p1 rule below.) The rows'
-   heights are set just below, measured against the PAPER so that the gaps
-   between the rows center on the fold lines (see the box rules under them). */
+   instead has two big half-page boxes — see the #p1 rules in the shared
+   block.) The rows' heights are set just below, measured against the PAPER
+   so that the gaps between the rows center on the fold lines (see the box
+   rules under them). */
 .block.row1, .block.row2, .block.row3, .block.row4
 {
   /* make the row a grid with two equal-width columns for its two boxes */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* 0.6em of space between the two boxes of a row; its center lands exactly
+  /* 0.7em of space between the two boxes of a row; its center lands exactly
      on the paper's middle vertical fold line (the page is symmetric), so it
      needs no adjustment */
-  column-gap: 0.6em;
+  column-gap: 0.7em;
   /* no theme margins around rows (the vertical gap comes from the boxes, below) */
   margin: 0;
 }
 
 /* The horizontal fold lines run at 1/4, 1/2 and 3/4 of the paper's FULL
-   height — they do not know about the 0.9em margins — so the rows'
+   height — they do not know about the 1em margins — so the rows'
    boundaries are measured from the paper, not from the working area: row 1
    runs from the top margin to the 1/4 fold, rows 2 and 3 each run
    fold-to-fold, and row 4 runs from the 3/4 fold to the bottom margin. */
 .block.row1, .block.row4
 {
-  /* a quarter of the paper's height, minus the 0.9em margin at the outer edge */
-  height: calc(11in/4 - 0.9em);
+  /* a quarter of the paper's height (2.75in), minus the 1em margin at the outer edge */
+  height: calc(2.75in - 1em);
 }
 .block.row2, .block.row3
 {
-  /* a full quarter of the paper's height (they run between two fold lines) */
-  height: calc(11in/4);
+  /* a full quarter of the paper's height (2.75in; they run between two fold lines) */
+  height: 2.75in;
 }
 
-/* The 0.6em gap between two rows must be centered on the fold line between
-   them: 0.3em of the gap on each side of the line. So a box that borders a
-   fold line gives up 0.3em on that side — the row 1 and row 4 boxes on one
-   side only, and the row 2 and row 3 boxes on BOTH sides. */
+/* The 0.7em gap between two rows must be centered on the fold line
+   between them: 0.35em of the gap on each side of the line. So a
+   box that borders a fold line gives up 0.35em on that side — the
+   row 1 and row 4 boxes on one side only, and the row 2 and row 3 boxes on
+   BOTH sides. */
 .block.row1 .block.box
 {
-  /* keeps the whole row except 0.3em at its bottom (the near half of the 1/4 gap) */
-  height: calc(100% - 0.3em);
+  /* keeps the whole row except 0.35em at its bottom (the near half of the 1/4 gap) */
+  height: calc(100% - 0.35em);
 }
 .block.row2 .block.box,
 .block.row3 .block.box
 {
-  /* 0.3em of gap above the box; the box ends 0.3em short of the row's bottom */
-  margin-top: 0.3em;
-  height: calc(100% - 0.6em);
+  /* 0.35em of gap above the box; the box ends 0.35em short of the row's bottom */
+  margin-top: 0.35em;
+  height: calc(100% - 0.7em);
 }
 .block.row4 .block.box
 {
-  /* 0.3em of gap above the box; the box keeps the rest of the row */
-  margin-top: 0.3em;
-  height: calc(100% - 0.3em);
+  /* 0.35em of gap above the box; the box keeps the rest of the row */
+  margin-top: 0.35em;
+  height: calc(100% - 0.35em);
 }
 
-/* Page 1 (the front side of the paper) does NOT use the four rows: it holds two
-   big boxes, 17 and 18, directly in the wide block — box 17 takes the top half
-   of the page and box 18 the bottom half. Make page 1's wide a two-row grid so
-   each big box gets exactly half of the page's height. */
-#p1 .block.wide
-{
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-}
-
-/* The single fold line on this side of the paper is the MIDDLE of the page;
-   the two half-page boxes each give up 0.3em on that side, so the 0.6em gap
-   between them is centered exactly on the fold line. */
-#p1 .block.wide > .box:first-child
-{
-  /* the top box ends 0.3em above the middle fold line */
-  height: calc(100% - 0.3em);
-}
-#p1 .block.wide > .box:last-child
-{
-  /* the bottom box starts 0.3em below the middle fold line */
-  margin-top: 0.3em;
-  height: calc(100% - 0.3em);
-}
-
-/* ===== Octet boxes ===== */
-
-/* every box: green planning border, content clipped to the box.
-   (The boxes on page 2 are not all the same size — the fold-line rules
-   above make the outer rows' boxes a little shorter; the two boxes on
-   page 1 each take a full half of that page, see the #p1 rule. Each box's
-   height is set by those fold-line rules.) */
-.block.box
-{
-  /* the theme makes every .block an inline-block at 100% width;
-     force a plain block that sits cleanly in its grid cell */
-  display: block;
-  width: auto;
-  /* green border marking the octet's working area (remove when planning is done) */
-  border: 0px solid green;
-  /* content that overflows the box is clipped instead of spilling into its neighbor */
-  overflow: hidden;
-  /* anchor for the {{left block (positioned absolutely inside the box);
-     does nothing for boxes that don't contain one */
-  position: relative;
-}
+/* ===== Sideways boxes ===== */
 
 /* optional sideways: wrap a box's content in {{left ... }} to rotate the box 270 degrees.
    The block's top edge ends up at the box's LEFT edge: the heading (and its underline)
@@ -273,35 +304,29 @@ h3 {
 }
 
 /* the swapped dimensions, per row. Rows 1 and 4 hold the SHORTER boxes (a
-   paper quarter minus the 0.9em outer margin and the 0.3em fold-side slack:
-   11in/4 - 1.2em tall); rows 2 and 3 hold the full boxes (a paper quarter
-   minus 0.3em on each side: 11in/4 - 0.6em tall). Before rotation the block
-   is as wide as its box is TALL and as tall as its box is WIDE, so that after
-   the 90-degree rotation it fills the box exactly. All the boxes are the
-   same width (a half of the page's content area minus half the 0.6em gap). */
+   paper quarter (2.75in) minus the 1em outer margin and the
+   0.35em fold-side slack: calc(2.75in - 1em) tall); rows 2 and 3 hold
+   the full boxes (a paper quarter minus 0.35em on each side:
+   2.75in tall). Before rotation the block is as wide as its box is
+   TALL and as tall as its box is WIDE, so that after the 90-degree rotation
+   it fills the box exactly. All the boxes are the same width (a half of the
+   page's content area minus half the 0.7em gap). */
 .block.row1 .block.left, .block.row1 .block.right,
 .block.row4 .block.left, .block.row4 .block.right
 {
   /* as wide as the short box is tall */
-  width: calc(11in/4 - 1.2em);
+  width: calc(2.75in - 1.35em);
   /* as tall as the box is wide */
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+  height: calc(4.25in - 1.35em);
 }
 .block.row2 .block.left, .block.row2 .block.right,
 .block.row3 .block.left, .block.row3 .block.right
 {
   /* as wide as the full box is tall */
-  width: calc(11in/4 - 0.6em);
+  width: calc(2.75in - 0.7em);
   /* as tall as the box is wide */
-  height: calc((8.5in - 1.8em - 0.6em) / 2);
+  height: calc(4.25in - 1.35em);
 }
-
-/* \column markers between boxes are not needed (the grid places the boxes); hide any that exist */
-.columnSplit
-{
-  display: none;
-}
-
 </style>
 <!-- END Style -->
 
@@ -392,7 +417,7 @@ Roll for **News** when entering a Settlement.
 
 {{horizontal-compact
 
-|   #   | Settlement Name |        | Establishment |  Artisan   |       News       |
+|   #   | Settlement Name || Establishment |  Artisan   |       News       |
 |:-----:|:---------------:|:------:|:-------------:|:----------:|:----------------:|
 | **1** |      Frost      | Crest  |    Stable     |   Artist   |       War        |
 | **2** |      High       |  Fall  |    Tavern     |   Baker    |     Sickness     |
@@ -497,47 +522,47 @@ Doubles on **NA**: **Early** ➜ **Late** | Doubles on **Encounter**: **Random E
 |       |               |             |               |               |
 |:-----:|:-------------:|:-----------:|:-------------:|:-------------:|
 | **1** |  **Trinket**  | **Quality** | **Material**  |   **Type**    |
-|   ^   |     **1**     |   Broken    |     Wood      |   Toy/Game    |
-|   ^   |     **2**     |   Damaged   |     Bone      |    Bottle     |
-|   ^   |     **3**     |    Worn     |    Leather    |  Instrument   |
-|   ^   |     **4**     |   Simple    |    Silver     |     Charm     |
-|   ^   |     **5**     | Exceptional |     Gold      |     Tool      |
-|   ^   |     **6**     |    Magic    |      Gem      |      Key      |
+|      ^|     **1**     |   Broken    |     Wood      |   Toy/Game    |
+|      ^|     **2**     |   Damaged   |     Bone      |    Bottle     |
+|      ^|     **3**     |    Worn     |    Leather    |  Instrument   |
+|      ^|     **4**     |   Simple    |    Silver     |     Charm     |
+|      ^|     **5**     | Exceptional |     Gold      |     Tool      |
+|      ^|     **6**     |    Magic    |      Gem      |      Key      |
 | **2** | **Treasure**  | **Quality** | **Container** | **Contents**  |
-|   ^   |     **1**     |    Dusty    |     None      |     Food      |
-|   ^   |     **2**     |    Worn     |     Pouch     |      Art      |
-|   ^   |     **3**     |   Sturdy    |      Box      |     Deed      |
-|   ^   |     **4**     |    Fine     |    Satchel    | Silver Coins  |
-|   ^   |     **5**     |     New     |     Crate     |  Gold Coins   |
-|   ^   |     **6**     |   Ornate    |     Chest     |     Gems      |
+|      ^|     **1**     |    Dusty    |     None      |     Food      |
+|      ^|     **2**     |    Worn     |     Pouch     |      Art      |
+|      ^|     **3**     |   Sturdy    |      Box      |     Deed      |
+|      ^|     **4**     |    Fine     |    Satchel    | Silver Coins  |
+|      ^|     **5**     |     New     |     Crate     |  Gold Coins   |
+|      ^|     **6**     |   Ornate    |     Chest     |     Gems      |
 | **3** | **Document**  |  **Type**   |  **Content**  |  **Subject**  |
-|   ^   |     **1**     |    Song     |     Lewd      |   Religion    |
-|   ^   |     **2**     |   Picture   |    Common     |      Art      |
-|   ^   |     **3**     | Letter/Note |      Map      |    Science    |
-|   ^   |     **4**     |   Scroll    |   Prophecy    |   Creatures   |
-|   ^   |     **5**     |   Journal   |    Arcane     |    History    |
-|   ^   |     **6**     |    Book     |   Forbidden   |     Magic     |
+|      ^|     **1**     |    Song     |     Lewd      |   Religion    |
+|      ^|     **2**     |   Picture   |    Common     |      Art      |
+|      ^|     **3**     | Letter/Note |      Map      |    Science    |
+|      ^|     **4**     |   Scroll    |   Prophecy    |   Creatures   |
+|      ^|     **5**     |   Journal   |    Arcane     |    History    |
+|      ^|     **6**     |    Book     |   Forbidden   |     Magic     |
 | **4** | **Accessory** | **Quality** | **Material**  |   **Type**    |
-|   ^   |     **1**     |   Ruined    |     Wood      |   Headpiece   |
-|   ^   |     **2**     |    Crude    |     Bone      |    Emblem     |
-|   ^   |     **3**     |   Simple    |    Leather    |    Earring    |
-|   ^   |     **4**     |    Fine     |    Silver     |   Bracelet    |
-|   ^   |     **5**     |   Crafted   |     Gold      |   Necklace    |
-|   ^   |     **6**     |    Magic    |      Gem      |     Ring      |
+|      ^|     **1**     |   Ruined    |     Wood      |   Headpiece   |
+|      ^|     **2**     |    Crude    |     Bone      |    Emblem     |
+|      ^|     **3**     |   Simple    |    Leather    |    Earring    |
+|      ^|     **4**     |    Fine     |    Silver     |   Bracelet    |
+|      ^|     **5**     |   Crafted   |     Gold      |   Necklace    |
+|      ^|     **6**     |    Magic    |      Gem      |     Ring      |
 | **5** |  **Weapon**   | **Quality** | **Material**  |   **Type**    |
-|   ^   |     **1**     |   Broken    |     Wood      |  Axe/Hammer   |
-|   ^   |     **2**     | Improvised  |     Bone      | Halberd/Spear |
-|   ^   |     **3**     |    Rough    |     Steel     | Sword/Dagger  |
-|   ^   |     **4**     |   Simple    |    Silver     |  Staff/Wand   |
-|   ^   |     **5**     |   Martial   |    Mithral    |      Bow      |
-|   ^   |     **6**     | Masterwork  |  Adamantine   |    Exotic     |
+|      ^|     **1**     |   Broken    |     Wood      |  Axe/Hammer   |
+|      ^|     **2**     | Improvised  |     Bone      | Halberd/Spear |
+|      ^|     **3**     |    Rough    |     Steel     | Sword/Dagger  |
+|      ^|     **4**     |   Simple    |    Silver     |  Staff/Wand   |
+|      ^|     **5**     |   Martial   |    Mithral    |      Bow      |
+|      ^|     **6**     | Masterwork  |  Adamantine   |    Exotic     |
 | **6** |   **Armor**   | **Quality** | **Material**  |   **Type**    |
-|   ^   |     **1**     |   Broken    |     Cloth     |   Headpiece   |
-|   ^   |     **2**     | Improvised  |    Leather    |    Bottom     |
-|   ^   |     **3**     |  Tattered   |   Bone/Fur    |    Gloves     |
-|   ^   |     **4**     |   Simple    |     Steel     |     Boots     |
-|   ^   |     **5**     |    Fine     |    Mithral    |      Top      |
-|   ^   |     **6**     | Masterwork  |  Adamantine   |    Shield     |
+|      ^|     **1**     |   Broken    |     Cloth     |   Headpiece   |
+|      ^|     **2**     | Improvised  |    Leather    |    Bottom     |
+|      ^|     **3**     |  Tattered   |   Bone/Fur    |    Gloves     |
+|      ^|     **4**     |   Simple    |     Steel     |     Boots     |
+|      ^|     **5**     |    Fine     |    Mithral    |      Top      |
+|      ^|     **6**     | Masterwork  |  Adamantine   |    Shield     |
 
 }}
 
@@ -610,7 +635,7 @@ and it causes [**Emotion**] because [**Reason**].
 
 <!-- START BOX 2 -->
 {{box
-{{right
+{{left
 
 ### Name
 
@@ -682,9 +707,9 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 <!-- START BOX 1 -->
 {{box
-{{invert-
+{{invert
 
-### Yes/No Oracle
+### Yes/No Oracle / Next Scene
 
 {{column-count:2
 
@@ -699,6 +724,19 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 \column
 
+|       Next Scene        |
+|:-----------------------:|
+|       Alter (Add)       |
+|    Normal (Expected)    |
+|     Alter (Remove)      |
+|   Next Most Expected    |
+|  Interrupt (Favorable)  |
+| Interrupt (Unfavorable) |
+
+}}
+
+{{column-count:2
+
 :
 
 - Roll _2d6_
@@ -708,14 +746,19 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 - Doubles: **Random Event**
 - Only 1 Random Event at a time
 
-}}
+\column
 
-- Guidelines, not rules. There is no wrong way to play. Choose what is most fun.
-- Keep the flow moving. If something doesn't make sense, reroll.
-- Defer some questions for later; Answers may naturally come to you as you play.
-- Fail-forward: Every failure is a new opportunity and a challenge to overcome.
-- Be your character. Describe the situation, how you handle it, and why.
-- Your actions have consequences and change the world in a meaningful way.
+:
+
+- Determine Next Expected Scene
+- Roll 1d6 on **Next Scene**
+- Alter: Add or Remove a **Symbol**
+- Interrupt: Roll **Inspiration**
+- Play Out Scene
+- Update Lists (Notecards)
+
+
+}}
 
 }}
 }}
@@ -848,11 +891,11 @@ Juice Pop! 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 
 <!-- START BOX 3 -->
 {{box
-{{right
+{{left
 
 ### Inspiration
 
-|   #    | Inspiration |            |  Symbol   |
+|   #    | Inspiration ||  Symbol   |
 |:------:|:-----------:|:----------:|:---------:|
 | **1**  |   Ancient   | Assistance |   Arrow   |
 | **2**  | Artificial  | Attention  |  Beetle   |

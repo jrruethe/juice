@@ -1,0 +1,18 @@
+{
+  "header": "Yes/No Oracle / Next Scene",
+  "template": "",
+  "dice": "1d6",
+  "columns": [
+    "Next Scene"
+  ],
+  "rows": [
+    [
+      "Alter (Add)",
+      "Normal (Expected)",
+      "Alter (Remove)",
+      "Next Most Expected",
+      "Interrupt (Favorable)",
+      "Interrupt (Unfavorable)"
+    ]
+  ]
+}
