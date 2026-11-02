@@ -1,6 +1,6 @@
 {
   "header": "What is the current Situation?",
-  "template": "[**Atmosphere**] [**Location**] [**Action**] [**Subject**] [**Situation**]",
+  "template": "[**Atmosphere**] [**Location**], [**Action**] [**Subject**] [**Situation**]",
   "dice": "1d20",
   "columns": [
     "#",
