@@ -3,23 +3,38 @@
 
 The D8 model:
 
-  tables/<table>.json      the META table: {header, template, dice, columns,
-                           rows}; rows[i] = "*" (auto 1..N, printed bold)
-                           | [values…] (number column, verbatim)
-                           | "<table>_<n>.json" (content column)
-  tables/<table>_<n>.json  a content column: {header, rows}
-  tables/index.json        ordered list of meta file names
-  homebrewery/template.md.j2  the brew with [[table:<id>]] and
-                           [[template:<id>]] placeholders. The <style> block may
-                           use jinja: it includes ../shared/style.css.j2 (the
-                           shared rules) and takes its geometry numbers from
-                           homebrewery/layout.json (orientation, paper size,
-                           padding_em, gutter_em) — the script computes the
-                           derived values (halves, quarters) since CSS calc()
-                           cannot divide. A <style> block without jinja passes
-                           through unchanged.
+   tables/<table>/<table>.json
+                            the META table: {header, template, dice, columns,
+                            rows}; rows[i] = "*" (auto 1..N, printed bold)
+                            | [values…] (number column, verbatim)
+                            | "<table>_<n>.json" (content column)
+   tables/<table>/json/<table>_<n>.json
+                            a content column: {header, rows}
+   tables/<table>/text/, tables/<table>/markdown/
+                            the per-column dumps (written by --dump)
+   tables/index.json        ordered list of meta file names
+  homebrewery/template/<name>.md.j2
+                           a TEMPLATE: the brew with [[table:<id>]] and
+                           [[template:<id>]] placeholders
+                           (e.g. pocketfold.md.j2, screen.md.j2)
+  homebrewery/layout/<name>.json
+                           a PAPER: orientation, paper size (paper_w_in,
+                           paper_h_in), padding_em, gutter_em, and an
+                           optional paper_name (used in the style's
+                           comments) (e.g. usletter.json, a4.json)
+  homebrewery/output/<template>_<paper>.md
+                           the generated brew — one per template x paper
+                           combination (pocketfold_usletter.md,
+                           pocketfold_a4.md, screen_usletter.md, …)
 
-Running this rebuilds homebrewery/pocketfold.md:
+Templates and papers are independent axes: any template builds with any
+paper. A template's <style> block may use jinja: it includes
+shared/style.css.j2 (the shared rules) and takes its geometry numbers from
+the chosen layout file — the script computes the derived values (halves,
+quarters) since CSS calc() cannot divide. A <style> block without jinja
+passes through unchanged (and needs no layout values).
+
+Running this rebuilds the chosen variant's brew doc:
   [[table:<id>]]     -> the composite table, rendered from the meta
   [[template:<id>]]  -> the {{template}} block from the meta
 
@@ -41,10 +56,20 @@ Rendering rules (the "pretty" format):
     against the closing pipe (the renderer's rowspan marker; a space after
     it would print a literal ^ instead of merging into the cell above)
 
-With --dump it also writes the per-column dumps (tables/<col>.txt / .md).
+With --dump it also writes the per-column dumps
+(tables/<table>/text/<col>.txt and tables/<table>/markdown/<col>.md).
 
 Usage:
-  python3 scripts/build_brew.py <version_dir> [--version juice_smoothie] [--dump]
+  python3 scripts/build_brew.py <version_dir> [--version juice_smoothie] \
+      [--template NAME] [--paper NAME] [--all] [--dump]
+
+    --template NAME --paper NAME
+                           one variant: homebrewery/template/NAME.md.j2
+                           with homebrewery/layout/NAME.json
+                           -> homebrewery/output/<template>_<paper>.md
+    --all (also the default when neither flag is given)
+                           every template/ x layout/ combination that
+                           exists
 """
 
 import argparse
@@ -61,20 +86,20 @@ def center(cell, width):
 
 
 def load_meta(vdir, name):
-    p = vdir / "tables" / f"{name}.json"
+    p = vdir / "tables" / name / f"{name}.json"
     if not p.exists():
         sys.exit(f"missing meta file: {p}")
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def load_col(vdir, name):
-    p = vdir / "tables" / name  # ref is the full file name, e.g. "quest_1.json"
+def load_col(vdir, tid, name):
+    p = vdir / "tables" / tid / "json" / name  # name = "<tid>_<n>.json"
     if not p.exists():
         sys.exit(f"missing column file: {p}")
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def resolve(meta, vdir):
+def resolve(meta, tid, vdir):
     """meta -> (n, [(header, display_values, bold), …]) in printed order."""
     refs = meta["rows"]
     headers = meta["columns"]
@@ -88,7 +113,7 @@ def resolve(meta, vdir):
         elif isinstance(ref, list):
             v = ref
         else:
-            v = load_col(vdir, ref)["rows"]
+            v = load_col(vdir, tid, ref)["rows"]
             if n is None:
                 n = len(v)
         if v is not None:
@@ -164,9 +189,12 @@ def render_table(meta, cols):
     return "\n".join(lines)
 
 
-def layout_vars(vdir, root):
-    """layout.json -> the jinja variables the <style> block renders with."""
-    lj_p = vdir / "homebrewery" / "layout.json"
+def layout_vars(vdir, root, layout_path=None):
+    """layout/<name>.json -> the jinja variables the <style> renders with."""
+    if layout_path is None:
+        sys.exit("the template's <style> block uses jinja but no layout "
+                 "file was given (pick one with --paper, or run with --all)")
+    lj_p = layout_path
     if not lj_p.exists():
         sys.exit(f"the template's <style> block uses jinja but {lj_p} is missing")
     lj = json.loads(lj_p.read_text(encoding="utf-8"))
@@ -176,6 +204,7 @@ def layout_vars(vdir, root):
     pad, gut, hg = lj["padding_em"], lj["gutter_em"], lj["gutter_em"] / 2
     fmt = lambda x: f"{x:g}em"
     v = {
+        "paper_name": lj.get("paper_name", "US Letter"),
         "orientation": lj["orientation"],
         "page_w": f"{lj['paper_w_in']:g}in",
         "page_h": f"{lj['paper_h_in']:g}in",
@@ -204,7 +233,7 @@ def layout_vars(vdir, root):
     return v
 
 
-def render_template_style(template, vdir, root):
+def render_template_style(template, vdir, root, layout_path=None):
     """Render the template's <style> block with jinja, if it uses jinja."""
     if "<style>" not in template:
         return template
@@ -216,28 +245,39 @@ def render_template_style(template, vdir, root):
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(root),
         trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)
-    style = env.from_string(style_src).render(**layout_vars(vdir, root))
+    style = env.from_string(style_src).render(
+        **layout_vars(vdir, root, layout_path))
     return pre + "<style>" + style + "</style>" + post
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("version_dir")
-    ap.add_argument("--version", default=None,
-                    help='informational (e.g. "juice_smoothie")')
-    ap.add_argument("--dump", action="store_true",
-                    help="also write tables/<col>.txt and .md for content columns")
-    args = ap.parse_args()
+def find_template(vdir, name, required=True):
+    """A template file: homebrewery/template/<name>.md.j2. Returns None
+    when not found and required is False."""
+    p = vdir / "homebrewery" / "template" / f"{name}.md.j2"
+    if p.exists():
+        return p
+    if required:
+        sys.exit(f"missing template: {p}")
+    return None
 
-    vdir = Path(args.version_dir)
-    template_path = vdir / "homebrewery" / "template.md.j2"
-    if not template_path.exists():
-        template_path = vdir / "homebrewery" / "template.md"
-    if not template_path.exists():
-        sys.exit(f"missing template: {vdir}/homebrewery/template.md.j2")
-    out_path = vdir / "homebrewery" / "pocketfold.md"
+
+def find_layout(vdir, name, required=True):
+    """A layout file: homebrewery/layout/<name>.json (the paper's
+    geometry). May be absent (a plain, non-jinja <style> needs no layout
+    values) unless required. Returns the path or None."""
+    p = vdir / "homebrewery" / "layout" / f"{name}.json"
+    if p.exists():
+        return p
+    if required:
+        sys.exit(f"missing layout: {p}")
+    return None
+
+
+def build_variant(vdir, root, template_path, layout_path, out_name):
+    """Build one variant: render the template's style, QA the placeholders,
+    splice in every table, write homebrewery/<out_name>."""
     template = render_template_style(template_path.read_text(encoding="utf-8"),
-                                     vdir, vdir.resolve().parent)
+                                     vdir, root, layout_path)
     index = json.loads((vdir / "tables" / "index.json").read_text(encoding="utf-8"))
 
     # --- QA: placeholders and metas agree, in both directions ------------
@@ -267,7 +307,7 @@ def main():
     for name in index:
         meta = load_meta(vdir, name[:-5])
         tid = name[:-5]
-        n, cols = resolve(meta, vdir)
+        n, cols = resolve(meta, tid, vdir)
         doc = doc.replace(f"[[table:{tid}]]", render_table(meta, cols))
         if tid in found_templates:
             doc = doc.replace(f"[[template:{tid}]]",
@@ -275,34 +315,89 @@ def main():
     if "[[" in doc:
         sys.exit("unreplaced placeholder left in output")
 
+    out_dir = vdir / "homebrewery" / "output"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / out_name
     out_path.write_text(doc, encoding="utf-8")
     summary = ", ".join(f"{name[:-5]}({len(load_meta(vdir, name[:-5])['rows'])}c)"
                         for name in index)
     print(f"rebuilt {out_path} — {len(index)} tables: {summary}")
 
+
+def dump_columns(vdir):
+    """Write the per-column dumps (tables/<col>.txt / .md)."""
+    index = json.loads((vdir / "tables" / "index.json").read_text(encoding="utf-8"))
+    dumped = 0
+    for name in index:
+        meta = load_meta(vdir, name[:-5])
+        for ref in meta["rows"]:
+            if ref == "*" or isinstance(ref, list):
+                continue  # number columns have no files to dump
+            col = load_col(vdir, name[:-5], ref)
+            tdir = vdir / "tables" / name[:-5]
+            (tdir / "text").mkdir(parents=True, exist_ok=True)
+            (tdir / "markdown").mkdir(parents=True, exist_ok=True)
+            (tdir / "text" / (ref[:-5] + ".txt")).write_text(
+                "\n".join(col["rows"]) + "\n", encoding="utf-8")
+            w = max(len(col["header"]),
+                    max(len(r) for r in col["rows"])) + 2
+            md = ["|" + " " + center("#", 1) + " |"
+                  + " " + center(col["header"], w - 2) + " |",
+                  "|:" + "-" * 1 + ":|:" + "-" * (w - 2) + ":|"]
+            for i, r in enumerate(col["rows"]):
+                md.append("|" + " " + center(str(i + 1), 1) + " |"
+                          + " " + center(r, w - 2) + " |")
+            (tdir / "markdown" / (ref[:-5] + ".md")).write_text(
+                "\n".join(md) + "\n", encoding="utf-8")
+            dumped += 1
+    print(f"dumped {dumped} columns to .txt/.md")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("version_dir")
+    ap.add_argument("--version", default=None,
+                    help='informational (e.g. "juice_smoothie")')
+    ap.add_argument("--template", default=None,
+                    help="homebrewery/template/<name>.md.j2 to build "
+                         "(with --paper)")
+    ap.add_argument("--paper", default=None,
+                    help="homebrewery/layout/<name>.json to build with "
+                         "(with --template)")
+    ap.add_argument("--all", action="store_true",
+                    help="build every template/ x layout/ combination that "
+                         "exists (also the default when neither --template "
+                         "nor --paper is given)")
+    ap.add_argument("--dump", action="store_true",
+                    help="also write tables/<col>.txt and .md for content columns")
+    args = ap.parse_args()
+
+    vdir = Path(args.version_dir)
+    root = vdir.resolve().parent
+    hdir = vdir / "homebrewery"
+
+    if args.all or (args.template is None and args.paper is None):
+        tdir, ldir = hdir / "template", hdir / "layout"
+        tnames = sorted(p.name[:-len(".md.j2")]
+                        for p in tdir.glob("*.md.j2")) if tdir.is_dir() else []
+        pnames = sorted(p.stem for p in ldir.glob("*.json")) if ldir.is_dir() else []
+        if not tnames:
+            sys.exit(f"no templates found in {tdir} (template/<name>.md.j2)")
+        if not pnames:
+            sys.exit(f"no layouts found in {ldir} (layout/<name>.json)")
+        combos = [(find_template(vdir, t), find_layout(vdir, p),
+                   f"{t}_{p}.md") for t in tnames for p in pnames]
+    else:
+        if args.template is None or args.paper is None:
+            sys.exit("give both --template and --paper, or --all")
+        combos = [(find_template(vdir, args.template),
+                   find_layout(vdir, args.paper),
+                   f"{args.template}_{args.paper}.md")]
+
+    for tpath, lpath, out_name in combos:
+        build_variant(vdir, root, tpath, lpath, out_name)
     if args.dump:
-        dumped = 0
-        for name in index:
-            meta = load_meta(vdir, name[:-5])
-            for ref in meta["rows"]:
-                if ref == "*" or isinstance(ref, list):
-                    continue  # number columns have no files to dump
-                col = load_col(vdir, ref)
-                base = vdir / "tables" / ref[:-5]
-                (base.with_suffix(".txt")).write_text(
-                    "\n".join(col["rows"]) + "\n", encoding="utf-8")
-                w = max(len(col["header"]),
-                        max(len(r) for r in col["rows"])) + 2
-                md = ["|" + " " + center("#", 1) + " |"
-                      + " " + center(col["header"], w - 2) + " |",
-                      "|:" + "-" * 1 + ":|:" + "-" * (w - 2) + ":|"]
-                for i, r in enumerate(col["rows"]):
-                    md.append("|" + " " + center(str(i + 1), 1) + " |"
-                              + " " + center(r, w - 2) + " |")
-                (base.with_suffix(".md")).write_text("\n".join(md) + "\n",
-                                                     encoding="utf-8")
-                dumped += 1
-        print(f"dumped {dumped} columns to .txt/.md")
+        dump_columns(vdir)
 
 
 if __name__ == "__main__":

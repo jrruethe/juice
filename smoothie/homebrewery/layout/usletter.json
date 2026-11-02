@@ -1,0 +1,8 @@
+{
+  "orientation": "landscape",
+  "paper_name": "US Letter",
+  "paper_w_in": 11,
+  "paper_h_in": 8.5,
+  "padding_em": 1,
+  "gutter_em": 0.7
+}

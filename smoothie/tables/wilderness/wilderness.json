@@ -1,0 +1,15 @@
+{
+  "header": "Exploring the Wilderness",
+  "template": "You enter [**Description**] [**Environment**].",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Description",
+    "Environment"
+  ],
+  "rows": [
+    "*",
+    "wilderness_1.json",
+    "wilderness_2.json"
+  ]
+}

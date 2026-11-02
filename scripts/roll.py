@@ -9,6 +9,7 @@ meta:
   python3 scripts/roll.py smoothie conversation
   python3 scripts/roll.py pop quest            # the full quest sentence
   python3 scripts/roll.py pop oracle --die highest
+  python3 scripts/roll.py smoothie quest_offer -c 10 -o md
   (a table id may also be given as its meta file name, e.g. "dialogue.json")
 
 Rolling:
@@ -36,6 +37,12 @@ Rolling:
   * tables with an empty template print the rolled column values.
   * each roll prints as ONE line — the template's markdown line breaks
     collapse to single spaces.
+  * `-o md` prints a pregenerated markdown table instead: a bold #
+    column plus ONE column of each roll's full result (the tables'
+    sentences concatenated with a space — exactly what txt mode prints),
+    one row per roll; the second column's header is the given tables'
+    meta headers joined. Rendered in the pocketfold's pretty format
+    (build_brew's renderer), so it is paste-ready for a brew.
   * single-column tables (Pop!'s Next Scene: no printed # column) print the
     row's own value — a face i indexes row i (plain 1..N order).
   * hierarchical tables (Pop!'s Treasure, with its `^` marker rows) are
@@ -49,31 +56,38 @@ import re
 import sys
 from pathlib import Path
 
+from build_brew import render_table
 
-def load(vdir, name):
-    # name is a full file name: a meta ("quest.json") or a column ref ("quest_1.json")
-    p = vdir / "tables" / name
+
+def load(vdir, name, tid=None):
+    # name is a full file name: a meta ("quest.json" -> tables/quest/quest.json)
+    # or a column ref ("quest_1.json" -> tables/quest/json/quest_1.json —
+    # pass its table's tid)
+    if tid is None:  # a meta: tables/<tid>/<tid>.json
+        p = vdir / "tables" / name[:-5] / name
+    else:  # a content column: tables/<tid>/json/<ref>
+        p = vdir / "tables" / tid / "json" / name
     if not p.suffix:
         p = p.with_suffix(".json")
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def n_rows(meta, vdir):
+def n_rows(meta, tid, vdir):
     for ref in meta["rows"]:
         if ref == "*":
             continue
         if isinstance(ref, list):
             return len(ref)
-        return len(load(vdir, ref)["rows"])
+        return len(load(vdir, ref, tid)["rows"])
     return 0
 
 
-def face_map(meta, vdir):
+def face_map(meta, tid, vdir):
     """face -> row index, from the table's number columns."""
     mapping = {}
     for i, ref in enumerate(meta["rows"]):
         if ref == "*":
-            values = [str(i + 1) for i in range(n_rows(meta, vdir))]
+            values = [str(i + 1) for i in range(n_rows(meta, tid, vdir))]
         elif isinstance(ref, list):
             values = [v.replace("*", "") for v in ref]
             if any(v == "^" for v in values):
@@ -99,17 +113,19 @@ def face_map(meta, vdir):
     return mapping
 
 
-def content_cols(meta, vdir):
+def content_cols(meta, tid, vdir):
     """[(header, rows), …] for the table's content columns, in order."""
     out = []
     for i, ref in enumerate(meta["rows"]):
         if isinstance(ref, str) and ref != "*":
-            out.append((meta["columns"][i], load(vdir, ref)["rows"]))
+            out.append((meta["columns"][i], load(vdir, ref, tid)["rows"]))
     return out
 
 
-def roll_table(vdir, meta, die_choice):
-    """Roll one table, per content column -> {header: raw_value}."""
+def roll_table(vdir, tid, meta, die_choice):
+    """Roll one table, per content column -> [(header, raw_value), …] in
+    column order (a list, not a dict: two columns may share a header,
+    e.g. Pop!'s Color)."""
     dice = meta["dice"]
     if dice.startswith("1d"):
         hi = int(dice[2:])
@@ -124,14 +140,14 @@ def roll_table(vdir, meta, die_choice):
                     "lowest": min(d1, d2)}[die_choice]
     else:
         sys.exit(f"{meta['header']}: unsupported dice {dice!r}")
-    fmap = face_map(meta, vdir)
-    vals = {}
-    for header, rows in content_cols(meta, vdir):
+    fmap = face_map(meta, tid, vdir)
+    vals = []
+    for header, rows in content_cols(meta, tid, vdir):
         face = roll_face()
         idx = fmap.get(face)
         if idx is None:
             sys.exit(f"{meta['header'] or meta['dice']}: no row for face {face}")
-        vals[header] = rows[idx]
+        vals.append((header, rows[idx]))
     if not vals:
         # a single-column table (Next Scene): the column's own values are the
         # result — roll the die, take that row's value
@@ -141,7 +157,7 @@ def roll_table(vdir, meta, die_choice):
                 idx = fmap.get(face)
                 if idx is None:
                     sys.exit(f"{meta['header'] or meta['dice']}: no row for face {face}")
-                vals[meta["columns"][i]] = ref[idx]
+                vals.append((meta["columns"][i], ref[idx]))
                 break
     return vals
 
@@ -156,6 +172,17 @@ def marker_value(marker, merged, aliases):
     return None
 
 
+def render_rolls(rolls, text_header):
+    """A pregenerated markdown table: a bold # column plus one column
+    holding each roll's full result text, one row per roll. Rendered by
+    build_brew.render_table, so the formatting is exactly the brew's
+    (aligned pipes, centered cells, tight separator) — paste-ready."""
+    meta = {"header": "rolls"}
+    cols = [("#", [f"**{i + 1}**" for i in range(len(rolls))], True),
+            (text_header, rolls, False)]
+    return render_table(meta, cols)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("version_dir")
@@ -164,6 +191,10 @@ def main():
     ap.add_argument("--die", default="left",
                     choices=["left", "highest", "lowest"],
                     help="which die of the 2d6 roll indexes the row")
+    ap.add_argument("-o", "--output", default="txt", choices=["txt", "md"],
+                    help="txt (default): one filled sentence per roll; "
+                         "md: a pretty markdown table of the rolled values "
+                         "(the pocketfold format), one row per roll")
     args = ap.parse_args()
 
     vdir = Path(args.version_dir)
@@ -189,39 +220,65 @@ def main():
             if tid not in owners.setdefault(a, []):
                 owners[a].append(tid)
 
+    # the md table's second-column header: the given tables' meta headers
+    # joined (" / "); one table -> just its header
+    md_header = " / ".join(
+        (m.get("header") or (t[:-5] if t.endswith(".json") else t))
+        for t, m in zip(args.tables, metas))
+
+    rolls = []
     for _ in range(args.c):
         merged = {}
         aliases = {}
         rolled_ids = []
         for i, meta in enumerate(metas):
-            merged.update(roll_table(vdir, meta, args.die))
+            tid = args.tables[i][:-5] if args.tables[i].endswith(".json") \
+                else args.tables[i]
+            pairs = roll_table(vdir, tid, meta, args.die)
+            merged.update(dict(pairs))
             aliases.update(meta.get("aliases", {}))
-            rolled_ids.append(args.tables[i][:-5] if args.tables[i].endswith(".json")
-                              else args.tables[i])
+            rolled_ids.append(tid)
 
-        template = metas[0].get("template", "")
-        if template:
-            for mk in dict.fromkeys(re.findall(r"\*\*([^*]+)\*\*", template)):
-                if marker_value(mk, merged, aliases) is not None:
-                    continue
-                owning = [t for t in owners.get(mk, []) if t not in rolled_ids]
-                if len(owning) == 1:
-                    meta = all_metas[owning[0]]
-                    merged.update(roll_table(vdir, meta, args.die))
-                    aliases.update(meta.get("aliases", {}))
-                    rolled_ids.append(owning[0])
+        texts = []
+        for meta in metas:
+            if meta.get("template"):
+                # a marker this table's template can't resolve from what is
+                # already rolled, but exactly one un-rolled table owns, rolls
+                # that table too
+                for mk in dict.fromkeys(re.findall(r"\*\*([^*]+)\*\*",
+                                                  meta["template"])):
+                    if marker_value(mk, merged, aliases) is not None:
+                        continue
+                    owning = [t for t in owners.get(mk, [])
+                              if t not in rolled_ids]
+                    if len(owning) == 1:
+                        am = all_metas[owning[0]]
+                        pairs = roll_table(vdir, owning[0], am, args.die)
+                        merged.update(dict(pairs))
+                        aliases.update(am.get("aliases", {}))
+                        rolled_ids.append(owning[0])
 
-            def fill(m):
-                v = marker_value(m.group(1), merged, aliases)
-                return m.group(0) if v is None else v.replace("*", "")
-            # [**X**] is the placeholder syntax; **X** also fills.
-            text = re.sub(r"\[\*\*([^*]+)\*\*\]", fill, template)
-            text = re.sub(r"\*\*([^*]+)\*\*", fill, text)
+                def fill(m):
+                    v = marker_value(m.group(1), merged, aliases)
+                    return m.group(0) if v is None else v.replace("*", "")
+                # [**X**] is the placeholder syntax; **X** also fills.
+                text = re.sub(r"\[\*\*([^*]+)\*\*\]", fill, meta["template"])
+                text = re.sub(r"\*\*([^*]+)\*\*", fill, text)
+            else:
+                # no template: this table's own rolled values
+                text = "  ".join(v.replace("*", "") for _, v in pairs)
+            # markdown line breaks collapse to single spaces, so each
+            # table's result is one line
+            texts.append(re.sub(r"\s+", " ", text).strip())
+        if args.output == "md":
+            # the table row is the same concatenated text the txt mode
+            # would print
+            rolls.append(" ".join(texts))
         else:
-            text = "  ".join(v.replace("*", "") for v in merged.values())
-        # the template's markdown line breaks collapse to single spaces, so
-        # each roll prints as one line
-        print(re.sub(r"\s+", " ", text).strip())
+            # multiple tables print one line each, concatenated with a space
+            print(" ".join(texts))
+    if args.output == "md":
+        print(render_rolls(rolls, md_header))
 
 
 if __name__ == "__main__":

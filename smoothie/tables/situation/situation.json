@@ -1,0 +1,21 @@
+{
+  "header": "What is the current Situation?",
+  "template": "[**Atmosphere**] [**Location**] [**Action**] [**Subject**] [**Situation**]",
+  "dice": "1d20",
+  "columns": [
+    "#",
+    "Atmosphere",
+    "Location",
+    "Action",
+    "Subject",
+    "Situation"
+  ],
+  "rows": [
+    "*",
+    "situation_1.json",
+    "situation_2.json",
+    "situation_3.json",
+    "situation_4.json",
+    "situation_5.json"
+  ]
+}

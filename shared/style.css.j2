@@ -10,12 +10,12 @@
 
 /* ===== Page ===== */
 
-/* The page: US Letter {{ orientation }}, blank, laid out by us (not by the theme) */
+/* The page: {{ paper_name }} {{ orientation }}, blank, laid out by us (not by the theme) */
 .page
 {
-  /* US Letter width{% if orientation == "landscape" %} (landscape: wider than tall){% endif %} */
+  /* {{ paper_name }} width{% if orientation == "landscape" %} (landscape: wider than tall){% endif %} */
   width: {{ page_w }};
-  /* US Letter height{% if orientation == "landscape" %} (landscape: shorter than wide, so boxes are wider than tall){% else %} (portrait: taller than wide, so boxes are wider than tall){% endif %} */
+  /* {{ paper_name }} height{% if orientation == "landscape" %} (landscape: shorter than wide, so boxes are wider than tall){% else %} (portrait: taller than wide, so boxes are wider than tall){% endif %} */
   height: {{ page_h }};
   
   /* the {{ padding }} padding below counts INSIDE the {{ page_w }} x {{ page_h }}, so the page is exactly paper size */

@@ -1,0 +1,25 @@
+{
+  "header": "Area",
+  "rows": [
+    "atrium with 3 exits",
+    "bridge",
+    "connection to a previous area",
+    "chamber with 2 exits",
+    "crawlspace",
+    "dead end",
+    "exit from the dungeon",
+    "chamber with 2 exits",
+    "passage with a 4-way intersection",
+    "passage with a locked side door",
+    "passage with a right-angle turn",
+    "chamber with 2 exits. One is locked",
+    "passage with a T-shaped intersection",
+    "passage with an alcove",
+    "room with a ladder",
+    "chamber with 3 exits",
+    "rotunda with 4 exits. One is locked",
+    "staircase",
+    "vault with a large, locked door",
+    "chamber with 3 exits. One is locked"
+  ]
+}

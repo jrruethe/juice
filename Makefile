@@ -1,7 +1,11 @@
 # Regenerate the Homebrewery brews from their table JSONs + templates.
-#   make pop       -> pop/homebrewery/pocketfold.md
-#   make smoothie  -> smoothie/homebrewery/pocketfold.md
-#   make           -> both
+#
+# Each version builds every template/ x layout/ combination that exists:
+#   homebrewery/template/<name>.md.j2  x  homebrewery/layout/<paper>.json
+#       -> homebrewery/output/<name>_<paper>.md
+#   (e.g. pocketfold x usletter -> output/pocketfold_usletter.md; a new
+#    template/screen.md.j2 is picked up automatically)
+#   make pop / make smoothie — one version;  make — both
 
 PYTHON ?= python3
 
@@ -10,7 +14,7 @@ PYTHON ?= python3
 all: pop smoothie
 
 pop:
-	$(PYTHON) scripts/build_brew.py pop --version juice_pop
+	$(PYTHON) scripts/build_brew.py pop --version juice_pop --all
 
 smoothie:
-	$(PYTHON) scripts/build_brew.py smoothie --version juice_smoothie
+	$(PYTHON) scripts/build_brew.py smoothie --version juice_smoothie --all
