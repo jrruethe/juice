@@ -750,11 +750,11 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 
 :
 
-- Determine Next Expected Scene
+- Determine the next Expected Scene
 - Roll 1d6 on **Next Scene**
 - Alter: Add or Remove a **Symbol**
-- Interrupt: Roll **Inspiration**
-- Play Out Scene
+- Interrupt: Roll **RE** + **Inspiration**
+- Set up a **Challenge**, Play Out Scene
 - Update Lists (Notecards)
 
 
@@ -778,7 +778,7 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 {{template
 
 Use [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].  
-Failure leads to a [**Consequence**].
+Failure results in a [**Consequence**].
 
 }}
 
@@ -811,10 +811,10 @@ Failure leads to a [**Consequence**].
 
 |   #    |                   Random Event                   |
 |:------:|:------------------------------------------------:|
-| **1**  |                You see a monster.                |
-| **2**  |                 You spot a trap.                 |
-| **3**  |                You are too late.                 |
-| **4**  |     An assumption you made is proven false.      |
+| **1**  |     An assumption you made is proven false.      |
+| **2**  |        You are too late. (Thread Closes)         |
+| **3**  |   A complication moves you away from a Thread.   |
+| **4**  |  New information brings you closer to a Thread.  |
 | **5**  |   Time advances. Check torches, rations, etc.    |
 | **6**  |       A periodic event occurs or advances.       |
 | **7**  |   A remote event occurrs that will impact you.   |

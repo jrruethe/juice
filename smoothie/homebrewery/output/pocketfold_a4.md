@@ -605,7 +605,7 @@ Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 ### What is the current Situation?
 
 {{template
-[**Atmosphere**] [**Location**] [**Action**] [**Subject**] [**Situation**]
+[**Atmosphere**] [**Location**], [**Action**] [**Subject**] [**Situation**]
 }}
 :
 |   #    |            Atmosphere             |      Location       |        Action        |       Subject        |                Situation                |
