@@ -1,6 +1,6 @@
 {
   "header": "Name",
-  "template": "",
+  "template": "[**1**][**2**][**3**]",
   "dice": "1d20",
   "columns": [
     "#",

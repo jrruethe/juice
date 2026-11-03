@@ -45,11 +45,17 @@ Rolling:
     (build_brew's renderer), so it is paste-ready for a brew.
   * single-column tables (Pop!'s Next Scene: no printed # column) print the
     row's own value — a face i indexes row i (plain 1..N order).
+  * a table directory may ship its own roll.py next to the meta
+    (tables/<tid>/roll.py with a roll(vdir, tid, meta, die_choice)
+    function) to take over the roll procedure entirely — used by Pop!'s
+    Name, whose first roll picks a pattern that dictates how the rest
+    of the table is rolled (pop/tables/name/roll.py).
   * hierarchical tables (Pop!'s Treasure, with its `^` marker rows) are
     rolled by hand from the brew.
 """
 
 import argparse
+import importlib.util
 import json
 import random
 import re
@@ -70,6 +76,22 @@ def load(vdir, name, tid=None):
     if not p.suffix:
         p = p.with_suffix(".json")
     return json.loads(p.read_text(encoding="utf-8"))
+
+
+def roll_hook(vdir, tid, meta, die_choice):
+    """A table directory may ship its own roll.py next to the meta
+    (tables/<tid>/roll.py) with a roll(vdir, tid, meta, die_choice)
+    -> [(header, value), …] function, for tables whose roll procedure
+    is an algorithm the standard model can't express (Pop!'s Name
+    pattern method). Returns the hook's result, or None if the table
+    has no hook."""
+    p = vdir / "tables" / tid / "roll.py"
+    if not p.exists():
+        return None
+    spec = importlib.util.spec_from_file_location(f"roll_hook_{tid}", p)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.roll(vdir, tid, meta, die_choice)
 
 
 def n_rows(meta, tid, vdir):
@@ -234,7 +256,9 @@ def main():
         for i, meta in enumerate(metas):
             tid = args.tables[i][:-5] if args.tables[i].endswith(".json") \
                 else args.tables[i]
-            pairs = roll_table(vdir, tid, meta, args.die)
+            pairs = roll_hook(vdir, tid, meta, args.die)
+            if pairs is None:
+                pairs = roll_table(vdir, tid, meta, args.die)
             merged.update(dict(pairs))
             aliases.update(meta.get("aliases", {}))
             rolled_ids.append(tid)
