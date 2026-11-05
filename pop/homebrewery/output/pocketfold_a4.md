@@ -359,7 +359,7 @@ A [**Trait**] [**Person**], concerned about [**Motive**], asks you to
 | **5** |      Infiltrate      |   Decayed   |       Seal        |      while being hunted       |
 | **6** |     Investigate      |  Defended   |        NPC        |    against a rival faction    |
 | **7** |    Negotiate with    |  Elemental  | Object / Treasure |         amid betrayal         |
-| **8** |       Protect        |   Hidden    |      Remains      | though nothing is as it seems |
+| **8** |       Protect        |   Hidden    |      Remains      | but nothing is as it seems |
 | **9** | Rescue someone from  |   Strange   |       Plant       |     under false pretenses     |
 | **0** | Steal something from |    Toxic    |      Villain      |    while enemies converge     |
 
@@ -609,7 +609,6 @@ and it causes [**Emotion**] because [**Reason**].
 | **9** |   Shiny    |   Talking   |     Oil      |   Sticky    |
 | **0** |  Written   |    Wind     |     Soil     |    Warm     |
 
-:
 
 |   #   |    Location     |  Emotion  |          Reason          |
 |:-----:|:---------------:|:---------:|:------------------------:|
@@ -641,6 +640,8 @@ and it causes [**Emotion**] because [**Reason**].
 
 :
 
+{{horizontal-compact
+
 |   #    | Template |  1   |  2   |  3   |
 |:------:|:--------:|:----:|:----:|:----:|
 | **1**  | `12o  `  | (f)a | hal  |  an  |
@@ -663,6 +664,8 @@ and it causes [**Emotion**] because [**Reason**].
 | **18** | `123-a`  |  si  | ched | ice  |
 | **19** | `123-i`  |  ta  | sark |  id  |
 | **20** | `123+ `  |  to  | kic  | osa  |
+
+}}
 
 }}
 }}
@@ -793,7 +796,7 @@ Failure results in a [**Consequence**].
 | **5** |  Intimidation   | **15** |  Deception   |   a guard    | redirect |  a resource  |
 | **6** |   Perception    | **16** |   Language   |   a hazard   |  reveal  |  a retreat   |
 | **7** | Sleight of Hand | **17** |   Religion   |   a lever    | sabotage |  the ritual  |
-| **8** |     Stealth     | **18** |    Arcana    | the terrain  |  secure  |   a secret   |
+| **8** |     Stealth     | **18** |    Arcana    | terrain  |  secure  |   a secret   |
 | **9** |   Acrobatics    | **19** |   History    |    a trap    |  seize   |  the source  |
 | **0** |    Athletics    | **20** |   Insight    | a vital link |  weaken  |  the threat  |
 }}

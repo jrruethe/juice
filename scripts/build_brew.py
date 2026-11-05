@@ -17,15 +17,23 @@ The D8 model:
                            a TEMPLATE: the brew with [[table:<id>]] and
                            [[template:<id>]] placeholders
                            (e.g. pocketfold.md.j2, screen.md.j2)
-  homebrewery/layout/<name>.json
-                           a PAPER: orientation, paper size (paper_w_in,
-                           paper_h_in), padding_em, gutter_em, and an
-                           optional paper_name (used in the style's
-                           comments) (e.g. usletter.json, a4.json)
-  homebrewery/output/<template>_<paper>.md
-                           the generated brew — one per template x paper
-                           combination (pocketfold_usletter.md,
-                           pocketfold_a4.md, screen_usletter.md, …)
+   homebrewery/layout/<name>.json
+                            a PAPER: orientation, paper size (paper_w_in,
+                            paper_h_in), padding_em, gutter_em, and an
+                            optional paper_name (used in the style's
+                            comments) (e.g. usletter.json, a4.json)
+   homebrewery/patches/<template>_<paper>.patch
+                            OPTIONAL: a unified-diff tweak applied to the
+                            rendered doc in memory before it is written —
+                            paper-specific cosmetics (e.g. A4 wording or
+                            font-size wraps) that the shared template must
+                            not carry. The build fails loudly if a hunk no
+                            longer matches the render (regenerate: build
+                            with --no-patch, re-tweak a copy, diff -u).
+   homebrewery/output/<template>_<paper>.md
+                            the generated brew — one per template x paper
+                            combination (pocketfold_usletter.md,
+                            pocketfold_a4.md, screen_usletter.md, …)
 
 Templates and papers are independent axes: any template builds with any
 paper. A template's <style> block may use jinja: it includes
@@ -61,15 +69,21 @@ With --dump it also writes the per-column dumps
 
 Usage:
   python3 scripts/build_brew.py <version_dir> [--version juice_smoothie] \
-      [--template NAME] [--paper NAME] [--all] [--dump]
+      [--template NAME] [--paper NAME] [--all] [--dump] [--no-patch]
 
     --template NAME --paper NAME
-                           one variant: homebrewery/template/NAME.md.j2
-                           with homebrewery/layout/NAME.json
-                           -> homebrewery/output/<template>_<paper>.md
+                            one variant: homebrewery/template/NAME.md.j2
+                            with homebrewery/layout/NAME.json
+                            -> homebrewery/output/<template>_<paper>.md
     --all (also the default when neither flag is given)
-                           every template/ x layout/ combination that
-                           exists
+                            every template/ x layout/ combination that
+                            exists
+    --dump
+                            also write the per-column dumps
+    --no-patch
+                            skip homebrewery/patches/<template>_<paper>.patch
+                            (use when regenerating a patch against a
+                            changed render)
 """
 
 import argparse
@@ -273,9 +287,84 @@ def find_layout(vdir, name, required=True):
     return None
 
 
-def build_variant(vdir, root, template_path, layout_path, out_name):
+def parse_patch(patch_path):
+    """A unified diff -> [(old_start, old_lines, new_lines), …], in order.
+    The file headers (---/+++) are ignored — only the hunks matter. Each
+    hunk's parsed line counts are checked against the counts its header
+    claims, so a mangled patch file fails loudly instead of silently
+    corrupting the doc."""
+    hunks, hunk = [], None
+    for line in patch_path.read_text(encoding="utf-8").split("\n"):
+        if line.startswith("@@"):
+            if hunk is not None:
+                exp = hunk[0]
+                if len(hunk[1]) != exp[0] or len(hunk[2]) != exp[1]:
+                    sys.exit(f"{patch_path}: hunk at old line {hunk[3]} parsed "
+                             f"as {len(hunk[1])} old / {len(hunk[2])} new lines, "
+                             f"header claims {exp[0]} / {exp[1]}")
+            m = re.fullmatch(r"@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@.*", line)
+            if not m:
+                sys.exit(f"{patch_path}: bad hunk header {line!r}")
+            hunk = [
+                (int(m.group(2) or 1), int(m.group(4) or 1)),  # claimed counts
+                [], [], int(m.group(1)),
+            ]
+            hunks.append(hunk)
+        elif hunk is not None:
+            if line.startswith("\\"):
+                continue  # "\ No newline at end of file" — we never emit these
+            if line[:1] in (" ", "-", "+"):
+                if line[0] != "-":
+                    hunk[2].append(line[1:])  # context AND added lines: new side
+                if line[0] != "+":
+                    hunk[1].append(line[1:])  # context AND removed lines: old side
+    if hunk is not None:
+        exp = hunk[0]
+        if len(hunk[1]) != exp[0] or len(hunk[2]) != exp[1]:
+            sys.exit(f"{patch_path}: hunk at old line {hunk[3]} parsed as "
+                     f"{len(hunk[1])} old / {len(hunk[2])} new lines, header "
+                     f"claims {exp[0]} / {exp[1]}")
+    return [(h[3], h[1], h[2]) for h in hunks]
+
+
+def apply_patch(doc, patch_path):
+    """Apply a unified-diff patch to the rendered doc, in memory (old->new).
+    Each hunk must match its old-side lines exactly — first at the recorded
+    position (drift-adjusted for earlier hunks), then anywhere in the doc;
+    a hunk with zero or multiple matches means the tables/template changed
+    since the patch was made, so the build fails loudly rather than writing
+    a doc that silently lost its tweaks."""
+    lines = doc.split("\n")
+    delta = 0
+    for i, (start, old, new) in enumerate(parse_patch(patch_path), 1):
+        pos = start - 1 + delta
+        if pos >= 0 and old and lines[pos:pos + len(old)] == old:
+            pass
+        elif old:
+            matches = [k for k in range(max(0, pos - 200),
+                                        len(lines) - len(old) + 1)
+                       if lines[k:k + len(old)] == old]
+            if len(matches) != 1:
+                sys.exit(f"{patch_path}: hunk {i} does not match the rendered "
+                         f"doc ({len(matches)} matches) — the tables or "
+                         f"template changed since the patch was made; "
+                         f"regenerate it (build with --no-patch, re-tweak a "
+                         f"copy of the output, diff -u, see "
+                         f"docs/TABLE_FORMATS.md)")
+            pos = matches[0]
+        # an empty old is a pure insertion: the header's start is the last
+        # unchanged line, so the new lines go after it
+        if not old:
+            pos = start + delta
+        lines[pos:pos + len(old)] = new
+        delta += len(new) - len(old)
+    return "\n".join(lines)
+
+
+def build_variant(vdir, root, template_path, layout_path, out_name, no_patch=False):
     """Build one variant: render the template's style, QA the placeholders,
-    splice in every table, write homebrewery/<out_name>."""
+    splice in every table, apply the variant's patch (if any), write
+    homebrewery/<out_name>."""
     template = render_template_style(template_path.read_text(encoding="utf-8"),
                                      vdir, root, layout_path)
     index = json.loads((vdir / "tables" / "index.json").read_text(encoding="utf-8"))
@@ -318,6 +407,15 @@ def build_variant(vdir, root, template_path, layout_path, out_name):
     out_dir = vdir / "homebrewery" / "output"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / out_name
+
+    patch_path = vdir / "homebrewery" / "patches" / (out_name[:-3] + ".patch")
+    if patch_path.exists():
+        if no_patch:
+            print(f"skipped {patch_path} (--no-patch)")
+        else:
+            doc = apply_patch(doc, patch_path)
+            print(f"patched {out_path} with {patch_path}")
+
     out_path.write_text(doc, encoding="utf-8")
     summary = ", ".join(f"{name[:-5]}({len(load_meta(vdir, name[:-5])['rows'])}c)"
                         for name in index)
@@ -370,6 +468,9 @@ def main():
                          "nor --paper is given)")
     ap.add_argument("--dump", action="store_true",
                     help="also write tables/<col>.txt and .md for content columns")
+    ap.add_argument("--no-patch", action="store_true",
+                    help="skip homebrewery/patches/<template>_<paper>.patch "
+                         "(use when regenerating a patch)")
     args = ap.parse_args()
 
     vdir = Path(args.version_dir)
@@ -395,7 +496,7 @@ def main():
                    f"{args.template}_{args.paper}.md")]
 
     for tpath, lpath, out_name in combos:
-        build_variant(vdir, root, tpath, lpath, out_name)
+        build_variant(vdir, root, tpath, lpath, out_name, no_patch=args.no_patch)
     if args.dump:
         dump_columns(vdir)
 
