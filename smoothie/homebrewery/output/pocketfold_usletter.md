@@ -521,7 +521,7 @@ and a challenge to overcome.
 :
 
 {{credits
-Juice Smoothie 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
+Juice Smoothie 11/04/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 }}
 
 }}

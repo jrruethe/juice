@@ -835,7 +835,7 @@ Failure results in a [**Consequence**].
 }}
 
 {{credits
-Juice Pop 10/26/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
+Juice Pop 11/04/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 }}
 
 }}
