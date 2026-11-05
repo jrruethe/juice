@@ -5,11 +5,13 @@ A playtest companion to build_brew.py: it reads the same table files the
 generator uses and prints the result using the table's template from its
 meta:
 
-  python3 scripts/roll.py smoothie wilderness -c 5
+  python3 scripts/roll.py smoothie wilderness -n 5
   python3 scripts/roll.py smoothie conversation
   python3 scripts/roll.py pop quest            # the full quest sentence
   python3 scripts/roll.py pop oracle --die highest
-  python3 scripts/roll.py smoothie quest_offer -c 10 -o md
+  python3 scripts/roll.py smoothie quest_offer -n 10 -o md
+  python3 scripts/roll.py pop name -n 20 -c 2 -o md   # 10 rows x 2 item-columns
+  python3 scripts/roll.py pop name -n 50 -p 2 -o md   # a d100 over 50 items
   (a table id may also be given as its meta file name, e.g. "dialogue.json")
 
 Rolling:
@@ -38,10 +40,15 @@ Rolling:
   * each roll prints as ONE line — the template's markdown line breaks
     collapse to single spaces.
   * `-o md` prints a pregenerated markdown table instead: a bold #
-    column plus ONE column of each roll's full result (the tables'
+    column plus ONE column of each item's full result (the tables'
     sentences concatenated with a space — exactly what txt mode prints),
-    one row per roll; the second column's header is the given tables'
-    meta headers joined. Rendered in the pocketfold's pretty format
+    one row per item; the result column's header is the given tables'
+    meta headers joined. `-n N` rolls N items; `-c C` splits them into C
+    item-columns (2C physical columns: #, result, #, result, … — N must
+    divide by C); `-p P` gives each item P consecutive numbers (P=2 →
+    `1-2`, `3-4`, …, so N*P numbers: a d100 picks among 50 items rolled
+    with `-n 50 -p 2`). `-c`/`-p` are md presentation only — txt prints
+    its bare lines regardless. Rendered in the pocketfold's pretty format
     (build_brew's renderer), so it is paste-ready for a brew.
   * single-column tables (Pop!'s Next Scene: no printed # column) print the
     row's own value — a face i indexes row i (plain 1..N order).
@@ -194,30 +201,61 @@ def marker_value(marker, merged, aliases):
     return None
 
 
-def render_rolls(rolls, text_header):
-    """A pregenerated markdown table: a bold # column plus one column
-    holding each roll's full result text, one row per roll. Rendered by
+def render_rolls(rolls, text_header, cols=1, per=1):
+    """A pregenerated markdown table: `cols` item-columns — each a bold
+    # column paired with a column of the item's full result text, one
+    item per row (2*cols physical columns). With `per > 1` an item
+    answers for `per` consecutive numbers, so the # cell carries the
+    range (`**1-2**`, `**3-4**`, … — n*per numbers in all: a d100 picks
+    among 50 items rolled with `-n 50 -p 2`). Rendered by
     build_brew.render_table, so the formatting is exactly the brew's
     (aligned pipes, centered cells, tight separator) — paste-ready."""
     meta = {"header": "rolls"}
-    cols = [("#", [f"**{i + 1}**" for i in range(len(rolls))], True),
-            (text_header, rolls, False)]
-    return render_table(meta, cols)
+    rows = len(rolls) // cols
+    out = []
+    for c in range(cols):
+        nums, vals = [], []
+        for i in range(c * rows, c * rows + rows):
+            lo = i * per + 1
+            nums.append(f"**{lo}**" if per == 1 else f"**{lo}-{lo + per - 1}**")
+            vals.append(rolls[i])
+        out.append(("#", nums, True))
+        out.append((text_header, vals, False))
+    return render_table(meta, out)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("version_dir")
     ap.add_argument("tables", nargs="+", help="table id(s); one roll each")
-    ap.add_argument("-c", type=int, default=1, help="number of rolls")
+    ap.add_argument("-n", type=int, default=1, help="number of items to roll")
+    ap.add_argument("-c", type=int, default=1,
+                    help="item-columns in the md table (the n items must "
+                         "split evenly into c columns; -o md only)")
+    ap.add_argument("-p", type=int, default=1,
+                    help="numbers per item in the md table (1 → 1..n; "
+                         "2 → 1-2, 3-4, … up to n*2, e.g. a d100 over 50 "
+                         "items; -o md only)")
     ap.add_argument("--die", default="left",
                     choices=["left", "highest", "lowest"],
                     help="which die of the 2d6 roll indexes the row")
     ap.add_argument("-o", "--output", default="txt", choices=["txt", "md"],
-                    help="txt (default): one filled sentence per roll; "
+                    help="txt (default): one filled sentence per item; "
                          "md: a pretty markdown table of the rolled values "
-                         "(the pocketfold format), one row per roll")
+                         "(the pocketfold format), one row per item")
     args = ap.parse_args()
+
+    if args.n < 1 or args.c < 1 or args.p < 1:
+        sys.exit("-n, -c and -p must all be ≥ 1")
+    if args.n % args.c != 0:
+        # checked regardless of -o: asking for a split that can't be made is
+        # an error even when txt mode would just ignore the columns
+        # (the old `-c N` count muscle memory lands here: `-c 20` with the
+        # default -n 1 fails instead of silently rolling once)
+        fix = next((k for k in range(args.c, 0, -1) if args.n % k == 0), 1)
+        sys.exit(f"-n {args.n} doesn't split evenly into -c {args.c} "
+                 f"columns ({args.n} % {args.c} = {args.n % args.c}) — "
+                 f"try -n {args.n} -c {fix}")
 
     vdir = Path(args.version_dir)
     index = json.loads((vdir / "tables" / "index.json").read_text(encoding="utf-8"))
@@ -249,7 +287,7 @@ def main():
         for t, m in zip(args.tables, metas))
 
     rolls = []
-    for _ in range(args.c):
+    for _ in range(args.n):
         merged = {}
         aliases = {}
         rolled_ids = []
@@ -302,7 +340,7 @@ def main():
             # multiple tables print one line each, concatenated with a space
             print(" ".join(texts))
     if args.output == "md":
-        print(render_rolls(rolls, md_header))
+        print(render_rolls(rolls, md_header, args.c, args.p))
 
 
 if __name__ == "__main__":
