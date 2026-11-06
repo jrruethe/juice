@@ -1,11 +1,14 @@
-"""Custom roll for Pop!'s Immersion senses table.
-
-One 1d10 roll does double duty, as the column headers encode:
-  * the face picks the SENSE — which of the four sense columns applies
-    (1-3 See, 4-6 Hear, 7-8 Smell, 9-0 Feel)
-  * and the same face indexes that column's row — the Description
-The template's [**Sense**] fills with the sense verb (see/hear/smell/
-feel, from the column header) and [**Description**] with the cell; the
+"""Custom roll for Pop!'s Immersion senses table (printed 5d10: one die
+per column). The roller decks two levels:
+  * the SENSES — see/hear/smell/feel in shuffled order, one of each
+    before any sense repeats (the printed 1-3/4-6/7-8/9-0 face ranges
+    are the table's way of assigning faces to senses)
+  * and that sense column's 10 DESCRIPTION rows, decked per sense — so
+    no (sense, description) pair repeats until that sense's 10 rows are
+    all used
+4 senses x 10 rows = 40 unique pairs, so the first repeat is roll 41.
+The other three sense dice are never read. The template's [**Sense**]
+fills with the sense verb and [**Description**] with the cell; the
 template's Location/Emotion/Reason markers then auto-roll
 immersion_context through the standard machinery, so
 `roll.py pop immersion_senses` prints the whole sentence alone.
@@ -16,27 +19,20 @@ import re
 import sys
 
 
-def sense_for(face, headers):
-    """(sense, rows) of the column whose header range claims the face."""
-    for header in headers:
-        m = re.fullmatch(r"(\d+)-(\d+)<br>(\w+)", header)
-        if not m:
-            sys.exit(f"immersion_senses: header {header!r} is not a "
-                     "'a-b<br>Sense' range")
-        lo, hi, sense = int(m.group(1)), int(m.group(2)), m.group(3).lower()
-        faces = range(lo, hi + 1) if lo <= hi else range(lo, 11)  # 9-0 wraps
-        if face in faces:
-            return sense, header
-    sys.exit(f"immersion_senses: no sense column claims face {face}")
-
-
 def roll(vdir, tid, meta, die):
     data = {}
+    sense_cols = []  # (sense, header) in printed column order
     for i, ref in enumerate(meta["rows"]):
         if isinstance(ref, str) and ref != "*":
             p = vdir / "tables" / tid / "json" / ref
             data[meta["columns"][i]] = json.loads(p.read_text(encoding="utf-8"))["rows"]
+            m = re.fullmatch(r"(\d+)-(\d+)<br>(\w+)", meta["columns"][i])
+            if not m:
+                sys.exit(f"immersion_senses: header {meta['columns'][i]!r} "
+                         f"is not a 'a-b<br>Sense' range")
+            sense_cols.append((m.group(3).lower(), meta["columns"][i]))
 
-    face = die.roll(10, "sense")  # all 10 sense faces in turn (deck mode)
-    sense, header = sense_for(face, list(data))
-    return [("Sense", sense), ("Description", data[header][face - 1])]
+    idx = die.roll(len(sense_cols), "sense")  # the 4-sense deck
+    sense, header = sense_cols[idx - 1]
+    row = die.roll(10, f"row-{sense}")  # that column's decked 10 rows
+    return [("Sense", sense), ("Description", data[header][row - 1])]
