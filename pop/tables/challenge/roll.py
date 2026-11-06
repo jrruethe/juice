@@ -12,11 +12,10 @@ standard machinery.
 """
 
 import json
-import random
 import sys
 
 
-def roll(vdir, tid, meta, die_choice):
+def roll(vdir, tid, meta, die):
     cols = {}
     for i, ref in enumerate(meta["rows"]):
         if isinstance(ref, str) and ref != "*":
@@ -27,7 +26,7 @@ def roll(vdir, tid, meta, die_choice):
         if len(cols[name]) != 10:
             sys.exit(f"challenge: {name} must have 10 rows, has {len(cols[name])}")
 
-    face = random.randint(1, 20)
+    face = die.roll(20, "skill")  # 10 physical + 10 mental, each once (deck mode)
     if face <= 10:
         skill = cols["Physical Skill"][face - 1]
     else:
@@ -35,5 +34,5 @@ def roll(vdir, tid, meta, die_choice):
 
     vals = [("Skill", skill)]
     for name in ("Obstacle", "Action", "Target"):
-        vals.append((name, random.choice(cols[name])))
+        vals.append((name, cols[name][die.roll(len(cols[name]), name) - 1]))
     return vals

@@ -12,8 +12,9 @@ meta:
   python3 scripts/roll.py smoothie quest_offer -n 10 -o md
   python3 scripts/roll.py pop name -n 20 -c 2 -o md   # 10 rows x 2 item-columns
   python3 scripts/roll.py pop name -n 50 -p 2 -o md   # a d100 over 50 items
-  python3 scripts/roll.py smoothie quest_start -o md -H "Where do you Start?"
-  (a table id may also be given as its meta file name, e.g. "dialogue.json")
+   python3 scripts/roll.py smoothie quest_start -o md -H "Where do you Start?"
+   python3 scripts/roll.py pop quest -r   # plain random rolls (the deck is the default)
+   (a table id may also be given as its meta file name, e.g. "dialogue.json")
 
 Rolling:
   * a table is rolled **per content column** — every content column gets its
@@ -37,6 +38,13 @@ Rolling:
   * dice `1dN`: one die per content column. dice `2d6`: one 2d6 roll per
     column; `--die left|highest|lowest` picks the die that indexes the row
     (the Juice oracle mechanic).
+  * **deck (the default roll mode)**: each 1dN roll pops a face off a
+    shuffled deck of the die's faces — per stream (a standard table's
+    column, or a hook's named roll stream), so a column's first `sides`
+    rolls are all different faces and roll #`sides`+1 is the first repeat
+    (the deck reshuffles on exhaustion). `-r`/`--random` restores the old
+    independent-randint rolls. 2d6 tables always roll two fresh d6s — a
+    deck can't be expressed for a sum.
   * tables with an empty template print the rolled column values.
   * each roll prints as ONE line — the template's markdown line breaks
     collapse to single spaces.
@@ -56,10 +64,12 @@ Rolling:
   * single-column tables (Pop!'s Next Scene: no printed # column) print the
     row's own value — a face i indexes row i (plain 1..N order).
   * a table directory may ship its own roll.py next to the meta
-    (tables/<tid>/roll.py with a roll(vdir, tid, meta, die_choice)
-    function) to take over the roll procedure entirely — used by Pop!'s
-    Name, whose first roll picks a pattern that dictates how the rest
-    of the table is rolled (pop/tables/name/roll.py).
+    (tables/<tid>/roll.py with a roll(vdir, tid, meta, die) function,
+    where die is a Die) to take over the roll procedure entirely — used
+    by Pop!'s Name, whose first roll picks a pattern that dictates how
+    the rest of the table is rolled (pop/tables/name/roll.py). A hook
+    gives each of its roll positions a distinct stream name so the deck
+    mode decks them independently.
   * hierarchical tables (Pop!'s Treasure, with its `^` marker rows) are
     rolled by hand from the brew.
 """
@@ -75,6 +85,40 @@ from pathlib import Path
 from build_brew import render_table
 
 
+class Die:
+    """A table's die, in one of two modes.
+
+    deck (the default): each stream pops faces off a shuffled deck of
+        1..sides — no repeats until the deck is exhausted (the first
+        repeat is roll #sides+1), then the deck reshuffles. A stream is
+        any named roll position: a standard table's column (by index) or
+        a hook's roll position (by name).
+    random (-r/--random): an independent random.randint per roll — the
+        old behavior.
+    2d6 always rolls two fresh d6s (pick), either mode: a deck can't be
+    expressed for a sum."""
+
+    def __init__(self, random_mode=False, die_choice="left"):
+        self.random = random_mode
+        self.die_choice = die_choice
+        self.decks = {}
+
+    def roll(self, sides, stream=None):
+        if self.random:
+            return random.randint(1, sides)
+        key = (stream, sides)
+        if not self.decks.get(key):
+            deck = list(range(1, sides + 1))
+            random.shuffle(deck)
+            self.decks[key] = deck
+        return self.decks[key].pop()
+
+    def pick(self):
+        d1, d2 = random.randint(1, 6), random.randint(1, 6)
+        return {"left": d1, "highest": max(d1, d2),
+                "lowest": min(d1, d2)}[self.die_choice]
+
+
 def load(vdir, name, tid=None):
     # name is a full file name: a meta ("quest.json" -> tables/quest/quest.json)
     # or a column ref ("quest_1.json" -> tables/quest/json/quest_1.json —
@@ -88,20 +132,22 @@ def load(vdir, name, tid=None):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def roll_hook(vdir, tid, meta, die_choice):
+def roll_hook(vdir, tid, meta, die):
     """A table directory may ship its own roll.py next to the meta
-    (tables/<tid>/roll.py) with a roll(vdir, tid, meta, die_choice)
+    (tables/<tid>/roll.py) with a roll(vdir, tid, meta, die)
     -> [(header, value), …] function, for tables whose roll procedure
     is an algorithm the standard model can't express (Pop!'s Name
-    pattern method). Returns the hook's result, or None if the table
-    has no hook."""
+    pattern method). die is a Die: die.roll(sides, stream) gives the
+    next face (deck mode: popped off that stream's shuffled deck, no
+    repeats until exhausted; random mode: a plain randint). Returns the
+    hook's result, or None if the table has no hook."""
     p = vdir / "tables" / tid / "roll.py"
     if not p.exists():
         return None
     spec = importlib.util.spec_from_file_location(f"roll_hook_{tid}", p)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.roll(vdir, tid, meta, die_choice)
+    return mod.roll(vdir, tid, meta, die)
 
 
 def n_rows(meta, tid, vdir):
@@ -154,28 +200,20 @@ def content_cols(meta, tid, vdir):
     return out
 
 
-def roll_table(vdir, tid, meta, die_choice):
+def roll_table(vdir, tid, meta, die):
     """Roll one table, per content column -> [(header, raw_value), …] in
     column order (a list, not a dict: two columns may share a header,
-    e.g. Pop!'s Color)."""
+    e.g. Pop!'s Color). Each content column rolls on its own stream
+    (its column index), so in deck mode the columns keep independent
+    decks across items; 2d6 columns always roll two fresh d6s."""
     dice = meta["dice"]
-    if dice.startswith("1d"):
-        hi = int(dice[2:])
-
-        def roll_face():
-            return random.randint(1, hi)
-    elif dice == "2d6":
-
-        def roll_face():
-            d1, d2 = random.randint(1, 6), random.randint(1, 6)
-            return {"left": d1, "highest": max(d1, d2),
-                    "lowest": min(d1, d2)}[die_choice]
-    else:
+    if not dice.startswith("1d") and dice != "2d6":
         sys.exit(f"{meta['header']}: unsupported dice {dice!r}")
+    hi = int(dice[2:]) if dice.startswith("1d") else None
     fmap = face_map(meta, tid, vdir)
     vals = []
-    for header, rows in content_cols(meta, tid, vdir):
-        face = roll_face()
+    for ci, (header, rows) in enumerate(content_cols(meta, tid, vdir)):
+        face = die.roll(hi, ci) if hi else die.pick()
         idx = fmap.get(face)
         if idx is None:
             sys.exit(f"{meta['header'] or meta['dice']}: no row for face {face}")
@@ -185,7 +223,7 @@ def roll_table(vdir, tid, meta, die_choice):
         # result — roll the die, take that row's value
         for i, ref in enumerate(meta["rows"]):
             if isinstance(ref, list):
-                face = roll_face()
+                face = die.roll(hi, i) if hi else die.pick()
                 idx = fmap.get(face)
                 if idx is None:
                     sys.exit(f"{meta['header'] or meta['dice']}: no row for face {face}")
@@ -242,6 +280,12 @@ def main():
     ap.add_argument("--die", default="left",
                     choices=["left", "highest", "lowest"],
                     help="which die of the 2d6 roll indexes the row")
+    ap.add_argument("-r", "--random", action="store_true",
+                    help="plain random rolls (an independent randint per "
+                         "roll) instead of the default deck (each 1d "
+                         "column/stream pops a shuffled deck of the die's "
+                         "faces — no repeats until the deck is exhausted, "
+                         "then reshuffled)")
     ap.add_argument("-o", "--output", default="txt", choices=["txt", "md"],
                     help="txt (default): one filled sentence per item; "
                          "md: a pretty markdown table of the rolled values "
@@ -297,6 +341,15 @@ def main():
             (m.get("header") or (t[:-5] if t.endswith(".json") else t))
             for t, m in zip(args.tables, metas))
 
+    # one Die per table: in deck mode a table's streams (its columns, or a
+    # hook's named roll positions) keep their decks across all n items
+    dies = {}
+
+    def die_for(tid):
+        if tid not in dies:
+            dies[tid] = Die(random_mode=args.random, die_choice=args.die)
+        return dies[tid]
+
     rolls = []
     for _ in range(args.n):
         merged = {}
@@ -305,9 +358,9 @@ def main():
         for i, meta in enumerate(metas):
             tid = args.tables[i][:-5] if args.tables[i].endswith(".json") \
                 else args.tables[i]
-            pairs = roll_hook(vdir, tid, meta, args.die)
+            pairs = roll_hook(vdir, tid, meta, die_for(tid))
             if pairs is None:
-                pairs = roll_table(vdir, tid, meta, args.die)
+                pairs = roll_table(vdir, tid, meta, die_for(tid))
             merged.update(dict(pairs))
             aliases.update(meta.get("aliases", {}))
             rolled_ids.append(tid)
@@ -326,7 +379,7 @@ def main():
                               if t not in rolled_ids]
                     if len(owning) == 1:
                         am = all_metas[owning[0]]
-                        pairs = roll_table(vdir, owning[0], am, args.die)
+                        pairs = roll_table(vdir, owning[0], am, die_for(owning[0]))
                         merged.update(dict(pairs))
                         aliases.update(am.get("aliases", {}))
                         rolled_ids.append(owning[0])

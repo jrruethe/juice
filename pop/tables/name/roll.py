@@ -21,7 +21,6 @@ The procedure:
 """
 
 import json
-import random
 import re
 import sys
 
@@ -48,14 +47,14 @@ def assemble(chunks, suffix):
     return name.capitalize() if name else ""
 
 
-def roll(vdir, tid, meta, die_choice):
+def roll(vdir, tid, meta, die):
     data = {}
     for i, ref in enumerate(meta["rows"]):
         if isinstance(ref, str) and ref != "*":
             p = vdir / "tables" / tid / "json" / ref
             data[meta["columns"][i]] = json.loads(p.read_text(encoding="utf-8"))["rows"]
 
-    row = random.randint(1, 20)
+    row = die.roll(20, "row")  # each of the 20 patterns in turn (deck mode)
     code = data["Template"][row - 1]
     digits, half, suffix = parse_pattern(code)
     if half and digits[-1] != "3":
@@ -64,10 +63,10 @@ def roll(vdir, tid, meta, die_choice):
     chunks = []
     for k, d in enumerate(digits):
         if half and d == "3" and k == len(digits) - 1:
-            face = random.randint(1, 10)
+            face = die.roll(10, f"half{d}")
             r = face if half == "-" else 10 + face
         else:
-            r = random.randint(1, 20)
+            r = die.roll(20, f"col{d}")
         chunks.append((d, data[d][r - 1]))
 
     name = assemble(chunks, suffix)

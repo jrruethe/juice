@@ -12,7 +12,6 @@ immersion_context through the standard machinery, so
 """
 
 import json
-import random
 import re
 import sys
 
@@ -31,13 +30,13 @@ def sense_for(face, headers):
     sys.exit(f"immersion_senses: no sense column claims face {face}")
 
 
-def roll(vdir, tid, meta, die_choice):
+def roll(vdir, tid, meta, die):
     data = {}
     for i, ref in enumerate(meta["rows"]):
         if isinstance(ref, str) and ref != "*":
             p = vdir / "tables" / tid / "json" / ref
             data[meta["columns"][i]] = json.loads(p.read_text(encoding="utf-8"))["rows"]
 
-    face = random.randint(1, 10)  # printed 1-9, 0
+    face = die.roll(10, "sense")  # all 10 sense faces in turn (deck mode)
     sense, header = sense_for(face, list(data))
     return [("Sense", sense), ("Description", data[header][face - 1])]
