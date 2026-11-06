@@ -3,9 +3,13 @@
 
 The D8 model:
 
-   tables/<table>/<table>.json
-                            the META table: {header, template, dice, columns,
-                            rows}; rows[i] = "*" (auto 1..N, printed bold)
+    tables/<table>/<table>.json
+                            the META table: {header, template, dice,
+                            columns, rows}, plus an optional hide_template
+                            (true: the template is roller-only — the builder
+                            prints no {{template}} block and the template
+                            must not carry [[template:<id>]])
+                            rows[i] = "*" (auto 1..N, printed bold)
                             | [values…] (number column, verbatim)
                             | "<table>_<n>.json" (content column)
    tables/<table>/json/<table>_<n>.json
@@ -380,6 +384,15 @@ def build_variant(vdir, root, template_path, layout_path, out_name, no_patch=Fal
         m = load_meta(vdir, name[:-5])
         tid = name[:-5]
         has_ph = tid in found_templates
+        if m.get("hide_template"):
+            # the template is roller-only (roll.py reads the meta's
+            # template to build its sentences) — the builder never prints
+            # it, so the template must NOT carry the placeholder
+            if has_ph:
+                sys.exit(f"{name}: hide_template is set but "
+                         f"[[template:{tid}]] is still in the template — "
+                         f"remove the placeholder line")
+            continue
         if (m["template"] != "") != has_ph:
             sys.exit(f"{name}: template field is "
                      f"{'empty' if m['template'] == '' else 'set'} but "

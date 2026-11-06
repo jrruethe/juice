@@ -1,0 +1,119 @@
+<!-- BEGIN Style -->
+<style>
+{% include "shared/style.css.j2" %}
+{% set ob = '{{' %}
+{% set cb = '}}' %}
+
+/* ===== Tables ===== */
+
+h3 {
+  text-align: center;
+}
+
+.template {
+  font-size: 11pt;
+  text-align: center;
+  font-style: italic;
+}
+
+.credits {
+  font-size: 6pt;
+  text-align: center;
+  font-style: italic;
+}
+
+.page table
+{
+  line-height: 130%
+}
+  
+.page table thead tr th
+{
+  vertical-align: middle;
+  font-size: 11pt;
+}
+  
+.page table tbody tr td
+{
+  vertical-align: middle;
+  font-size: 10pt;
+}
+
+div.block.center
+{
+  margin-top: 0.2em;
+}
+  
+.center p
+{
+  text-align: center;
+  font-size: 9pt;
+  line-height: 85%;
+}
+  
+
+</style>
+<!-- END Style -->
+
+{{wide
+
+### Pregenerated Adventure
+
+[[gen:adventure]]
+
+### Pregenerated Quest
+
+[[gen:quest]]
+
+}}
+
+\page
+
+{{wide
+
+### Pregenerated Wilderness Exploration
+
+[[gen:wilderness]]
+
+### Pregenerated Dungeon Exploration
+
+[[gen:dungeon]]
+
+}}
+
+\page
+
+{{wide
+
+### Pregenerated Name
+
+[[gen:name]]
+
+### Pregenerated Conversation
+
+{{column-count:2
+
+[[gen:conversation_say]]
+
+\column
+
+[[gen:conversation_about]]
+
+}}
+
+
+}}
+
+\page
+
+{{wide
+
+### Pregenerated Immersion
+
+[[gen:immersion]]
+
+### Pregenerated Challenge
+
+[[gen:challenge]]
+
+}}

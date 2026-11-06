@@ -3,7 +3,6 @@
   "rows": [
     "A critical resource is depleted",
     "A new danger or foe is revealed",
-    "Choose: Rush forward at risk, or lose time",
     "Escape routes narrow",
     "Something you relied upon proves unreliable",
     "The enemy gains new allies",
@@ -14,6 +13,7 @@
     "You must accept help from an enemy",
     "You must break a promise to continue",
     "You must reveal yourself to act",
+    "You must rush forward at risk, or lose time",
     "You must sacrifice something to proceed",
     "Your action has an unintended effect",
     "Your approach draws unwanted attention",

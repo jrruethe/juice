@@ -431,9 +431,6 @@ They are talking about [**Information**] [**Subject**].
 
 ### Name
 
-{{template
-[**1**][**2**][**3**]
-}}
 :
 
 |   #    | 1  |  2   |  3   |

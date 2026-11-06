@@ -781,7 +781,7 @@ Their [**Tone**] [**Response**] concerns [**Subject**] and suggests [**Subtext**
 {{template
 
 Use [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].  
-Failure results in a [**Consequence**].
+If you fail [**Consequence**].
 
 }}
 
@@ -820,8 +820,8 @@ Failure results in a [**Consequence**].
 | **4**  |  New information brings you closer to a Thread.  |
 | **5**  |   Time advances. Check torches, rations, etc.    |
 | **6**  |       A periodic event occurs or advances.       |
-| **7**  |   A remote event occurrs that will impact you.   |
-| **8**  |              You sense something...              |
+| **7**  |   A remote event occurs that will impact you.    |
+| **8**  |        You sense something... (Immersion)        |
 | **9**  |             A new character appears.             |
 | **10** |    Whatever difficulty you face is overcome.     |
 | **11** |         Your companion makes a mistake.          |
@@ -865,17 +865,17 @@ Juice Pop 11/04/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
 |:------:|:---------------------------------------------:|
 | **1**  |        A critical resource is depleted        |
 | **2**  |        A new danger or foe is revealed        |
-| **3**  |  Choose: Rush forward at risk, or lose time   |
-| **4**  |             Escape routes narrow              |
-| **5**  |  Something you relied upon proves unreliable  |
-| **6**  |          The enemy gains new allies           |
-| **7**  |    Two unrelated situations are connected     |
-| **8**  | You are forced to act against your intentions |
-| **9**  |   You are separated from a person or object   |
-| **10** |             You can only save one             |
-| **11** |      You must accept help from an enemy       |
-| **12** |     You must break a promise to continue      |
-| **13** |        You must reveal yourself to act        |
+| **3**  |             Escape routes narrow              |
+| **4**  |  Something you relied upon proves unreliable  |
+| **5**  |          The enemy gains new allies           |
+| **6**  |    Two unrelated situations are connected     |
+| **7**  | You are forced to act against your intentions |
+| **8**  |   You are separated from a person or object   |
+| **9**  |             You can only save one             |
+| **10** |      You must accept help from an enemy       |
+| **11** |     You must break a promise to continue      |
+| **12** |        You must reveal yourself to act        |
+| **13** |  You must rush forward at risk, or lose time  |
 | **14** |    You must sacrifice something to proceed    |
 | **15** |     Your action has an unintended effect      |
 | **16** |    Your approach draws unwanted attention     |

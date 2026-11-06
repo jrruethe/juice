@@ -1,0 +1,11 @@
+[
+  {"name": "adventure", "roll": ["smoothie", "quest_start", "-o", "md", "-n", "20"], "header": "Where do you Start?"},
+  {"name": "quest", "roll": ["smoothie", "quest_offer", "-o", "md", "-n", "20"]},
+  {"name": "wilderness", "roll": ["smoothie", "wilderness", "situation", "-o", "md", "-n", "20"]},
+  {"name": "dungeon", "roll": ["smoothie", "dungeon", "situation", "-o", "md", "-n", "20"]},
+  {"name": "name", "roll": ["pop", "name", "-o", "md", "-n", "100", "-c", "5"]},
+  {"name": "conversation_say", "roll": ["pop", "dialogue", "-o", "md", "-n", "20"]},
+  {"name": "conversation_about", "roll": ["smoothie", "conversation", "-o", "md", "-n", "20"]},
+  {"name": "immersion", "roll": ["pop", "immersion_senses", "-o", "md", "-n", "20"]},
+  {"name": "challenge", "roll": ["pop", "challenge", "-o", "md", "-n", "20"]}
+]

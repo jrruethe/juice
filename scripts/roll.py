@@ -12,6 +12,7 @@ meta:
   python3 scripts/roll.py smoothie quest_offer -n 10 -o md
   python3 scripts/roll.py pop name -n 20 -c 2 -o md   # 10 rows x 2 item-columns
   python3 scripts/roll.py pop name -n 50 -p 2 -o md   # a d100 over 50 items
+  python3 scripts/roll.py smoothie quest_start -o md -H "Where do you Start?"
   (a table id may also be given as its meta file name, e.g. "dialogue.json")
 
 Rolling:
@@ -48,8 +49,10 @@ Rolling:
     divide by C); `-p P` gives each item P consecutive numbers (P=2 →
     `1-2`, `3-4`, …, so N*P numbers: a d100 picks among 50 items rolled
     with `-n 50 -p 2`). `-c`/`-p` are md presentation only — txt prints
-    its bare lines regardless. Rendered in the pocketfold's pretty format
-    (build_brew's renderer), so it is paste-ready for a brew.
+    its bare lines regardless. `-H HEADER` overrides the result column's
+    header (the meta's by default) — the pregen titles its sections
+    differently from the brews. Rendered in the pocketfold's pretty
+    format (build_brew's renderer), so it is paste-ready for a brew.
   * single-column tables (Pop!'s Next Scene: no printed # column) print the
     row's own value — a face i indexes row i (plain 1..N order).
   * a table directory may ship its own roll.py next to the meta
@@ -243,6 +246,10 @@ def main():
                     help="txt (default): one filled sentence per item; "
                          "md: a pretty markdown table of the rolled values "
                          "(the pocketfold format), one row per item")
+    ap.add_argument("-H", "--header", default=None,
+                    help="override the md table's result-column header "
+                         "(default: the given tables' meta headers joined; "
+                         "-o md only)")
     args = ap.parse_args()
 
     if args.n < 1 or args.c < 1 or args.p < 1:
@@ -281,10 +288,14 @@ def main():
                 owners[a].append(tid)
 
     # the md table's second-column header: the given tables' meta headers
-    # joined (" / "); one table -> just its header
-    md_header = " / ".join(
-        (m.get("header") or (t[:-5] if t.endswith(".json") else t))
-        for t, m in zip(args.tables, metas))
+    # joined (" / "); one table -> just its header; -H overrides it
+    # (the pregen titles its sections differently from the brews)
+    if args.header:
+        md_header = args.header
+    else:
+        md_header = " / ".join(
+            (m.get("header") or (t[:-5] if t.endswith(".json") else t))
+            for t, m in zip(args.tables, metas))
 
     rolls = []
     for _ in range(args.n):

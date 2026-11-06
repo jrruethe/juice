@@ -1,6 +1,6 @@
 {
   "header": "Creating a Challenge",
-  "template": "\nUse [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].  \nFailure results in a [**Consequence**].\n",
+  "template": "\nUse [**Skill**] to overcome [**Obstacle**] in order to [**Action**] [**Target**].  \nIf you fail [**Consequence**].\n",
   "dice": "1d10",
   "columns": [
     "#",
