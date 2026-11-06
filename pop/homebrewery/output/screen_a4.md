@@ -809,7 +809,7 @@ and it causes [**Emotion**] because [**Reason**].
 | **8** |   Round    |   Silence   |   Leather    |   Smooth    |
 | **9** |   Shiny    |   Talking   |     Oil      |   Sticky    |
 | **0** |  Written   |    Wind     |     Soil     |    Warm     |
-
+:
 |   #   |    Location     |  Emotion  |          Reason          |
 |:-----:|:---------------:|:---------:|:------------------------:|
 | **1** |      Above      |   Anger   |    help is on the way    |
@@ -822,5 +822,11 @@ and it causes [**Emotion**] because [**Reason**].
 | **8** |   Next To You   |    Joy    |     you recognize it     |
 | **9** |  On The Ground  | Nostalgia | you were warned about it |
 | **0** |      Under      |   Panic   | you weren't expecting it |
+
+:
+
+{{credits
+Juice Pop 11/04/26 github.com/jrruethe/juice CC BY-NC-SA 4.0
+}}
 
 }}
